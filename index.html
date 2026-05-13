@@ -500,6 +500,43 @@ body {
   letter-spacing: 0.3px;
   font-style: italic;
 }
+.suggest-box {
+  margin-top: 48px;
+  padding: 20px 24px;
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.suggest-box h3 {
+  margin: 0 0 8px;
+  font-family: var(--serif);
+  font-size: 18px;
+  color: var(--ink);
+  font-style: normal;
+  letter-spacing: 0;
+}
+.suggest-box p {
+  margin: 0 0 14px;
+  font-size: 13px;
+  color: var(--muted);
+  font-style: normal;
+  letter-spacing: 0;
+}
+.suggest-btn {
+  display: inline-block;
+  padding: 9px 18px;
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  transition: background 0.15s ease;
+}
+.suggest-btn:hover {
+  background: var(--accent-strong);
+}
 
 /* ============================================================
    EMPTY STATE
@@ -537,6 +574,12 @@ body {
     <nav id="toc" class="toc"></nav>
 
     <div id="briefing"></div>
+
+    <div class="suggest-box">
+      <h3>Got a topic for tomorrow's briefing?</h3>
+      <p>Suggest a company, theme, or angle you want covered. Suggestions feed directly into the next day's research run.</p>
+      <a class="suggest-btn" href="https://github.com/DMDaudio/ai-daily-briefing/issues/new?labels=suggestion&title=Topic+suggestion&body=**Topic+or+angle:**+%0A%0A**Why+it+matters:**+%0A%0A**Sources+to+check+(optional):**+" target="_blank" rel="noopener">Submit a suggestion</a>
+    </div>
 
     <footer class="footer">
       AI Daily Briefing, prepared for Luka. Curated by an automated research agent each weekday at noon Tbilisi time. Use the archive on the left to revisit prior issues.
