@@ -1,120 +1,1195 @@
-<!DOCTYPE html>
+<!DOCTYPE html><script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Ai Daily Briefing",
+  "schemaVersion": 1,
+  "description": "Live AI Daily Briefing for Luka. Renders the most recent briefing (currently May 13, 2026) with sections for Models, Tools, Workflows, Finance/IR/Deal Flow, Industry/Funding/Policy, plus a rotating Industry Spotlight discussion and Investment Takeaways. Designed to be updated in-place by the daily scheduled task."
+}
+</script>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI Daily Briefing</title>
 <style>
-:root { color-scheme: light }
+:root {
+  color-scheme: light;
+  --ink: #1a1612;
+  --ink-soft: #2c2722;
+  --muted: #6b6660;
+  --muted-2: #918a80;
+  --paper: #fdfaf3;
+  --paper-2: #f5efe2;
+  --paper-3: #ebe3d0;
+  --line: #e6dec9;
+  --line-soft: #f0e9d8;
+  --accent: #a87521;
+  --accent-strong: #8a5d18;
+  --accent-soft: #f5e9cf;
+  --spotlight-bg: #1a1612;
+  --spotlight-ink: #f5efe2;
+  --spotlight-muted: #b8b0a0;
+  --serif: "Iowan Old Style", "Charter", "Georgia", "Times New Roman", serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", system-ui, sans-serif;
+}
 * { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  max-width: 920px;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 100vh;
+  max-width: 1180px;
   margin: 0 auto;
-  padding: 24px 28px 64px;
-  color: #1a1a1a;
-  background: #ffffff;
-  line-height: 1.55;
-  font-size: 14px;
 }
-.header {
-  border-bottom: 2px solid #1a1a1a;
-  padding-bottom: 14px;
-  margin-bottom: 16px;
+.sidebar {
+  position: sticky;
+  top: 0;
+  align-self: start;
+  height: 100vh;
+  padding: 28px 22px 28px 32px;
+  border-right: 1px solid var(--line);
+  background: var(--paper);
+  overflow-y: auto;
 }
-.header h1 { margin: 0 0 4px; font-size: 26px; letter-spacing: -0.5px; }
-.header .meta { color: #666; font-size: 13px; }
-.badge {
-  display: inline-block; background: #b8860b; color: #fff;
-  padding: 2px 8px; border-radius: 3px; font-size: 11px;
-  font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; margin-right: 8px;
+.main {
+  padding: 40px 56px 80px;
+  min-width: 0;
 }
-.badge.archive { background: #777; }
-.archive-bar {
-  display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
-  margin-bottom: 24px; padding: 10px 12px;
-  background: #fafafa; border-radius: 6px; border: 1px solid #ececec;
+@media (max-width: 820px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidebar {
+    position: static;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+    padding: 20px 24px;
+  }
+  .main { padding: 28px 24px 60px; }
 }
+
+/* ============================================================
+   MASTHEAD
+   ============================================================ */
+.masthead {
+  margin-bottom: 28px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--line);
+}
+.masthead-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.masthead-title {
+  font-family: var(--serif);
+  font-size: 30px;
+  line-height: 1.02;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--ink);
+}
+.masthead-sub {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 10px;
+  letter-spacing: 0.3px;
+}
+
+/* ============================================================
+   ARCHIVE LIST
+   ============================================================ */
 .archive-label {
-  font-size: 12px; color: #666; margin-right: 4px;
-  font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+.archive-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 .chip {
-  display: inline-block; padding: 4px 10px;
-  background: #fff; border: 1px solid #ddd; border-radius: 14px;
-  font-size: 12px; cursor: pointer; color: #333;
-  transition: all 0.15s ease; user-select: none;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 9px 12px 9px 16px;
+  background: transparent;
+  border: none;
+  border-left: 2px solid transparent;
+  cursor: pointer;
+  color: var(--ink-soft);
+  font-family: var(--sans);
+  font-size: 13.5px;
+  text-align: left;
+  transition: all 0.15s ease;
+  border-radius: 0 4px 4px 0;
 }
-.chip:hover { background: #fff8e1; border-color: #b8860b; }
-.chip.active { background: #b8860b; color: #fff; border-color: #b8860b; font-weight: 600; }
-.chip .latest-tag {
-  font-size: 10px; background: rgba(255,255,255,0.3);
-  padding: 1px 5px; border-radius: 8px; margin-left: 4px;
+.chip:hover {
+  background: var(--paper-2);
+  color: var(--ink);
 }
-h2 {
-  font-size: 17px; margin-top: 32px; margin-bottom: 14px;
-  padding-bottom: 6px; border-bottom: 1px solid #e0e0e0; color: #1a1a1a;
+.chip.active {
+  background: var(--paper-2);
+  border-left-color: var(--accent);
+  color: var(--ink);
+  font-weight: 600;
 }
-h2 .count { color: #999; font-weight: 400; font-size: 13px; margin-left: 8px; }
+.chip-date { font-variant-numeric: tabular-nums; }
+.chip-tag {
+  font-size: 9px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 700;
+}
+.chip.active .chip-tag { color: var(--accent-strong); }
+@media (max-width: 820px) {
+  .archive-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .chip {
+    border-left: none;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+    padding: 6px 10px;
+    background: transparent;
+  }
+  .chip.active {
+    border-left: none;
+    border-bottom-color: var(--accent);
+    background: transparent;
+  }
+}
+
+/* ============================================================
+   ISSUE HEADER
+   ============================================================ */
+.issue-header {
+  margin-bottom: 36px;
+  padding-bottom: 24px;
+  border-bottom: 2px solid var(--ink);
+}
+.issue-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+.badge {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  padding: 3px 9px;
+  border-radius: 2px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+.badge.archive { background: var(--muted-2); }
+.dot {
+  display: inline-block;
+  width: 3px;
+  height: 3px;
+  background: var(--muted-2);
+  border-radius: 50%;
+  vertical-align: middle;
+}
+.issue-title {
+  font-family: var(--serif);
+  font-size: 38px;
+  line-height: 1.1;
+  letter-spacing: -0.8px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0;
+}
+.issue-sub {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 13.5px;
+  font-style: italic;
+}
+
+/* ============================================================
+   TABLE OF CONTENTS
+   ============================================================ */
+.toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  margin-bottom: 44px;
+  padding: 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.toc-link {
+  flex: 1 1 auto;
+  min-width: 140px;
+  padding: 12px 14px;
+  font-size: 11.5px;
+  letter-spacing: 0.6px;
+  color: var(--muted);
+  text-decoration: none;
+  border-right: 1px solid var(--line);
+  transition: all 0.15s ease;
+  position: relative;
+}
+.toc-link:last-child { border-right: none; }
+.toc-link:hover {
+  background: var(--paper-2);
+  color: var(--ink);
+}
+.toc-num {
+  display: block;
+  font-family: var(--serif);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 1px;
+  margin-bottom: 2px;
+}
+.toc-text { color: inherit; font-weight: 500; }
+
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+.section {
+  margin-bottom: 48px;
+  scroll-margin-top: 20px;
+}
+.section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 22px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+.section-num {
+  font-family: var(--serif);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--accent);
+}
+.section-title {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  color: var(--ink);
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+}
+.section-count {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ============================================================
+   ITEMS
+   ============================================================ */
 .item {
-  margin-bottom: 22px; padding-left: 14px;
-  border-left: 3px solid #f0f0f0;
+  margin-bottom: 30px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--line-soft);
 }
-.item:hover { border-left-color: #b8860b; }
-.item-title { font-weight: 600; font-size: 15px; margin-bottom: 4px; color: #1a1a1a; }
-.item-summary { margin: 4px 0 8px; color: #2a2a2a; }
+.item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.item-headline {
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.25;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+.item-summary {
+  color: var(--ink-soft);
+  font-size: 15px;
+  line-height: 1.65;
+  margin-bottom: 14px;
+}
 .angle {
-  background: #fff8e1; border-left: 3px solid #b8860b;
-  padding: 8px 12px; font-size: 13px; margin-top: 8px; color: #5a4500;
+  background: var(--paper-2);
+  border-left: 3px solid var(--accent);
+  padding: 12px 16px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  border-radius: 0 3px 3px 0;
 }
-.angle strong { color: #b8860b; }
-.sources { font-size: 12px; color: #888; margin-top: 6px; }
-.sources a { color: #b8860b; text-decoration: none; margin-right: 4px; }
-.sources a:hover { text-decoration: underline; }
+.angle-label {
+  display: block;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: var(--accent-strong);
+  margin-bottom: 4px;
+}
+.sources {
+  margin-top: 14px;
+  font-size: 11px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+}
+.sources-label {
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  color: var(--muted-2);
+}
+.sources a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 1px;
+  transition: all 0.15s ease;
+}
+.sources a:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* ============================================================
+   INDUSTRY SPOTLIGHT
+   ============================================================ */
+.spotlight-wrap {
+  margin: 56px -24px 56px;
+  padding: 44px 56px 48px;
+  background: var(--spotlight-bg);
+  color: var(--spotlight-ink);
+  border-radius: 6px;
+  position: relative;
+  scroll-margin-top: 20px;
+}
+@media (max-width: 820px) {
+  .spotlight-wrap {
+    margin: 40px -12px 40px;
+    padding: 32px 28px;
+    border-radius: 4px;
+  }
+}
+.spotlight-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent-soft);
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+.spotlight-eyebrow::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(245, 233, 207, 0.2);
+}
+.spotlight-industry {
+  font-family: var(--serif);
+  font-size: 36px;
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -0.6px;
+  color: var(--paper);
+  margin: 0 0 10px;
+}
+.spotlight-meta {
+  font-size: 12px;
+  letter-spacing: 0.4px;
+  color: var(--spotlight-muted);
+  font-style: italic;
+  margin-bottom: 28px;
+}
+.spotlight-body {
+  font-family: var(--serif);
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--spotlight-ink);
+  max-width: 640px;
+}
+.spotlight-body p { margin: 0 0 16px; }
+.spotlight-body p:last-child { margin-bottom: 0; }
+.spotlight-body p:first-of-type::first-letter {
+  font-family: var(--serif);
+  font-size: 52px;
+  line-height: 0.9;
+  float: left;
+  padding: 4px 10px 0 0;
+  color: var(--accent-soft);
+  font-weight: 700;
+}
+
+/* ============================================================
+   TAKEAWAYS
+   ============================================================ */
+.takeaways-wrap { margin-top: 56px; scroll-margin-top: 20px; }
 .takeaway {
-  margin-bottom: 14px; padding: 10px 14px; background: #fafafa;
-  border-left: 3px solid #b8860b; border-radius: 0 3px 3px 0;
+  display: flex;
+  gap: 18px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line-soft);
 }
+.takeaway:last-child { border-bottom: none; }
 .takeaway-num {
-  display: inline-block; background: #b8860b; color: #fff;
-  width: 20px; height: 20px; text-align: center; border-radius: 50%;
-  font-size: 11px; font-weight: 600; line-height: 20px;
-  margin-right: 6px; vertical-align: 1px;
+  flex-shrink: 0;
+  font-family: var(--serif);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+  width: 40px;
+  letter-spacing: -1px;
 }
-.empty { text-align: center; padding: 60px 20px; color: #999; }
-.error {
-  text-align: center; padding: 40px 20px; color: #b00020;
-  background: #fdecea; border-radius: 6px; margin: 20px 0;
+.takeaway-text {
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--ink-soft);
 }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
 .footer {
-  margin-top: 40px; padding-top: 16px; border-top: 1px solid #e0e0e0;
-  color: #999; font-size: 11px; text-align: center;
+  margin-top: 64px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+  color: var(--muted-2);
+  font-size: 11.5px;
+  letter-spacing: 0.3px;
+  font-style: italic;
+}
+
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
+.empty {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--muted);
 }
 </style>
 </head>
 <body>
+<div class="layout">
 
-<div class="header">
-  <h1>AI Daily Briefing</h1>
-  <div class="meta">
-    <span class="badge" id="badge">Loading</span>
-    <span id="meta-text">Fetching latest briefing...</span>
-  </div>
-</div>
+  <aside class="sidebar">
+    <div class="masthead">
+      <div class="masthead-eyebrow">Daily</div>
+      <div class="masthead-title">AI<br>Briefing</div>
+      <div class="masthead-sub">Curated weekdays, 12:00 Tbilisi</div>
+    </div>
+    <div class="archive-label">Archive</div>
+    <div id="chips" class="archive-list"></div>
+  </aside>
 
-<div class="archive-bar">
-  <span class="archive-label">Archive:</span>
-  <div id="chips"></div>
-</div>
+  <main class="main">
+    <header class="issue-header">
+      <div class="issue-eyebrow">
+        <span class="badge" id="badge">Latest</span>
+        <span id="meta-text">Loading...</span>
+      </div>
+      <h1 class="issue-title" id="issue-title">AI Daily Briefing</h1>
+      <div class="issue-sub" id="issue-sub"></div>
+    </header>
 
-<div id="briefing"><div class="empty">Loading briefings.json...</div></div>
+    <nav id="toc" class="toc"></nav>
 
-<div class="footer">
-  AI Daily Briefing. Updated daily by an automated research agent. Data sourced from <code>briefings.json</code>.
+    <div id="briefing"></div>
+
+    <footer class="footer">
+      AI Daily Briefing, prepared for Luka. Curated by an automated research agent each weekday at noon Tbilisi time. Use the archive on the left to revisit prior issues.
+    </footer>
+  </main>
+
 </div>
 
 <script>
-let briefings = [];
+// === BRIEFINGS_DATA_START ===
+// Each daily run prepends a new entry to this array. Newest first.
+const briefings = [
+  {
+    date: "2026-05-13",
+    display_date: "May 13, 2026",
+    prepared_for: "Luka Agulashvili",
+    item_count: 17,
+    sections: [
+      {
+        title: "Models and Capabilities",
+        items: [
+          {
+            headline: "Google Threat Intel catches hackers running AI-driven zero-day exploitation",
+            summary: "Google's Threat Intelligence Group disclosed on May 11 that it disrupted an operation in which hackers used an AI model to discover and weaponize a zero-day vulnerability for mass exploitation. Google said its own Gemini model was not used, and the hostile model is being tracked alongside Anthropic's Mythos research disclosure that triggered the broader policy reset in Washington this week. The incident is the most concrete public example of an AI model running an end-to-end offensive cyber workflow without a human in the loop.",
+            angle: "Read-through to a step-up in enterprise cyber spend, particularly on AI-enabled detection and on managed SOC providers. Public names in cyber rallying on this thesis are likely to outperform short-term; for PE, look at MSSPs and identity-perimeter platforms.",
+            sources: [
+              { title: "Fortune", url: "https://fortune.com/2026/05/11/google-catches-hackers-cybersecurity-warning-ai-anthropic-mythos/" }
+            ]
+          },
+          {
+            headline: "xAI Grok 4.3 ships with 2M-token context and native video understanding",
+            summary: "xAI launched Grok 4.3 on the API earlier this month, with what xAI claims is the firm's most intelligent model to date and a context window pushed up to 2 million tokens. It ranks first internally on case-law and corporate-finance benchmarks, adds native video understanding for multimedia analysis, and brings reduced hallucination rates. xAI also broke out standalone Speech-to-Text and Text-to-Speech APIs, plus Custom Voices voice cloning.",
+            angle: "A 2M-token window changes the math on document-heavy diligence workflows, especially CIM review and data-room ingest. Directly relevant to compressing initial-screen cycles on inbound deals.",
+            sources: [
+              { title: "Times of AI", url: "https://www.timesofai.com/news/grok-4-3-all-new-features-explained/" },
+              { title: "NLPlanet Medium", url: "https://medium.com/nlplanet/xai-releases-grok-4-3-weekly-ai-newsletter-may-4th-2026-4b7e8fea0f10" }
+            ]
+          },
+          {
+            headline: "Zhipu AI GLM-4.7 trained entirely on Huawei Ascend, prices below Claude Opus by 130x",
+            summary: "China's Zhipu AI released GLM-4.7, a frontier model trained end-to-end on Huawei Ascend silicon. It posts a 1.2% hallucination rate, the lowest reported by any frontier lab on the cited benchmark, at $0.11 per million input tokens against Claude Opus at $15. The bigger story is supply chain: a top-tier model trained on non-NVIDIA silicon at competitive cost narrows the case for export-controls based investment theses on US chip dominance.",
+            angle: "Pricing pressure on Western API-only providers is now visible in the data, not just commentary. For public-market exposure, this complicates the AI infrastructure pricing power thesis on hyperscaler capex passthrough.",
+            sources: [
+              { title: "LLM Stats", url: "https://llm-stats.com/llm-updates" },
+              { title: "Air Street State of AI", url: "https://press.airstreet.com/p/state-of-ai-may-2026" }
+            ]
+          },
+          {
+            headline: "Anthropic launches Claude Agent View for managing coding sessions",
+            summary: "Anthropic shipped Claude Agent View in research preview, a dashboard that centralizes all active AI coding sessions in one place. The view is meant for engineering teams that already run multiple Claude Code agents in parallel and need a coherent operations layer over them. This is the first time Anthropic has packaged what was effectively scattered terminal sessions into a managed surface for production developer workflows.",
+            angle: "The developer-tools layer above raw model APIs is consolidating fast. For private-market AI deals, single-purpose coding-agent startups need to defend against incumbent tooling growing up the stack.",
+            sources: [
+              { title: "AI Engineering on Medium", url: "https://ai-engineering-trend.medium.com/anthropic-launches-claude-agent-view-manage-all-your-coding-sessions-in-one-place-49b1ece00ce1" }
+            ]
+          }
+        ]
+      },
+      {
+        title: "Tools and Platforms",
+        items: [
+          {
+            headline: "SAP unveils Autonomous Enterprise with 200+ AI agents and an Anthropic partnership at Sapphire 2026",
+            summary: "At its annual Sapphire conference, SAP introduced the Autonomous Enterprise, a stack that deploys more than 50 domain-specific Joule Assistants across finance, supply chain, procurement, HCM, and CX, orchestrating a library of 200+ specialist agents. The Anthropic partnership embeds Claude as a core reasoning model inside SAP's agent runtime. SAP is now the largest enterprise software vendor to commit publicly to an agent-first product architecture rather than bolt-on copilots.",
+            angle: "SAP's installed base is the floor for enterprise agent adoption in mid-cap European industrials. For portfolio companies on SAP, vendor selection for AI agents is increasingly a no-shop decision.",
+            sources: [
+              { title: "Help Net Security", url: "https://www.helpnetsecurity.com/2026/05/12/sap-autonomous-enterprise-business-workflows/" },
+              { title: "The Next Web", url: "https://thenextweb.com/news/sap-autonomous-enterprise-ai-agents-sapphire" }
+            ]
+          },
+          {
+            headline: "Coupa Compose launches AI-agent builder for procurement, finance, and supply chain",
+            summary: "On May 12 Coupa announced Coupa Compose at its Inspire conference, a full environment for building, managing, and orchestrating AI agents tied to the source-to-pay process. The first wave covers Sourcing Event Creation, Bid Comparison, Risk Sentinel, Sanctions Risk, Autonomous Opportunity Analysis, and Scenario Ranking, with each agent tied directly to Coupa's transactional data. The product directly targets finance back-office headcount.",
+            angle: "Every PE-owned mid-market industrial or distributor on Coupa now has a credible automation roadmap. For value-creation plans, this is an actionable lever on G&A productivity within 12 months of implementation.",
+            sources: [
+              { title: "Yahoo Finance / Coupa", url: "https://finance.yahoo.com/sectors/technology/articles/coupa-launches-coupa-compose-catalyst-193000013.html" }
+            ]
+          },
+          {
+            headline: "Microsoft ships M365 E7, Agent 365, and Copilot Cowork as a unified Frontier Suite",
+            summary: "Microsoft announced general availability of Microsoft 365 E7, a bundle that brings E5, Copilot, and Agent 365 into a single SKU positioned as the Frontier Suite. Alongside it, Microsoft is rolling out Copilot Cowork, which moves from chat-only into task execution across email, research, document generation, and web pages. A unified Copilot button and keyboard shortcut model is launching across Word and Outlook through May and June, expanding to Excel and PowerPoint after.",
+            angle: "M365 E7 pricing and per-seat Agent 365 economics set a useful comp ceiling for standalone enterprise agent vendors. For modeling work, the implied price for AI seat is now anchored to a Microsoft-published number, not vendor spin.",
+            sources: [
+              { title: "Microsoft 365 Blog", url: "https://www.microsoft.com/en-us/microsoft-365/blog/2026/05/05/copilot-cowork-from-conversation-to-action-across-skills-integrations-and-devices/" },
+              { title: "Windows Latest", url: "https://www.windowslatest.com/2026/05/10/new-outlook-and-outlook-classic-features-in-may-2026-include-copilot-insights-teammates-calendars-automapped-calendars/" }
+            ]
+          },
+          {
+            headline: "Google rebuilds Android around Gemini ahead of Apple's AI reboot",
+            summary: "Reported on May 12, Google is racing to put Gemini at the structural center of Android before Apple ships its delayed AI overhaul. Internally Google is rebuilding parts of the Android OS around Gemini Intelligence as the system-level reasoning layer. This goes well beyond the Google Assistant successor: it changes how third-party apps surface intent, context, and actions on-device.",
+            angle: "The OS-level AI race meaningfully affects mobile-ad attribution and app-distribution economics, both relevant to public-market consumer-internet positioning. Watch share-of-time data from device manufacturers in EMEA over the next two quarters.",
+            sources: [
+              { title: "CNBC", url: "https://www.cnbc.com/2026/05/12/google-races-put-gemini-at-center-of-android-before-apples-ai-reboot.html" }
+            ]
+          }
+        ]
+      },
+      {
+        title: "Workflows and Agents",
+        items: [
+          {
+            headline: "ServiceNow and Accenture launch a Forward Deployed Engineering program for agentic AI",
+            summary: "ServiceNow and Accenture announced a joint Forward Deployed Engineering program on May 6 to take agentic AI from pilot to production in the enterprise. The model is borrowed from Palantir's playbook: embed engineers inside the customer to build and instrument workflows, then hand off a running system. Accenture brings the integration capacity, ServiceNow brings the agent platform and the existing workflow surface area.",
+            angle: "The bottleneck on enterprise AI is now implementation labor, not model capability. For investment ideas, services and integration plays have a clean runway here, and the marginal dollar of AI spend in 2026 is shifting from software licenses to professional services.",
+            sources: [
+              { title: "Accenture Newsroom", url: "https://newsroom.accenture.com/news/2026/servicenow-and-accenture-launch-forward-deployed-engineering-program-to-scale-agentic-ai-across-the-enterprise" }
+            ]
+          },
+          {
+            headline: "Cursor lands in Microsoft Teams and adds parallel build plans plus split PRs",
+            summary: "Cursor rolled into Microsoft Teams on May 11 and shipped a wave of new agent features including PR Review, Build Plan in Parallel, and Split PRs. Separately, the Opsera-Cursor integration deploys Opsera AI Agents as a native Cursor plug-in, covering Architecture Analysis, Security and SQL scanning, and Compliance Audit. The combination pushes Cursor from a coding IDE into a multi-agent engineering operations platform.",
+            angle: "Cursor is reportedly carrying a $30B valuation tag in private markets while also developing its own model to reduce Anthropic dependency. For developer-tools sourcing, the next defensible layer is workflow orchestration, not autocomplete.",
+            sources: [
+              { title: "SD Times", url: "https://sdtimes.com/ai/may-8-2026-ai-updates-from-the-past-week-coder-agents-launch-snyk-claude-partnership-opsera-cursor-partnership-and-more/" },
+              { title: "Fortune profile", url: "https://fortune.com/2026/03/21/cursor-ceo-michael-truell-ai-coding-claude-anthropic-venture-capital/" }
+            ]
+          }
+        ]
+      },
+      {
+        title: "Finance, Investment Research and Deal Flow",
+        items: [
+          {
+            headline: "Rogo closes $160M Series D, hits $2B valuation, and expands its Felix agent into full deal coverage",
+            summary: "Rogo, the agentic AI platform purpose-built for financial services, closed a $160M Series D late April that pushed total capital raised over $300M and the valuation to roughly $2B. The platform now claims more than 35,000 users across 250 institutions, including most of the bulge bracket and several megacap PE shops. Felix, the multi-step agent, has moved past company profiles and benchmarking into deal screening, CIM drafting, buyer outreach, and data-room diligence as connected workflows rather than isolated tasks.",
+            angle: "Rogo is the cleanest public-equivalent comp for what a full-stack PE workflow agent looks like. For a mid-market PE shop, the relevant question is not whether to adopt this category, it is which vendor and which workflows to start with given limited deal-team bandwidth.",
+            sources: [
+              { title: "SiliconANGLE", url: "https://siliconangle.com/2026/04/29/rogo-raises-160m-speed-financial-analysis-ai-agents/" },
+              { title: "FinTech Global", url: "https://fintech.global/2026/04/29/rogo-raises-160m-series-d-to-scale-finance-ai-platform/" },
+              { title: "The Outpost", url: "https://theoutpost.ai/news-story/former-junior-bankers-build-rogo-an-ai-tool-now-valued-at-2-billion-to-automate-wall-street-grunt-work-25803/" }
+            ]
+          },
+          {
+            headline: "Hebbia now claims usage at more than 40% of the largest asset managers by AUM",
+            summary: "Hebbia, the AI-native document-reasoning platform, disclosed this week that its agents are in production across more than 40% of the top asset managers by AUM. The pitch is multi-document synthesis at the scale of a full data room or earnings season, with reasoning steps shown to the user rather than hidden behind a chat box. The disclosure lands in the same window as Anthropic's preconfigured financial-services agents and Rogo's Series D, marking a real shift in incumbency in the buy-side research stack.",
+            angle: "For DD on legacy financial-data vendors (S&P CIQ, FactSet, Refinitiv), the question is whether they own enough of the reasoning layer or whether they end up as data feeds underneath Hebbia, Rogo, and Claude. Pricing power on legacy seats is now actively contested.",
+            sources: [
+              { title: "Hebbia", url: "https://www.hebbia.com/resources/financial-research-platforms" }
+            ]
+          },
+          {
+            headline: "AI deal-sourcing stack consolidates around Affinity, Cyndx, Metal, and Brownloop",
+            summary: "Sourcing has moved from a CRM problem to a continuous-monitoring problem in 2026, and four platforms have separated from the field. Affinity is now used by more than half of the top PE firms and claims it saves each dealmaker 200+ hours a year on relationship capture alone. Cyndx ranks investor lists and surfaces M&A targets with proprietary algorithms; Metal turns institutional memory into deal scoring across the lifecycle; Brownloop's Kairos Deal 360 monitors public, proprietary, and third-party signals against a fund's thesis and flags fit dynamically. The common feature is that sourcing is no longer a quarterly exercise, it runs in the background continuously.",
+            angle: "For a mid-market PE shop with limited deal-team headcount, this is where AI compounds fastest. The right combination of two of these platforms, configured to a defined mandate, would meaningfully expand inbound coverage without a single new analyst hire.",
+            sources: [
+              { title: "ChatFin", url: "https://chatfin.ai/blog/top-ai-tools-for-private-equity-deal-sourcing-2026/" },
+              { title: "Brownloop", url: "https://www.brownloop.com/blog/ai-deal-sourcing-strategies/" },
+              { title: "Navatar", url: "https://www.navatargroup.com/blog/private-equity-and-ma-deal-sourcing/" }
+            ]
+          }
+        ]
+      },
+      {
+        title: "Industry, Funding, and Policy",
+        items: [
+          {
+            headline: "DeepSeek seeks $7.35B at a $45B valuation, the largest single round ever for a Chinese AI lab",
+            summary: "DeepSeek is in advanced talks to raise up to 50 billion yuan, roughly $7.35 billion, in what would be the largest single funding round for a Chinese AI company. The valuation has reportedly walked from $10B to $30B to roughly $45B as state interest grew. The round formalizes DeepSeek as a national champion alongside Zhipu and Moonshot, with implications for which Chinese labs are likely to get priority on Ascend chip allocation.",
+            angle: "For EM and Asia-exposed portfolios, the Chinese frontier lab roster is consolidating to four names. Useful sanity-check on AI-infrastructure-related EM positioning and on any Caucasus-region GPU resale or hosting plays.",
+            sources: [
+              { title: "Dataconomy", url: "https://dataconomy.com/2026/05/11/deepseek-record-funding-735b-china/" },
+              { title: "TechCrunch", url: "https://techcrunch.com/2026/05/06/deepseek-could-hit-45b-valuation-from-its-first-investment-round/" }
+            ]
+          },
+          {
+            headline: "Sierra closes $950M at a $15B+ post-money, only months after its prior round",
+            summary: "Bret Taylor's enterprise-agent startup Sierra raised a $950 million round led by Tiger Global and GV, pushing post-money above $15 billion. Sierra has been one of the cleanest read-throughs on AI customer-service substitution economics, with several enterprise reference deployments running at scale. The pace, less than six months between rounds, signals investors are still willing to pay up for vertical agent leadership where there is real revenue.",
+            angle: "Vertical-agent valuations remain frothy but the round is anchored in real ARR, not pilot bookings. For comp purposes when reviewing private AI deals, the Sierra mark is a useful upper bound on best-in-vertical multiples.",
+            sources: [
+              { title: "CNBC", url: "https://www.cnbc.com/2026/05/04/bret-taylor-sierra-fundraise-openai.html" },
+              { title: "TechCrunch", url: "https://techcrunch.com/2026/05/04/sierra-raises-950m-as-the-race-to-own-enterprise-ai-gets-serious/" }
+            ]
+          },
+          {
+            headline: "Isomorphic Labs closes $2.1B Series B led by Thrive, with sovereign fund participation",
+            summary: "Isomorphic Labs, the DeepMind drug-discovery spinout, closed a $2.1 billion Series B led by Thrive Capital, with the UK's Sovereign AI Fund, Abu Dhabi's MGX, GV, and Temasek joining. The round is among the largest ever for an AI biotech, and it underwrites a multi-year clinical pipeline rather than a software ramp. Sovereign capital participation also marks a structural shift in how AI biotech gets financed at scale.",
+            angle: "AI-native drug discovery is moving from data-licensing economics into integrated biotech with full pipeline risk. Watch for follow-on rounds across Recursion, Insilico, and other AI biotech to recalibrate against the Isomorphic mark.",
+            sources: [
+              { title: "Crunchbase News", url: "https://news.crunchbase.com/venture/global-startup-funding-april-2026-anthropic-jeff-bezos-project-prometheus-biggest-deals/" }
+            ]
+          },
+          {
+            headline: "OpenAI launches OpenAI Deployment Co. and acquires Tomoro to build a services arm",
+            summary: "On May 11 OpenAI launched OpenAI Deployment Co., a consulting unit that will help enterprises build and operate AI systems on OpenAI infrastructure. To staff it, OpenAI is acquiring Tomoro, an applied AI consulting and engineering firm, in a deal that also signals OpenAI is closing the gap on Anthropic's similar enterprise services build-out. Anthropic, separately, is reportedly in talks to buy a developer-tools startup currently used by both OpenAI and Google.",
+            angle: "The frontier labs are de-risking distribution by absorbing services capacity directly. For PE secondaries activity, AI services rollups are becoming a contested category, and standalone AI services firms are now plausible acquisition targets for the labs themselves.",
+            sources: [
+              { title: "AI Business", url: "https://aibusiness.com/generative-ai/openai-launches-ai-consulting-company-anthropic" },
+              { title: "The Information", url: "https://www.theinformation.com/articles/anthropic-talks-buy-developer-tools-startup-used-openai-google" }
+            ]
+          }
+        ]
+      }
+    ],
+    spotlight: {
+      industry: "Private Equity",
+      body: [
+        "Today's spotlight is on private equity, where AI agents are reshaping the workflow stack at speed. The spotlight rotates each day; tomorrow will cover an adjacent sector.",
+        "The PE workflow stack is being rebuilt around agents, not copilots, and the change is happening faster than most LPs realize. A year ago, AI in PE meant a ChatGPT subscription for the deal team and maybe a junior analyst playing with a CIM-summarization prompt. Today, the leading shops are running continuous deal-sourcing engines (Affinity, Brownloop, Cyndx, Metal) against a defined thesis, ingesting CIMs and management presentations through Rogo or Hebbia for first-pass triage, and using Claude or Gemini inside Microsoft 365 to draft IC memos and red-flag diligence findings. The work that used to consume two analysts for ten days now consumes one analyst for two days, and the failure mode is no longer capacity, it is judgment.",
+        "That shift has three near-term implications. First, deal-team headcount stops scaling linearly with deal flow. A mid-market fund running this stack can plausibly cover 2-3x the inbound pipeline without adding bodies, which changes the economics of staffing and the calculus on raising larger funds without raising fees. Second, sourcing becomes the genuinely contested edge. When everyone can underwrite faster, the firms that see the right deal first, at the right price, with the right context, win. Affinity's 200-hour-per-dealmaker number is not a productivity claim, it is a competitive moat for the firms that adopted it early. Third, value creation inside the portfolio is now an AI question as much as an operational one. Coupa Compose, SAP Joule, Microsoft Agent 365, and Salesforce Agentforce Operations are turning back-office automation into a 12-month value-creation lever rather than a multi-year transformation project, and the funds that build a repeatable AI playbook across the portfolio will compound returns faster than those that rely on traditional levers.",
+        "The longer-term picture is more interesting. If frontier labs keep absorbing services (OpenAI Deployment Co., Anthropic's enterprise build-out), the line between AI vendor and consultant blurs, and the question becomes whether mid-market PE shops run their own internal AI ops function or outsource to a managed-service partner. The first wave of 'AI-native' funds, smaller shops built on this stack from day one, will surface in the next 18 months and will pitch LPs on cost-to-AUM ratios that traditional shops cannot match. The defensive move for established mid-market funds is to start now, pick two or three vendors that match the thesis, and instrument the deal team around them before that gap opens. The unlock is in deal sourcing and portfolio operations, in that order."
+      ]
+    },
+    takeaways: [
+      "The Mythos and Google zero-day story has forced Washington back into AI oversight territory it had abandoned, with the Trump administration now openly weighing advanced-model controls and intelligence agencies pushing for more regulatory weight. For US-exposed cyber names this is incremental tailwind; for AI software broadly, the regulatory floor is rising again after a quarter of relief.",
+      "Chinese open-weights frontier models trained on Huawei Ascend and priced at sub-1% of Claude Opus are now real, not hypothetical. Western API-only pricing power is harder to defend, and any model in your investment thesis that assumes durable lab pricing margins should be stress-tested against $0.10 to $0.50 per million tokens on Chinese alternatives.",
+      "Enterprise agent platforms from SAP, Coupa, Microsoft, and ServiceNow all shipped within the same 10-day window, and all are now selling agents as the default not the add-on. The bottleneck has moved decisively to implementation labor, which is exactly the gap the OpenAI Deployment Co., Accenture's FDE program, and Anthropic's services build are racing to fill.",
+      "The PE-specific AI stack (Rogo at $2B, Hebbia at 40% of large asset managers, Affinity at half of top PE firms) is now mature enough to deploy without being a science project. The cost of inaction at a mid-market shop is now a measurable hit to deal coverage and underwriting speed relative to peers running the stack.",
+      "Funding is bifurcating cleanly between best-in-vertical agent companies (Sierra at $15B, DeepSeek at $45B) and AI biotech with integrated pipelines (Isomorphic at $2.1B). Generic agent platforms, thin LLM wrappers, and undifferentiated tooling are the categories where deal flow is thinning. For DD on private AI deals, demonstrable workflow ownership or real biology is now the fundability test."
+    ]
+  },
+  {
+    date: "2026-05-11",
+    display_date: "May 11, 2026",
+    prepared_for: "Luka Agulashvili",
+    item_count: 12,
+    sections: [
+      {
+        title: "Models and Capabilities",
+        items: [
+          {
+            headline: "OpenAI launches real-time voice, translation, and streaming speech models",
+            summary: "OpenAI shipped three new real-time audio models for conversational AI agents. GPT-Realtime-Translate handles live translation from 70+ input languages into 13 output languages, GPT-Realtime-Whisper does streaming speech-to-text as the speaker talks, and a third model handles natural conversational turn-taking with sub-second latency. The models are pitched directly at call-center, customer-service, and field-services workflows that have been stuck in pilots.",
+            angle: "Voice and live-translation latency at this level finally makes regional BPO and customer-service AI commercially viable beyond English-only deployments. Direct read-through to call-center disruption theses and to Georgian and Caucasus-region service-sector AI rollouts.",
+            sources: [
+              { title: "SD Times", url: "https://sdtimes.com/ai/may-8-2026-ai-updates-from-the-past-week-coder-agents-launch-snyk-claude-partnership-opsera-cursor-partnership-and-more/" },
+              { title: "OpenAI Codex Changelog", url: "https://developers.openai.com/codex/changelog" }
+            ]
+          },
+          {
+            headline: "NVIDIA Nemotron 3 Nano Omni now on Oracle Cloud",
+            summary: "NVIDIA released Nemotron 3 Nano Omni as a fully open-source, fully multimodal model that reasons across video, audio, images, and text in a single system. It is now available on OCI Enterprise AI, putting open-weights multimodal capability directly into the enterprise cloud channel. NVIDIA is positioning Nemotron as the answer to enterprises that want frontier multimodal capability without sending data to closed-API labs.",
+            angle: "Open-weights multimodal models running on hyperscaler infrastructure is the path most regulated enterprises will take, including Georgian financial-services adopters. Watch for similar Nemotron variants on AWS Bedrock and Azure AI Foundry over the next two quarters.",
+            sources: [
+              { title: "Oracle Blogs", url: "https://blogs.oracle.com/ai-and-datascience/whats-new-in-ai-may-2026" }
+            ]
+          },
+          {
+            headline: "OpenAI rolls out GPT-5.5-Cyber to a select set of cybersecurity teams",
+            summary: "GPT-5.5-Cyber is a specialized variant of GPT-5.5 tuned for offensive and defensive security workflows, made available May 7 to a small group of vetted cybersecurity partners. The variant lifts model-behavior restrictions around specific security tasks that the consumer GPT-5.5 declines, and OpenAI is using the rollout to study workflows where specialized access policies matter. The release comes a month after Anthropic's Claude Mythos preview, which is positioned similarly.",
+            angle: "A new category of specialized frontier models priced and contracted differently from horizontal LLMs is emerging. Sourcing implication: vertical cyber-AI startups will need a different competitive narrative now that frontier labs are entering the segment directly.",
+            sources: [
+              { title: "CNBC", url: "https://www.cnbc.com/2026/05/07/openai-rolls-out-new-gpt-5point5-cyber-to-vetted-cybersecurity-teams.html" }
+            ]
+          }
+        ]
+      },
+      {
+        title: "Tools and Platforms",
+        items: [
+          {
+            headline: "IBM Think 2026 launches full agent operating model stack",
+            summary: "At Think 2026 on May 5, IBM announced the next generation of watsonx Orchestrate for multi-agent orchestration, IBM Confluent for real-time data flow into AI, IBM Concert for intelligent operations, and IBM Sovereign Core for operational independence. IBM is now selling a vertically integrated agent OS rather than individual AI products, going head-to-head with Microsoft Agent 365 and Salesforce Agentforce. The pitch targets enterprises that want a single stack rather than stitching together best-of-breed tools.",
+            angle: "Three credible enterprise agent-platform vendors (Microsoft, Salesforce, IBM) are now competing, which means buyers will start pressing for multi-vendor pricing. For DD models on AI-platform names, assume gross margin compression by end of 2026.",
+            sources: [
+              { title: "IBM Newsroom", url: "https://newsroom.ibm.com/2026-05-05-think-2026-ibm-delivers-the-blueprint-for-the-ai-operating-model-as-the-ai-divide-widens" },
+              { title: "Solutions Review", url: "https://solutionsreview.com/ai-news-for-the-week-of-may-8-updates-from-anthropic-cribl-ibm-more/" }
+            ]
+          },
+          {
+            headline: "Teradata announces Autonomous Knowledge Platform",
+            summary: "Teradata unveiled a unified layer combining data, analytics, and agentic AI across Teradata Cloud and on-premises environments. The product positions Teradata as the data layer underneath enterprise agents, putting it in the same competitive zone as Snowflake Intelligence and Databricks Agent Bricks. Teradata's pitch leans on its installed base in banking and telecom, where on-prem and hybrid deployments are still the norm.",
+            angle: "The agent layer needs governed enterprise data to be useful, and the data platforms with regulated-industry installed base are quietly turning into AI distribution rails. Pair-trade construction: long enterprise data platforms with hybrid deployments, short application-layer AI that depends on undifferentiated SaaS data.",
+            sources: [
+              { title: "Solutions Review", url: "https://solutionsreview.com/ai-news-for-the-week-of-may-8-updates-from-anthropic-cribl-ibm-more/" }
+            ]
+          },
+          {
+            headline: "Anthropic and Snyk partnership embeds Claude into AppSec; Opsera ships as Cursor plugin",
+            summary: "The integration of Claude into the Snyk AI Security Platform is generally available to joint customers today, covering code review, dependency triage, and security remediation in developer workflows. In parallel, Opsera and Cursor announced an integration that deploys Opsera AI Agents as a native Cursor plug-in, including an Architecture Analyzer, Security and SQL Scanner, and Compliance Auditor. Both moves push specialized agents inside developer IDEs.",
+            angle: "AppSec workflow ownership is becoming the next agent-monetization layer after coding. For DD on DevSecOps names, the question is whether they own the workflow or whether they will be displaced by IDE-embedded agents from Cursor, Cody, and Codex.",
+            sources: [
+              { title: "SD Times", url: "https://sdtimes.com/ai/may-8-2026-ai-updates-from-the-past-week-coder-agents-launch-snyk-claude-partnership-opsera-cursor-partnership-and-more/" }
+            ]
+          }
+        ]
+      },
+      {
+        title: "Workflows and Agents",
+        items: [
+          {
+            headline: "Anthropic ships 'dreaming' feature for self-improving managed agents",
+            summary: "At Code with Claude in San Francisco on May 6, Anthropic introduced dreaming, a scheduled process that runs between agent sessions to review past memory stores, extract patterns, prune stale notes, merge duplicates, and resolve contradictions in persistent memory files. Harvey, the legal AI company, reported task completion rates 6x higher after implementing dreaming. Medical document review company Wisedocs cut its document review time by 50% using the new outcomes capability shipped alongside. The /dream slash command in Claude Code triggers consolidation manually. Dreaming is in research preview, while outcomes and multi-agent orchestration are in public beta.",
+            angle: "Self-improvement between sessions is the missing piece for long-horizon agents in legal, medical, and financial-services workflows. The Harvey 6x completion-rate jump is the most striking real-world delta this week, supports the bullish vertical-agent thesis specifically in regulated industries.",
+            sources: [
+              { title: "VentureBeat", url: "https://venturebeat.com/technology/anthropic-introduces-dreaming-a-system-that-lets-ai-agents-learn-from-their-own-mistakes" },
+              { title: "SiliconAngle", url: "https://siliconangle.com/2026/05/06/anthropic-letting-claude-agents-dream-dont-sleep-job/" },
+              { title: "9to5Mac", url: "https://9to5mac.com/2026/05/07/anthropic-updates-claude-managed-agents-with-three-new-features/" }
+            ]
+          },
+          {
+            headline: "UiPath ships agentic AI for Automation Suite; LiveAgent makes AI a virtual seat",
+            summary: "UiPath released agentic AI capabilities for UiPath Automation Suite, with updates across UiPath Maestro, Agent Builder, GenAI Activities, and context grounding for agentic workflows inside customer-controlled infrastructure. Separately, LiveAgent's May product update made AI Agents into virtual agent seats, with AI actions tracked under the AI agent's name, and shipped an MCP integration that lets Claude Desktop and Cursor access ticket data and perform tasks. Both moves push agent licensing toward per-seat pricing, mirroring how human workers are billed.",
+            angle: "Per-seat agent pricing is the emerging revenue model for vertical SaaS adding agents. For DD on SaaS names trying to monetize AI, the question is whether they can defend seat economics when frontier labs offer 1/10th-cost equivalents through MCP.",
+            sources: [
+              { title: "SD Times", url: "https://sdtimes.com/ai/may-8-2026-ai-updates-from-the-past-week-coder-agents-launch-snyk-claude-partnership-opsera-cursor-partnership-and-more/" }
+            ]
+          }
+        ]
+      },
+      {
+        title: "Industry, Funding, and Policy",
+        items: [
+          {
+            headline: "AMD Q1 FY2026 prints $10.25B revenue, up 38% YoY; Data Center up 57%",
+            summary: "AMD's Q1 reported May 5 came in well ahead of consensus, with revenue of $10.25B (up 38% YoY) and Data Center revenue of $5.78B (up 57%). Management guided Q2 to roughly $11.2B, implying 46% growth and an accelerating rate of growth. Meta committed to a 6 GW Instinct GPU deployment and OpenAI signed for 6 GW of MI450 in the quarter, both disclosed on the call. CEO Lisa Su raised her server CPU growth forecast to 35% over the next three to five years, up from 18% in November.",
+            angle: "AMD is structurally taking AI accelerator share from Nvidia on price-performance and customer-concentration dynamics. For sector positioning, this validates the AMD/Micron/Intel rotation rather than the single-Nvidia thesis.",
+            sources: [
+              { title: "24/7 Wall St.", url: "https://247wallst.com/investing/2026/05/08/amd-vs-nvda-which-ai-chip-giant-belongs-in-your-10-year-portfolio/" },
+              { title: "24/7 Wall St. Earnings Preview", url: "https://247wallst.com/investing/2026/04/16/amd-gains-6-ahead-of-may-earnings-is-the-ai-chip-challenger-finally-ready-to-rival-nvidia/" }
+            ]
+          },
+          {
+            headline: "Wall Street's AI chip love rotates from Nvidia to Intel, AMD, and Micron",
+            summary: "A clear rotation has set in over the past two weeks. Nvidia is up only 15% YTD versus AMD up 97% YTD and 327% over the trailing year, with Intel and Micron also catching bids. The thesis is that the AI infrastructure spend, while still accelerating in absolute terms, is now broadening to non-Nvidia silicon as hyperscalers diversify supply and price-performance gaps narrow. Nvidia reports fiscal Q1 2027 on May 20, which will be the next major test of the rotation.",
+            angle: "Consensus single-name Nvidia exposure is the most crowded long in the market. The May 20 print will either re-anchor it or accelerate the rotation. Position-sizing matters more than directional view at this point.",
+            sources: [
+              { title: "CNBC", url: "https://www.cnbc.com/2026/05/08/wall-street-ai-chip-love-moves-from-nvidia-to-intel-amd-and-micron.html" }
+            ]
+          },
+          {
+            headline: "Nvidia tops $40B in equity bets; new $2.1B IREN and $3.2B Corning deals",
+            summary: "Nvidia has now committed more than $40B in equity investments across AI startups, data center operators, and supply-chain suppliers. This week alone, Nvidia struck a deal giving it the right to invest up to $2.1B in data center operator IREN, a day after agreeing to invest up to $3.2B in Corning. The pattern shows Nvidia using its balance sheet to lock in supply, demand, and compute capacity as it tries to defend its share against AMD and the hyperscaler ASIC programs.",
+            angle: "Nvidia's equity book is now a meaningful corporate-development engine, similar in pattern to SoftBank Vision Fund's role in 2017 to 2019. Useful framework for tracking which infrastructure and supply-chain names get priced in. IREN's repricing on the news is the cleanest comp.",
+            sources: [
+              { title: "CNBC", url: "https://www.cnbc.com/2026/05/09/nvidia-embraces-ai-investor-topping-40-billion-in-equity-bets-2026.html" }
+            ]
+          },
+          {
+            headline: "Moonshot AI raises ~$2B at $20B valuation; OpenAI closes 7th acquisition of 2026 with Hiro",
+            summary: "Chinese AI startup Moonshot AI raised roughly $2B at a $20B valuation, joining a growing list of Chinese labs (DeepSeek, Z.ai, MiniMax) that have raised at scale to match Western frontier capacity. Separately, OpenAI closed its seventh acquisition of 2026 with the purchase of Hiro, continuing an unusually aggressive M&A pace targeting talent, model-evaluation tooling, and vertical workflows. Parallel Web Systems also closed $100M at $2B (carried over from last week's deal flow but worth re-flagging in context).",
+            angle: "Chinese frontier-lab capitalization at $20B is the cleanest signal yet that geographic AI capacity is being deliberately rebalanced. For PE deal sourcing in regulated emerging markets, expect more Chinese-origin model deployment options to surface alongside Western alternatives.",
+            sources: [
+              { title: "Crunchbase News", url: "https://news.crunchbase.com/venture/global-startup-funding-april-2026-anthropic-jeff-bezos-project-prometheus-biggest-deals/" },
+              { title: "AI Weekly Summary", url: "https://earezki.com/ai-news/weekly-summary-2026-05-10/" }
+            ]
+          }
+        ]
+      }
+    ],
+    takeaways: [
+      "The AI chip trade has broadened, not topped. AMD's 38% top-line growth, 57% data-center growth, and the Meta and OpenAI 6 GW commitments confirm structural share gain. For PMs running concentrated AI infrastructure exposure, the rotation from Nvidia-only to a Nvidia plus AMD, Micron, and Intel basket is the higher-conviction setup into Nvidia's May 20 print. Power, cooling, and advanced packaging remain underweighted constraints across the basket.",
+      "Vertical agent capability jumped this week, not infrastructure. Anthropic's dreaming feature delivered a real-world 6x task-completion improvement at Harvey and 50% time reduction at Wisedocs, both in regulated workflows. The capability delta between Q1 and Q2 frontier agents is now large enough that DD assumptions on labor displacement TAM should be marked up, particularly in legal, medical, and middle-office financial services.",
+      "Enterprise agent platforms are consolidating into a three-way fight. Microsoft (Agent 365), Salesforce (Agentforce), and IBM (watsonx Orchestrate plus Concert plus Sovereign Core) are now selling roughly equivalent agent-OS stacks. Expect gross-margin compression at the platform layer through 2026 and renewed bargaining power for buyers. For software portfolio construction, prefer specialized vertical agents with workflow ownership over horizontal platform plays.",
+      "Voice and translation latency are now commercially viable. OpenAI's realtime models supporting 70+ input languages with sub-second turn-taking unlock call-center and field-services applications across emerging-market service sectors. Regional BPO disruption is now a credible 12 to 24 month thesis rather than a 3 to 5 year one. Sourcing angle for regional service-sector exposure.",
+      "Nvidia is buying its way to durability, AMD is selling its way to share. Nvidia's $40B equity book functions as a private corporate-development arm locking in supply and demand; AMD is winning supply contracts on price-performance. The two strategies suggest both names continue to compound through 2027, but with different risk profiles. Position size accordingly rather than betting on a single winner."
+    ]
+  },
+  {
+    date: "2026-05-07",
+    display_date: "May 7, 2026",
+    prepared_for: "Luka Agulashvili",
+    item_count: 13,
+    sections: [
+      {
+        title: "Models and Capabilities",
+        items: [
+          {
+            headline: "OpenAI GPT-5.5 Instant becomes new ChatGPT default",
+            summary: "Released Tuesday May 5, GPT-5.5 Instant replaces GPT-5.3 Instant as the default ChatGPT model and lands only six weeks after GPT-5.4. OpenAI is now compressing major model refreshes to roughly six weeks, keeping consumer mindshare anchored even while the enterprise channel pushes premium tiers.",
+            angle: "Model layer keeps moving every quarter, so vendor lock-in claims that depend on a specific model version are weak. Underwrite distribution and workflow integration in DD, not model superiority.",
+            sources: [
+              { title: "TechCrunch", url: "https://techcrunch.com/2026/05/05/openai-releases-gpt-5-5-instant-a-new-default-model-for-chatgpt/" }
+            ]
+          },
+          {
+            headline: "Four Chinese open-weight coding models hit the Western frontier in 12 days",
+            summary: "Z.ai's GLM-5.1, MiniMax M2.7, Moonshot's Kimi K2.6, and DeepSeek V4 all landed at roughly the same agentic-engineering capability ceiling as the closed Western frontier, at meaningfully lower inference cost. Open-weights catching up at a 12-day cadence is an important defensibility signal.",
+            angle: "Model moats are short-duration. For AI software theses, value distribution, proprietary data, and workflow integration over claimed model superiority.",
+            sources: [
+              { title: "devFlokers", url: "https://www.devflokers.com/blog/ai-news-may-2026-models-papers-open-source" },
+              { title: "Air Street State of AI", url: "https://press.airstreet.com/p/state-of-ai-may-2026" }
+            ]
+          },
+          {
+            headline: "Anthropic Opus 4.7 leads Rakuten-SWE-Bench coding tasks; ARR surpasses OpenAI",
+            summary: "Opus 4.7 resolves 3x more production engineering tasks than Opus 4.6 with double-digit gains in code quality and test quality, per Anthropic. Anthropic has also disclosed that ARR has surpassed OpenAI for the first time, hitting roughly $30B annualized versus OpenAI's $24B.",
+            angle: "Revenue mix is shifting toward Anthropic on the enterprise side even as OpenAI dominates consumer. Watch this divergence for read-through into hyperscaler partnership economics.",
+            sources: [
+              { title: "Anthropic", url: "https://www.anthropic.com/news/claude-opus-4-7" },
+              { title: "Air Street State of AI", url: "https://press.airstreet.com/p/state-of-ai-may-2026" }
+            ]
+          },
+          {
+            headline: "Gemini 3.2 Flash leaks ahead of Google I/O on May 19",
+            summary: "A pre-release Gemini 3.2 Flash build briefly surfaced inside the Gemini app this week, with Gemini 3.5 expected as the headline announcement at I/O. The Anthropic-Google $40B compute commitment plus a Gemini 3.5 launch should keep TPU and Google Cloud capex narratives supportive.",
+            angle: "Set up positioning into I/O for any Google or Anthropic-adjacent name, and watch the foundation lab response cycle through the rest of May.",
+            sources: [
+              { title: "devFlokers", url: "https://www.devflokers.com/blog/ai-news-may-2026-models-papers-open-source" }
+            ]
+          }
+        ]
+      },
+      {
+        title: "Tools and Platforms",
+        items: [
+          {
+            headline: "Anthropic launches 10 financial-services AI agents and full Microsoft 365 integration",
+            summary: "Bloomberg first reported on May 5 that Anthropic released ten preconfigured agents covering pitchbook drafting, KYC checks, financial-statement review, and compliance escalation, aimed at banking, asset management, insurance, and fintech. The Microsoft 365 add-in suite (Excel, PowerPoint, Word, Outlook in beta) is now generally available. Data partnerships now include Moody's, Verisk, Third Bridge, Fiscal AI, Dun & Bradstreet, Experian, GLG, Guidepoint, and IBISWorld, layered on top of LSEG, S&P CIQ, Morningstar, and PitchBook. FactSet fell as much as 8.1%, Morningstar erased earlier gains and fell over 3%, S&P Global and Moody's both saw heavy selling.",
+            angle: "First clean equity-market signal that AI agents are pricing into incumbent financial-data multiples. Watch for similar moves in legal data and capital-markets data names. Useful pair-trade construction: long Microsoft/Anthropic exposure, short legacy data incumbents.",
+            sources: [
+              { title: "Bloomberg", url: "https://www.bloomberg.com/news/articles/2026-05-05/anthropic-unveils-ai-agents-to-field-financial-services-tasks" },
+              { title: "Fortune", url: "https://fortune.com/2026/05/05/anthropic-wall-street-financial-services-agents-jamie-dimon/" },
+              { title: "American Banker", url: "https://www.americanbanker.com/news/anthropic-launches-bank-friendly-ai-agents-vendor-alliances" }
+            ]
+          },
+          {
+            headline: "Coder Technologies opens beta for self-hosted AI coding agents",
+            summary: "Coder announced beta availability of a model-agnostic, self-hosted coding agent architecture letting enterprises run AI dev workflows behind their own firewall with full governance over infrastructure, data, and model choice. The release targets regulated industries that have been slow to adopt hosted SaaS coding agents.",
+            angle: "Governed and self-hosted AI is the second wave behind hosted SaaS agents, similar to the on-prem vs cloud split a decade ago. Sourcing angle for private companies and acquirers in regulated verticals.",
+            sources: [
+              { title: "GlobeNewswire", url: "https://www.globenewswire.com/news-release/2026/05/06/3288916/0/en/Coder-Sets-a-New-Standard-for-AI-Coding-with-Self-Hosted-AI-Model-Agnostic-Coder-Agents.html" }
+            ]
+          },
+          {
+            headline: "Inworld releases Realtime TTS-2 with sub-200ms latency across 100 plus languages",
+            summary: "The new model holds one consistent voice identity across more than 100 languages and supports natural-language voice direction at sub-200ms latency. Voice agents have been the missing modality for many enterprise workflows.",
+            angle: "Latency at this level makes call-center and customer-service AI commercially viable beyond English-only deployments. Direct read-through to BPO disruption thesis and to Georgian/regional service-sector AI adoption.",
+            sources: [
+              { title: "AI in Action", url: "https://aiinaction.substack.com/p/ai-in-action-may-6-2026" }
+            ]
+          }
+        ]
+      },
+      {
+        title: "Workflows and Agents",
+        items: [
+          {
+            headline: "ServiceNow and Accenture launch Forward Deployed Engineering program for agentic AI",
+            summary: "Announced May 6, the program puts Accenture engineers inside enterprise customers to take agentic AI from pilot to production, leveraging more than 300 prebuilt AI agent skills and workflows on the ServiceNow AI Platform. Accenture has booked a clear consulting wedge.",
+            angle: "Services revenue around AI deployment is now a separately fundable category. Useful precedent for evaluating IT-services M&A theses and pricing AI-implementation revenue streams in DD.",
+            sources: [
+              { title: "Accenture Newsroom", url: "https://newsroom.accenture.com/news/2026/servicenow-and-accenture-launch-forward-deployed-engineering-program-to-scale-agentic-ai-across-the-enterprise" }
+            ]
+          },
+          {
+            headline: "NVIDIA and ServiceNow extend partnership to governed autonomous agents",
+            summary: "At ServiceNow Knowledge 2026 this week, the two announced deeper integration delivering governed autonomous agents from employee desktops through to AI factories, with the Vera Rubin platform underlying the compute layer.",
+            angle: "NVIDIA continues to broaden the agent-deployment surface area beyond foundation model labs, supporting the structural data-center capex thesis through 2027.",
+            sources: [
+              { title: "NVIDIA Blog", url: "https://blogs.nvidia.com/blog/servicenow-autonomous-ai-agents-enterprises/" }
+            ]
+          },
+          {
+            headline: "Voxpopme launches Compass, an AI research agent for enterprise insights teams",
+            summary: "Released May 6, Compass surfaces evidence from existing research, builds stakeholder-ready deliverables, and auto-launches new research to fill identified gaps. Research and insights workflows are the next vertical seeing dedicated agents after coding and customer service.",
+            angle: "Useful pattern for sourcing similar plays in legal research, equity research, and consulting. Watch for the next round of fundraises in adjacent insights tools.",
+            sources: [
+              { title: "PressRelease.com", url: "https://www.pressrelease.com/news/voxpopme-introduces-compass-an-ai-research-agent-for-enterprise-22775538" }
+            ]
+          }
+        ]
+      },
+      {
+        title: "Industry, Funding, and Policy",
+        items: [
+          {
+            headline: "Sierra closes $950M Series E at $15.8B valuation on $150M ARR",
+            summary: "Bret Taylor's customer-experience agent startup closed the round on May 4 led by Tiger Global and Google's GV. Sierra disclosed $150M ARR and adoption across nearly half the Fortune 50. Implied multiple sits near 105x ARR.",
+            angle: "Private vertical-agent multiples remain very rich while public SaaS comps just took a hit on the Anthropic news. The gap is unsustainable, expect either a de-rate in private rounds or a re-rate in public AI software.",
+            sources: [
+              { title: "CNBC", url: "https://www.cnbc.com/2026/05/04/bret-taylor-sierra-fundraise-openai.html" },
+              { title: "SiliconAngle", url: "https://siliconangle.com/2026/05/04/ai-agent-startup-sierra-valued-15b-new-950m-funding-round/" }
+            ]
+          },
+          {
+            headline: "Anthropic-Blackstone-Hellman & Friedman-Goldman JV at $1.5B; OpenAI counters with The Development Company",
+            summary: "On May 4 Anthropic announced a $1.5B enterprise-services JV with Blackstone, Hellman & Friedman, and Goldman Sachs as founding partners, each putting in $300M alongside Anthropic. Hours earlier, OpenAI announced its own equivalent vehicle, The Development Company. ElevenLabs separately crossed $500M ARR and closed a new round backed by BlackRock, Wellington, and Nvidia.",
+            angle: "PE megafunds are functioning as AI distribution channels. Expect cross-selling pressure into PE portcos and a steady drumbeat of similar JV announcements through year-end. Open question is whether equivalent embedded-engineering terms can be negotiated for regional and emerging-market portfolios.",
+            sources: [
+              { title: "TechCrunch", url: "https://techcrunch.com/2026/05/04/anthropic-and-openai-are-both-launching-joint-ventures-for-enterprise-ai-services/" }
+            ]
+          },
+          {
+            headline: "Pentagon strikes AI deals with eight Big Tech firms, excludes Anthropic",
+            summary: "On May 1 the DoD awarded contracts to SpaceX, OpenAI, Google, Microsoft, Nvidia, AWS, Oracle, and Reflection for use of AI tools in classified networks. Anthropic was excluded over its insistence on safety guardrails the Pentagon would not accept.",
+            angle: "Defense AI revenue is now a measurable revenue stream for hyperscalers and select foundation labs. Reflection's inclusion is the surprise, worth tracking the company as a private comp.",
+            sources: [
+              { title: "CNN Business", url: "https://www.cnn.com/2026/05/01/tech/pentagon-ai-anthropic" }
+            ]
+          },
+          {
+            headline: "Colorado moves to gut its 2024 AI discrimination law",
+            summary: "SB 189, filed in early May, would push the law's start to January 2027 and narrow it dramatically. The EU is also pushing several AI Act deadlines into 2027 to 2028. Regulatory friction on AI deployment is unwinding rather than tightening in the near term.",
+            angle: "Supportive for AI software adopter names and reduces the compliance discount in DD models. Tighten the regulatory drag assumption when underwriting AI deal cases.",
+            sources: [
+              { title: "Colorado Newsline", url: "https://coloradonewsline.com/2026/05/04/narrow-scope-colorado-ai-law/" },
+              { title: "Colorado Public Radio", url: "https://www.cpr.org/2026/05/04/changes-colorado-ai-law-bill/" }
+            ]
+          }
+        ]
+      }
+    ],
+    takeaways: [
+      "Anthropic's financial-services agent launch is the first clean equity-market signal that AI is pricing into incumbent data-vendor multiples. FactSet down 8 percent, Morningstar and S&P sold heavily. The same pressure should hit legal data, capital-markets data, and research aggregators next. Pair trade: long platform owners (Microsoft, Google via Anthropic exposure) versus short legacy data incumbents.",
+      "Vertical agent valuations remain at or above 100x ARR (Sierra at $15.8B on $150M ARR) while public SaaS comps just took a hit. Either private multiples compress in the next round or public AI software re-rates higher. Sierra's customer renewal cohort over the next two quarters will be the cleanest read.",
+      "PE megafund-foundation lab JVs are now a distribution category. Anthropic-Blackstone-HF-Goldman at $1.5B and OpenAI's The Development Company indicate that AI services revenue captured at PE portcos will be a real number through 2027. Open question is which JV operating models reach regional and emerging-market mid-market and whether equivalent embedded-engineering terms can be negotiated directly.",
+      "Open-weights from Chinese labs are at parity with the Western frontier on coding at lower inference cost. Model superiority is no longer a defensible moat. Weight valuations toward distribution, proprietary data, and workflow ownership.",
+      "Infra capex is still accelerating. NVIDIA FY26 data-center revenue at $193.5B and Rubin platform deployment kicking off in H2. Power, cooling, and advanced packaging remain underweighted constraints, useful angle for any infra-adjacent thesis."
+    ]
+  },
+  {
+    date: "2026-05-05",
+    display_date: "May 5, 2026",
+    prepared_for: "Luka Agulashvili",
+    item_count: 15,
+    sections: [
+      {
+        title: "Models and Capabilities",
+        items: [
+          {
+            headline: "Anthropic and OpenAI both push enterprise AI ventures, signal IPO ramp",
+            summary: "Both labs announced separate Wall Street partnerships on May 4 to embed engineers inside large enterprises and PE-owned portfolio companies. Anthropic's vehicle is a $1.5B JV with Blackstone, Hellman & Friedman, and Goldman Sachs as founding partners (each putting in $300M alongside Anthropic). OpenAI is going bigger with The Development Company, raising $4B from 19 investors at a $10B valuation, with TPG, Brookfield, Advent, and Bain Capital named. Both are clearly building distribution muscle ahead of late-2026 IPOs.",
+            angle: "PE megafunds are now AI distribution channels. Expect cross-selling pressure into PE portcos, and watch for an OpenAI Q4 IPO that could anchor public-market AI valuations near $1T.",
+            sources: [
+              { title: "TechCrunch", url: "https://techcrunch.com/2026/05/04/anthropic-and-openai-are-both-launching-joint-ventures-for-enterprise-ai-services/" },
+              { title: "CNBC", url: "https://www.cnbc.com/2026/05/04/anthropic-goldman-blackstone-ai-venture.html" }
+            ]
+          },
+          {
+            headline: "Claude Opus 4.7 ships with new vision and reasoning controls",
+            summary: "Anthropic released Opus 4.7 in mid-April with materially better software engineering, image processing at up to 2,576 pixels on the long edge (3x prior Claude models), and a new \"xhigh\" effort tier between high and max. The /ultrareview slash command in Claude Code produces dedicated code-review sessions that flag bugs and design issues. Anthropic openly admits it trails its own unreleased Mythos model on benchmarks, suggesting another upgrade cycle is queued.",
+            angle: "For a research desk, vision improvements at this resolution start to make AI-native chart, table, and slide extraction credible without OCR pipelines.",
+            sources: [
+              { title: "Anthropic", url: "https://www.anthropic.com/news/claude-opus-4-7" },
+              { title: "CNBC", url: "https://www.cnbc.com/2026/04/16/anthropic-claude-opus-4-7-model-mythos.html" }
+            ]
+          },
+          {
+            headline: "Google Gemini 3.1 Ultra and Flash-Lite raise the multimodal bar",
+            summary: "Gemini 3.1 Ultra ships with a 2 million token context window and was trained from scratch to reason natively across text, image, audio, and video. The new Flash-Lite variant cuts response time by 2.5x and output generation by 45%, priced at $0.25 per million input tokens. A sandboxed Code Execution tool now ships with the model.",
+            angle: "Multimodal reasoning at 2M tokens makes due-diligence and data-room workflows directly feasible. Pricing pressure on Flash-Lite tightens margins for thin-wrapper AI startups.",
+            sources: [
+              { title: "LLM-Stats AI News", url: "https://llm-stats.com/ai-news" }
+            ]
+          },
+          {
+            headline: "Meta debuts Muse Spark, its first flagship under Alexandr Wang",
+            summary: "Meta released Muse Spark in early April, the first major model from its Superintelligence Labs division built since the $14B Scale AI deal that brought Wang in as Chief AI Officer. Meta is positioning Muse Spark as competitive with frontier labs at meaningfully lower compute cost.",
+            angle: "Meta's catch-up narrative is now underwritten by tangible product. Watch for ad-tech monetization signals in upcoming earnings.",
+            sources: [
+              { title: "CNBC", url: "https://www.cnbc.com/2026/04/08/meta-debuts-first-major-ai-model-since-14-billion-deal-to-bring-in-alexandr-wang.html" }
+            ]
+          },
+          {
+            headline: "GDPval and ClawBench debut as the first credible 'real work' benchmarks",
+            summary: "GDPval is an OpenAI-led benchmark across 44 knowledge work occupations drawn from the top 9 industries by US GDP contribution, including software developers, lawyers, RNs, and mechanical engineers. ClawBench tests 153 tasks on 144 live production websites (real bookings, real purchases, real job applications), not sandboxed environments. Both target the saturation problem with MMLU and similar legacy benchmarks.",
+            angle: "Real-world benchmarks finally let you underwrite labor displacement assumptions in DD models. Useful when sizing TAM for vertical AI plays.",
+            sources: [
+              { title: "LM Council Benchmarks", url: "https://lmcouncil.ai/benchmarks" }
+            ]
+          }
+        ]
+      },
+      {
+        title: "Tools and Platforms",
+        items: [
+          {
+            headline: "Microsoft Agent 365 launches as a dedicated agent control plane",
+            summary: "Microsoft turned on Agent 365 on May 1 at $15 per user per month. It governs and secures agents built on Microsoft AI platforms, Foundry, Copilot Studio, and third parties. It ships alongside Microsoft 365 E7, a new top-tier bundle combining E5 productivity, Entra Suite for identity, Copilot, and Agent 365.",
+            angle: "Agent governance is becoming its own SKU. Read this as Microsoft trying to capture the agent-orchestration value layer that pure-play agent startups are chasing.",
+            sources: [
+              { title: "Microsoft Learn", url: "https://learn.microsoft.com/en-us/partner-center/announcements/2026-april" }
+            ]
+          },
+          {
+            headline: "Perplexity launches Workflows for Computer, 70+ pre-built business automations",
+            summary: "Perplexity rolled out a workflow product in early May targeting finance, legal, marketing, sales, recruiting, and back-office tasks with ready-to-run automations. It puts Perplexity into direct competition with Sierra-style verticalized agents and Microsoft's Agent 365.",
+            angle: "Perplexity is broadening from search to agent execution. The product expansion supports its rumored upmarket pivot but raises burn questions ahead of any future raise.",
+            sources: [
+              { title: "AllInOneAICenter Tracker", url: "https://allinoneaicenter.com/blog/new-ai-tools-may-2026" }
+            ]
+          },
+          {
+            headline: "Vanguard launches Expert Insights for advisor portfolio analysis",
+            summary: "Vanguard turned on an AI-powered portfolio analysis tool for financial advisors in April, focused on delivering scalable investment guidance. The launch slots into a broader trend: Deloitte's CFO survey shows 68% of finance leaders have deployed AI in at least one finance process, up from 31% in 2023.",
+            angle: "Asset managers are now releasing their own AI tooling rather than waiting on third parties. Direct read-through to wealthtech vendors that previously sold 'AI for advisors' as the differentiator.",
+            sources: [
+              { title: "Vanguard Press Release", url: "https://corporate.vanguard.com/content/corporatesite/us/en/corp/who-we-are/pressroom/press-release-vanguard-launches-expert-insights-equipping-advisors-with-ai-powered-portfolio-analysis-expertise-04092026.html" }
+            ]
+          }
+        ]
+      },
+      {
+        title: "Workflows and Agents",
+        items: [
+          {
+            headline: "Salesforce launches Agentforce Operations to fix back-office workflow breakage",
+            summary: "Released May 4, Agentforce Operations turns business processes into deterministic task graphs handled by specialized agents, rather than letting agents free-form their next step. The pitch is direct: 6 of 7 vendors surveyed by G2 say API and integration failures are the leading cause of agent workflow failures, and orchestrated determinism is the answer.",
+            angle: "Salesforce is betting that enterprise will pay for guardrails over autonomy. The opposite trend (more autonomous agents) is funded harder in venture, so this is a useful contrarian data point on enterprise readiness.",
+            sources: [
+              { title: "VentureBeat", url: "https://venturebeat.com/orchestration/salesforce-launches-agentforce-operations-to-fix-the-workflows-breaking-enterprise-ai" },
+              { title: "Salesforce Newsroom", url: "https://www.salesforce.com/news/stories/agentforce-operations-announcement/" }
+            ]
+          },
+          {
+            headline: "Snowflake and OpenAI extend $200M partnership into agentic deployment",
+            summary: "Although the headline deal was struck in February, fresh reporting in early May shows Snowflake Intelligence is now natively shipping OpenAI models including GPT-5.2 to Snowflake's 12,600 enterprise customers across all three major clouds. The thesis: governed enterprise data plus frontier models, sold through the Snowflake channel.",
+            angle: "Enterprise data platforms are turning into AI distribution rails. If you hold Snowflake or Databricks-adjacent names, the partnership thesis is now tangible revenue, not future-looking narrative.",
+            sources: [
+              { title: "Snowflake Press Release", url: "https://www.snowflake.com/en/news/press-releases/snowflake-and-openAI-forge-200-million-partnership-to-bring-enterprise-ready-ai-to-the-worlds-most-trusted-data-platform/" }
+            ]
+          }
+        ]
+      },
+      {
+        title: "Industry, Funding, and Policy",
+        items: [
+          {
+            headline: "Sierra raises $950M at $15.8B valuation, doubling its capital base",
+            summary: "Bret Taylor's customer-experience agent startup closed a $950M round on May 4 led by Tiger Global and GV. The valuation roughly doubled. Sierra is positioning as the global standard for AI customer experience, with strong revenue traction in retail and financial services.",
+            angle: "Vertical agent rounds are still attracting megafund capital at >50x ARR multiples. Look for similar rounds in legal, healthcare, and financial services agents over the next quarter.",
+            sources: [
+              { title: "SiliconAngle", url: "https://siliconangle.com/2026/05/04/ai-agent-startup-sierra-valued-15b-new-950m-funding-round/" },
+              { title: "TechCrunch", url: "https://techcrunch.com/2026/05/04/sierra-raises-950m-as-the-race-to-own-enterprise-ai-gets-serious/" }
+            ]
+          },
+          {
+            headline: "Parallel Web Systems raises $100M at $2B valuation",
+            summary: "Parag Agrawal's research and search API startup closed a $100M Sequoia-led round, with the company positioning as picks-and-shovels infrastructure for AI applications that need search and research APIs.",
+            angle: "Infrastructure-layer plays are getting funded at premium multiples relative to application-layer agents. The split is consistent with VC moving back toward defensible technical moats.",
+            sources: [
+              { title: "AI Funding Tracker", url: "https://aifundingtracker.com/ai-startup-funding-news-today/" }
+            ]
+          },
+          {
+            headline: "Colorado moves to gut its 2024 AI discrimination law",
+            summary: "Senate Bill 189, backed by top Democrats, was filed May 4 to push the law's start date to January 2027 and dramatically narrow its scope. Colorado AG Phil Weiser already suspended enforcement after a lawsuit by Elon Musk's xAI. The federal framework released in March 2026 directed AI training and copyright issues to the courts rather than legislation.",
+            angle: "US AI regulation is unwinding at the state level under industry pressure, with the EU also pushing key AI Act deadlines into 2027 to 2028. Compliance-cost discount in AI deal models can be tightened.",
+            sources: [
+              { title: "Colorado Newsline", url: "https://coloradonewsline.com/2026/05/04/narrow-scope-colorado-ai-law/" }
+            ]
+          },
+          {
+            headline: "Nvidia hits $5.26T market cap; TSMC accelerates 2nm to five fabs by year-end",
+            summary: "Nvidia continues to dominate AI chip share even as hyperscalers ramp internal silicon. TSMC doubled the pace of its 2nm expansion plan, targeting five operational fabs by 2026 to absorb global AI processor demand. The semiconductor industry is on track to hit $975B in 2026 sales.",
+            angle: "The capex cycle is still accelerating, not peaking. Power, cooling, and advanced packaging remain underweighted constraints in most consensus models.",
+            sources: [
+              { title: "The Motley Fool", url: "https://www.fool.com/investing/2026/05/01/prediction-this-monster-artificial-intelligence-ai/" }
+            ]
+          }
+        ]
+      }
+    ],
+    takeaways: [
+      "The Wall Street x foundation lab JVs (Anthropic-Blackstone-HF-Goldman, OpenAI-TPG-Brookfield-Advent-Bain) are the cleanest signal yet that frontier labs are de-risking enterprise distribution before going public. Expect AI-driven operational programs to roll out across PE portcos within 6 to 12 months. This is a sourcing opportunity for AI implementation services targeting PE-owned mid-market companies.",
+      "Vertical agent rounds (Sierra at $15.8B, Parallel at $2B) confirm capital is concentrating in two camps: best-in-vertical agents and infrastructure layers. Generic agent platforms and thin LLM wrappers are getting squeezed. For DD on private AI deals, the fundability test now turns on demonstrable workflow ownership or technical moat.",
+      "The benchmark refresh (GDPval, ClawBench) gives investment teams a more credible substrate for labor displacement and TAM modeling. Older 'percent of LLM benchmark' assumptions overstate near-term capability on real production tasks. Discount workflow automation TAM by the GDPval delta to set a floor.",
+      "Salesforce's bet on deterministic orchestration over autonomous agents is a useful contrarian signal. Enterprise buyers are voting with budget for governance and auditability, not autonomy. When sourcing agent infrastructure plays, look for companies that solve the orchestration and observability layer rather than the autonomy layer.",
+      "Regulatory tailwinds are turning back in favor of AI deployers. Colorado narrowing its law, EU pushing AI Act deadlines, and the federal framework deferring to courts all reduce US deployment friction. For sector rotation, this is incremental support for AI software and adopter names; insurance and regulated-data verticals also see tailwind from delayed compliance burden."
+    ]
+  }
+];
+// === BRIEFINGS_DATA_END ===
+
 let activeIndex = 0;
 
 function escape(s) {
@@ -124,19 +1199,27 @@ function escape(s) {
   });
 }
 
+function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+
 function formatChipDate(b) {
-  if (b.display_date) return b.display_date.replace(/, \d{4}$/, '');
+  if (b.display_date) {
+    return b.display_date.replace(/, \d{4}$/, '');
+  }
   return b.date;
+}
+
+function slugify(s) {
+  return String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
 
 function renderChips() {
   const html = briefings.map(function(b, i) {
     const isLatest = i === 0;
     const isActive = i === activeIndex;
-    return '<span class="chip' + (isActive ? ' active' : '') + '" data-idx="' + i + '">' +
-      escape(formatChipDate(b)) +
-      (isLatest ? '<span class="latest-tag">Latest</span>' : '') +
-      '</span>';
+    return '<button class="chip' + (isActive ? ' active' : '') + '" data-idx="' + i + '">' +
+      '<span class="chip-date">' + escape(formatChipDate(b)) + '</span>' +
+      (isLatest ? '<span class="chip-tag">Latest</span>' : '') +
+      '</button>';
   }).join('');
   const chips = document.getElementById('chips');
   chips.innerHTML = html;
@@ -154,12 +1237,51 @@ function renderHeader() {
   const badge = document.getElementById('badge');
   badge.textContent = activeIndex === 0 ? 'Latest' : 'Archive';
   badge.className = 'badge' + (activeIndex === 0 ? '' : ' archive');
-  document.getElementById('meta-text').textContent =
-    (b.display_date || b.date) + ' · ' + (b.item_count || countItems(b)) + ' items · ' + (b.prepared_for || '');
+  document.getElementById('meta-text').innerHTML =
+    escape(b.display_date || b.date) + ' <span class="dot"></span> ' +
+    (b.item_count || countItems(b)) + ' items' +
+    (b.prepared_for ? ' <span class="dot"></span> Prepared for ' + escape(b.prepared_for) : '');
+  document.getElementById('issue-title').textContent =
+    (b.display_date || b.date) + ' Edition';
+  const totalSections = (b.sections || []).length + (b.spotlight ? 1 : 0) + (b.takeaways && b.takeaways.length ? 1 : 0);
+  document.getElementById('issue-sub').textContent =
+    totalSections + ' sections covering models, tools, agents, deal flow, and the day’s industry spotlight.';
 }
 
 function countItems(b) {
   return b.sections.reduce(function(n, s) { return n + s.items.length; }, 0);
+}
+
+function renderToc() {
+  const b = briefings[activeIndex];
+  const toc = document.getElementById('toc');
+  if (!b || !b.sections) { toc.innerHTML = ''; return; }
+  let parts = [];
+  b.sections.forEach(function(s, i) {
+    parts.push(
+      '<a class="toc-link" href="#sec-' + slugify(s.title) + '">' +
+      '<span class="toc-num">' + pad2(i + 1) + '</span>' +
+      '<span class="toc-text">' + escape(s.title) + '</span>' +
+      '</a>'
+    );
+  });
+  if (b.spotlight && b.spotlight.industry) {
+    parts.push(
+      '<a class="toc-link" href="#spotlight">' +
+      '<span class="toc-num">SP</span>' +
+      '<span class="toc-text">Spotlight · ' + escape(b.spotlight.industry) + '</span>' +
+      '</a>'
+    );
+  }
+  if (b.takeaways && b.takeaways.length) {
+    parts.push(
+      '<a class="toc-link" href="#takeaways">' +
+      '<span class="toc-num">TK</span>' +
+      '<span class="toc-text">Takeaways</span>' +
+      '</a>'
+    );
+  }
+  toc.innerHTML = parts.join('');
 }
 
 function renderBriefing() {
@@ -169,30 +1291,55 @@ function renderBriefing() {
     return;
   }
   let html = '';
-  for (const section of b.sections) {
-    html += '<h2>' + escape(section.title) + '<span class="count">' + section.items.length + ' items</span></h2>';
-    for (const item of section.items) {
-      html += '<div class="item">';
-      html += '<div class="item-title">' + escape(item.headline) + '</div>';
+  (b.sections || []).forEach(function(section, sIdx) {
+    html += '<section class="section" id="sec-' + slugify(section.title) + '">';
+    html += '<div class="section-head">';
+    html += '<div class="section-num">' + pad2(sIdx + 1) + '</div>';
+    html += '<h2 class="section-title">' + escape(section.title) + '</h2>';
+    html += '<div class="section-count">' + section.items.length + ' items</div>';
+    html += '</div>';
+    section.items.forEach(function(item) {
+      html += '<article class="item">';
+      html += '<h3 class="item-headline">' + escape(item.headline) + '</h3>';
       html += '<div class="item-summary">' + escape(item.summary) + '</div>';
       if (item.angle) {
-        html += '<div class="angle"><strong>Investment angle:</strong> ' + escape(item.angle) + '</div>';
+        html += '<div class="angle"><span class="angle-label">Investment angle</span>' + escape(item.angle) + '</div>';
       }
       if (item.sources && item.sources.length) {
-        html += '<div class="sources">Sources: ';
+        html += '<div class="sources"><span class="sources-label">Sources</span>';
         html += item.sources.map(function(s) {
           return '<a href="' + escape(s.url) + '" target="_blank" rel="noopener">' + escape(s.title) + '</a>';
-        }).join(' · ');
+        }).join('');
         html += '</div>';
       }
-      html += '</div>';
-    }
+      html += '</article>';
+    });
+    html += '</section>';
+  });
+  if (b.spotlight && b.spotlight.industry) {
+    html += '<section class="spotlight-wrap" id="spotlight">';
+    html += '<div class="spotlight-eyebrow">Industry Spotlight</div>';
+    html += '<h2 class="spotlight-industry">' + escape(b.spotlight.industry) + '</h2>';
+    html += '<div class="spotlight-meta">Rotating sector deep-read · ' + escape(b.display_date || b.date) + '</div>';
+    html += '<div class="spotlight-body">';
+    const paras = Array.isArray(b.spotlight.body) ? b.spotlight.body : [b.spotlight.body];
+    paras.forEach(function(p) { html += '<p>' + escape(p) + '</p>'; });
+    html += '</div></section>';
   }
   if (b.takeaways && b.takeaways.length) {
-    html += '<h2>Investment-Relevant Takeaways</h2>';
+    html += '<section class="takeaways-wrap" id="takeaways">';
+    html += '<div class="section-head">';
+    html += '<div class="section-num">' + pad2((b.sections || []).length + 1) + '</div>';
+    html += '<h2 class="section-title">Investment-Relevant Takeaways</h2>';
+    html += '<div class="section-count">' + b.takeaways.length + ' points</div>';
+    html += '</div>';
     b.takeaways.forEach(function(t, i) {
-      html += '<div class="takeaway"><span class="takeaway-num">' + (i + 1) + '</span>' + escape(t) + '</div>';
+      html += '<div class="takeaway">';
+      html += '<div class="takeaway-num">' + pad2(i + 1) + '</div>';
+      html += '<div class="takeaway-text">' + escape(t) + '</div>';
+      html += '</div>';
     });
+    html += '</section>';
   }
   document.getElementById('briefing').innerHTML = html;
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -201,38 +1348,20 @@ function renderBriefing() {
 function renderAll() {
   renderChips();
   renderHeader();
+  renderToc();
   renderBriefing();
 }
 
-async function loadBriefings() {
-  try {
-    const res = await fetch('briefings.json?v=' + Date.now());
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const data = await res.json();
-    briefings = Array.isArray(data) ? data : (data.briefings || []);
-    if (!briefings.length) {
-      document.getElementById('briefing').innerHTML = '<div class="empty">briefings.json contains no entries yet.</div>';
-      document.getElementById('meta-text').textContent = 'No briefings available';
-      return;
-    }
-    try {
-      const saved = localStorage.getItem('briefing_active_date');
-      if (saved) {
-        const idx = briefings.findIndex(function(b) { return b.date === saved; });
-        if (idx >= 0) activeIndex = idx;
-      }
-    } catch (e) {}
-    renderAll();
-  } catch (err) {
-    document.getElementById('briefing').innerHTML =
-      '<div class="error">Could not load briefings.json. ' + escape(err.message) + '</div>';
-    document.getElementById('meta-text').textContent = 'Load failed';
-    document.getElementById('badge').textContent = 'Error';
-    document.getElementById('badge').className = 'badge archive';
+// Restore last viewed date on load (defaults to latest)
+try {
+  const saved = localStorage.getItem('briefing_active_date');
+  if (saved) {
+    const idx = briefings.findIndex(function(b) { return b.date === saved; });
+    if (idx >= 0) activeIndex = idx;
   }
-}
+} catch (e) {}
 
-loadBriefings();
+renderAll();
 </script>
 
 </body>
