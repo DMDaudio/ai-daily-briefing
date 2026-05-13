@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Daily Briefing</title>
+<style>
+:root { color-scheme: light }
+* { box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 24px 28px 64px;
+  color: #1a1a1a;
+  background: #ffffff;
+  line-height: 1.55;
+  font-size: 14px;
+}
+.header {
+  border-bottom: 2px solid #1a1a1a;
+  padding-bottom: 14px;
+  margin-bottom: 16px;
+}
+.header h1 { margin: 0 0 4px; font-size: 26px; letter-spacing: -0.5px; }
+.header .meta { color: #666; font-size: 13px; }
+.badge {
+  display: inline-block; background: #b8860b; color: #fff;
+  padding: 2px 8px; border-radius: 3px; font-size: 11px;
+  font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; margin-right: 8px;
+}
+.badge.archive { background: #777; }
+.archive-bar {
+  display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+  margin-bottom: 24px; padding: 10px 12px;
+  background: #fafafa; border-radius: 6px; border: 1px solid #ececec;
+}
+.archive-label {
+  font-size: 12px; color: #666; margin-right: 4px;
+  font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.chip {
+  display: inline-block; padding: 4px 10px;
+  background: #fff; border: 1px solid #ddd; border-radius: 14px;
+  font-size: 12px; cursor: pointer; color: #333;
+  transition: all 0.15s ease; user-select: none;
+}
+.chip:hover { background: #fff8e1; border-color: #b8860b; }
+.chip.active { background: #b8860b; color: #fff; border-color: #b8860b; font-weight: 600; }
+.chip .latest-tag {
+  font-size: 10px; background: rgba(255,255,255,0.3);
+  padding: 1px 5px; border-radius: 8px; margin-left: 4px;
+}
+h2 {
+  font-size: 17px; margin-top: 32px; margin-bottom: 14px;
+  padding-bottom: 6px; border-bottom: 1px solid #e0e0e0; color: #1a1a1a;
+}
+h2 .count { color: #999; font-weight: 400; font-size: 13px; margin-left: 8px; }
+.item {
+  margin-bottom: 22px; padding-left: 14px;
+  border-left: 3px solid #f0f0f0;
+}
+.item:hover { border-left-color: #b8860b; }
+.item-title { font-weight: 600; font-size: 15px; margin-bottom: 4px; color: #1a1a1a; }
+.item-summary { margin: 4px 0 8px; color: #2a2a2a; }
+.angle {
+  background: #fff8e1; border-left: 3px solid #b8860b;
+  padding: 8px 12px; font-size: 13px; margin-top: 8px; color: #5a4500;
+}
+.angle strong { color: #b8860b; }
+.sources { font-size: 12px; color: #888; margin-top: 6px; }
+.sources a { color: #b8860b; text-decoration: none; margin-right: 4px; }
+.sources a:hover { text-decoration: underline; }
+.takeaway {
+  margin-bottom: 14px; padding: 10px 14px; background: #fafafa;
+  border-left: 3px solid #b8860b; border-radius: 0 3px 3px 0;
+}
+.takeaway-num {
+  display: inline-block; background: #b8860b; color: #fff;
+  width: 20px; height: 20px; text-align: center; border-radius: 50%;
+  font-size: 11px; font-weight: 600; line-height: 20px;
+  margin-right: 6px; vertical-align: 1px;
+}
+.empty { text-align: center; padding: 60px 20px; color: #999; }
+.error {
+  text-align: center; padding: 40px 20px; color: #b00020;
+  background: #fdecea; border-radius: 6px; margin: 20px 0;
+}
+.footer {
+  margin-top: 40px; padding-top: 16px; border-top: 1px solid #e0e0e0;
+  color: #999; font-size: 11px; text-align: center;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>AI Daily Briefing</h1>
+  <div class="meta">
+    <span class="badge" id="badge">Loading</span>
+    <span id="meta-text">Fetching latest briefing...</span>
+  </div>
+</div>
+
+<div class="archive-bar">
+  <span class="archive-label">Archive:</span>
+  <div id="chips"></div>
+</div>
+
+<div id="briefing"><div class="empty">Loading briefings.json...</div></div>
+
+<div class="footer">
+  AI Daily Briefing, prepared for Georgia Capital. Updated daily by an automated research agent. Data sourced from <code>briefings.json</code>.
+</div>
+
+<script>
+let briefings = [];
+let activeIndex = 0;
+
+function escape(s) {
+  if (s === null || s === undefined) return '';
+  return String(s).replace(/[<>&"']/g, function(c) {
+    return { '<':'&lt;', '>':'&gt;', '&':'&amp;', '"':'&quot;', "'":'&#39;' }[c];
+  });
+}
+
+function formatChipDate(b) {
+  if (b.display_date) return b.display_date.replace(/, \d{4}$/, '');
+  return b.date;
+}
+
+function renderChips() {
+  const html = briefings.map(function(b, i) {
+    const isLatest = i === 0;
+    const isActive = i === activeIndex;
+    return '<span class="chip' + (isActive ? ' active' : '') + '" data-idx="' + i + '">' +
+      escape(formatChipDate(b)) +
+      (isLatest ? '<span class="latest-tag">Latest</span>' : '') +
+      '</span>';
+  }).join('');
+  const chips = document.getElementById('chips');
+  chips.innerHTML = html;
+  chips.querySelectorAll('.chip').forEach(function(el) {
+    el.addEventListener('click', function() {
+      activeIndex = parseInt(el.getAttribute('data-idx'), 10);
+      try { localStorage.setItem('briefing_active_date', briefings[activeIndex].date); } catch (e) {}
+      renderAll();
+    });
+  });
+}
+
+function renderHeader() {
+  const b = briefings[activeIndex];
+  const badge = document.getElementById('badge');
+  badge.textContent = activeIndex === 0 ? 'Latest' : 'Archive';
+  badge.className = 'badge' + (activeIndex === 0 ? '' : ' archive');
+  document.getElementById('meta-text').textContent =
+    (b.display_date || b.date) + ' · ' + (b.item_count || countItems(b)) + ' items · ' + (b.prepared_for || '');
+}
+
+function countItems(b) {
+  return b.sections.reduce(function(n, s) { return n + s.items.length; }, 0);
+}
+
+function renderBriefing() {
+  const b = briefings[activeIndex];
+  if (!b) {
+    document.getElementById('briefing').innerHTML = '<div class="empty">No briefing selected.</div>';
+    return;
+  }
+  let html = '';
+  for (const section of b.sections) {
+    html += '<h2>' + escape(section.title) + '<span class="count">' + section.items.length + ' items</span></h2>';
+    for (const item of section.items) {
+      html += '<div class="item">';
+      html += '<div class="item-title">' + escape(item.headline) + '</div>';
+      html += '<div class="item-summary">' + escape(item.summary) + '</div>';
+      if (item.angle) {
+        html += '<div class="angle"><strong>Investment angle:</strong> ' + escape(item.angle) + '</div>';
+      }
+      if (item.sources && item.sources.length) {
+        html += '<div class="sources">Sources: ';
+        html += item.sources.map(function(s) {
+          return '<a href="' + escape(s.url) + '" target="_blank" rel="noopener">' + escape(s.title) + '</a>';
+        }).join(' · ');
+        html += '</div>';
+      }
+      html += '</div>';
+    }
+  }
+  if (b.takeaways && b.takeaways.length) {
+    html += '<h2>Investment-Relevant Takeaways</h2>';
+    b.takeaways.forEach(function(t, i) {
+      html += '<div class="takeaway"><span class="takeaway-num">' + (i + 1) + '</span>' + escape(t) + '</div>';
+    });
+  }
+  document.getElementById('briefing').innerHTML = html;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderAll() {
+  renderChips();
+  renderHeader();
+  renderBriefing();
+}
+
+async function loadBriefings() {
+  try {
+    const res = await fetch('briefings.json?v=' + Date.now());
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    briefings = Array.isArray(data) ? data : (data.briefings || []);
+    if (!briefings.length) {
+      document.getElementById('briefing').innerHTML = '<div class="empty">briefings.json contains no entries yet.</div>';
+      document.getElementById('meta-text').textContent = 'No briefings available';
+      return;
+    }
+    try {
+      const saved = localStorage.getItem('briefing_active_date');
+      if (saved) {
+        const idx = briefings.findIndex(function(b) { return b.date === saved; });
+        if (idx >= 0) activeIndex = idx;
+      }
+    } catch (e) {}
+    renderAll();
+  } catch (err) {
+    document.getElementById('briefing').innerHTML =
+      '<div class="error">Could not load briefings.json. ' + escape(err.message) + '</div>';
+    document.getElementById('meta-text').textContent = 'Load failed';
+    document.getElementById('badge').textContent = 'Error';
+    document.getElementById('badge').className = 'badge archive';
+  }
+}
+
+loadBriefings();
+</script>
+
+</body>
+</html>

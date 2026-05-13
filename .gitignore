@@ -1,0 +1,15 @@
+# Local scratch
+*.tmp
+*.bak
+*.swp
+.DS_Store
+
+# Editor noise
+.vscode/
+.idea/
+
+# Node, in case you add tooling later
+node_modules/
+
+# Keep briefings.json tracked; ignore any local-only copies
+briefings.local.json
