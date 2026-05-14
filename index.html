@@ -769,15 +769,15 @@ const briefings = [
           {
             "headline": "Anthropic financial services push hits Wall Street with 10 pre-built agents",
             "summary": "On May 5, Anthropic unveiled agents for pitch decks, financial statement review, compliance escalation, and KYC screening, alongside full Microsoft 365 integration and data partnerships with Moody's, Verisk, Third Bridge, and Fiscal AI. Targets banking, insurance, asset management, and fintech. Claude Opus 4.7 sits behind the suite. OpenAI announced a parallel PwC partnership for forecasting, procurement, treasury, and finance operations.",
-            "angle": "Buy-side research stack is being rebuilt at speed. FactSet traded down ~8% intraday on the news. Watch aggregator multiples (S&P Global, Moody's, MSCI, FactSet) compress over the next two quarters.",
+            "angle": "Buy-side research stack is being rebuilt at speed. FactSet traded down roughly 8% intraday on the news. Watch aggregator multiples (S&P Global, Moody's, MSCI, FactSet) compress over the next two quarters.",
             "sources": [
+              {
+                "title": "Anthropic finance agents",
+                "url": "https://www.anthropic.com/news/finance-agents"
+              },
               {
                 "title": "Fortune",
                 "url": "https://fortune.com/2026/05/05/anthropic-wall-street-financial-services-agents-jamie-dimon/"
-              },
-              {
-                "title": "Bloomberg",
-                "url": "https://www.bloomberg.com/news/articles/2026-05-05/anthropic-unveils-ai-agents-to-field-financial-services-tasks"
               }
             ]
           },
@@ -806,7 +806,7 @@ const briefings = [
           {
             "headline": "Notion ships a developer platform for AI workflows",
             "summary": "Adds custom code execution, database sync, external agent support, and workflow triggers, opening Notion's workspace and database as a programmable surface for agentic apps.",
-            "angle": "Similar to n8n positioning, Notion is making a defensible play to be the canvas for enterprise AI workflows where data already lives. Worth watching as a tell on whether AI-native workspace tools (Notion, Coda, Airtable) compress into a single category.",
+            "angle": "Similar to n8n positioning, Notion is making a defensible play to be the canvas for enterprise AI workflows where the data already lives. Worth watching as a tell on whether AI-native workspace tools (Notion, Coda, Airtable) compress into a single category.",
             "sources": [
               {
                 "title": "InfoWorld",
@@ -820,9 +820,24 @@ const briefings = [
         "title": "Workflows and Agents",
         "items": [
           {
-            "headline": "OpenAI Deployment Co. launches with Tomoro acquisition",
-            "summary": "OpenAI announced the OpenAI Deployment Co. consulting firm and is acquiring Tomoro, an applied AI consulting and engineering shop. Mirrors Anthropic's $1.5B JV with Blackstone, H&F, and Goldman from the prior week.",
-            "angle": "Frontier labs are absorbing implementation-services capacity ahead of their own IPOs. The implementation-services category is now a contested rollup target. Standalone AI services firms become plausible acquisition targets for the labs themselves through 2026.",
+            "headline": "Anthropic ships Dreaming for managed agents, plus outcomes and multi-agent orchestration",
+            "summary": "Dreaming is a scheduled process that runs between agent sessions, reviews everything an agent did in its last job, pulls patterns out of those sessions, and writes new memory entries the next session can use. Legal-AI startup Harvey, an early customer, reported task completion rates rose roughly 6x in internal testing once dreaming was turned on. Anthropic also pushed outcomes (a self-grading rubric-based evaluator) and multi-agent orchestration (a lead agent fans out work to specialist sub-agents in parallel) into public beta.",
+            "angle": "This is the missing piece for long-horizon enterprise workflows, the kind that finance, legal, and ops actually want to delegate. A 6x throughput claim, if it holds at cohort level, is the largest single productivity jump shown for managed agents to date and changes ROI math for high-end vertical applications.",
+            "sources": [
+              {
+                "title": "Anthropic research",
+                "url": "https://www.anthropic.com/research/long-running-Claude"
+              },
+              {
+                "title": "SiliconANGLE",
+                "url": "https://siliconangle.com/2026/05/06/anthropic-letting-claude-agents-dream-dont-sleep-job/"
+              }
+            ]
+          },
+          {
+            "headline": "OpenAI Deployment Co. launches with Tomoro acquisition, $4B initial funding",
+            "summary": "OpenAI announced the OpenAI Deployment Co. consulting firm and is acquiring Tomoro, an applied AI consulting and engineering shop, with more than $4B in initial investment. Mirrors Anthropic's $1.5B JV with Blackstone, H&F, and Goldman from the prior week. OpenAI also published B2B Signals, a research initiative finding frontier companies now use 3.5x more AI intelligence per employee than typical firms.",
+            "angle": "Frontier labs are absorbing implementation-services capacity ahead of their own IPOs. Implementation-services category is now a contested rollup target. Standalone AI services firms become plausible acquisition targets for the labs themselves through 2026.",
             "sources": [
               {
                 "title": "AI Business",
@@ -835,20 +850,9 @@ const briefings = [
             ]
           },
           {
-            "headline": "Coder Agents launches as a platform-team management layer for AI agents",
-            "summary": "Provides a standardized way for platform teams to deploy and manage AI agents across an organization, letting developers delegate code writing, test generation, repository analysis, and PR creation through a conversational interface and API.",
-            "angle": "Agent ops is becoming its own SaaS category. Names like Coder plus Lakera and Arize on the monitoring side are the picks-and-shovels for the agent boom. Worth tracking the next round for the leading 3 to 5 names.",
-            "sources": [
-              {
-                "title": "SD Times",
-                "url": "https://sdtimes.com/ai/may-8-2026-ai-updates-from-the-past-week-coder-agents-launch-snyk-claude-partnership-opsera-cursor-partnership-and-more/"
-              }
-            ]
-          },
-          {
             "headline": "Apple ships Xcode 26.3 with agentic coding support",
             "summary": "Xcode 26.3 (release candidate now, App Store soon) lets developers build iOS apps using Claude Agent and OpenAI Codex inside the IDE.",
-            "angle": "Apple is conceding the coding-agent layer to the labs rather than building its own. Clarifies the question of whether Apple builds or buys frontier capability. Modest negative read for Apple's claimed AI competitive position, supportive for Anthropic and OpenAI distribution into the iOS developer base of ~30 million.",
+            "angle": "Apple is conceding the coding-agent layer to the labs rather than building its own. Clarifies the long-running question of whether Apple builds or buys frontier capability. Modest negative for Apple's AI competitive position, supportive for Anthropic and OpenAI distribution into the iOS developer base of roughly 30 million.",
             "sources": [
               {
                 "title": "Apple newsroom",
@@ -862,8 +866,8 @@ const briefings = [
         "title": "Industry, Funding, and Policy",
         "items": [
           {
-            "headline": "Cisco prints Q3 with $5.3B AI orders YTD, lifts fiscal-year guide to $9B, cuts 4,000 jobs",
-            "summary": "Revenue $15.84B vs $15.56B expected, EPS $1.06 vs $1.04, with revenue up 12%. AI infrastructure and hyperscaler orders raised to $9B for the fiscal year, up from $5B. Layoffs total roughly 5% of headcount, with up to $1B in pre-tax charges and ~$450M booked in Q4. Stock popped 17% in extended trading on May 13.",
+            "headline": "Cisco prints Q3 with $5.3B in AI orders YTD, lifts fiscal-year guide to $9B, cuts 4,000 jobs",
+            "summary": "Revenue $15.84B vs $15.56B expected, EPS $1.06 vs $1.04, revenue up 12%. AI infrastructure and hyperscaler orders raised to $9B for the fiscal year, up from $5B. Layoffs total roughly 5% of headcount, with up to $1B in pre-tax charges and roughly $450M booked in Q4. Stock popped 17% in extended trading on May 13.",
             "angle": "Cisco's order book is the cleanest pure-read on hyperscaler AI capex sustainability. The guide-raise to $9B undercuts the AI capex peak narrative and supports continued strength in networking comps (Arista, Marvell, Broadcom) through the back half of fiscal 2027.",
             "sources": [
               {
@@ -894,7 +898,7 @@ const briefings = [
           {
             "headline": "Sierra raises $950M at $15B+ post-money",
             "summary": "Bret Taylor's enterprise agent platform closed the round on May 4 led by Tiger Global and GV, with customers including Prudential, Cigna, Blue Cross Blue Shield, Rocket Mortgage, and 40% of the Fortune 50.",
-            "angle": "Round prices vertical-agent ARR at roughly 100x for top-quartile names. Either private multiples compress next round or public AI software re-rates higher. Sierra's customer-renewal cohort over the next two quarters is the cleanest read on whether the vertical-agent thesis holds at these prices.",
+            "angle": "The round prices vertical-agent ARR at roughly 100x for top-quartile names. Either private multiples compress next round or public AI software re-rates higher. Sierra's customer-renewal cohort over the next two quarters is the cleanest read on whether the vertical-agent thesis holds at these prices.",
             "sources": [
               {
                 "title": "TechCrunch",
@@ -907,19 +911,23 @@ const briefings = [
             ]
           },
           {
-            "headline": "Anthropic in talks for $900B valuation, ~$30B raise",
-            "summary": "Early-stage discussions with investors including sovereign wealth and corporates.",
-            "angle": "Would put Anthropic in the top 5 most valuable private companies globally and value the lab at roughly 2x its early-2026 round. If priced, locks frontier-lab in as a separate category from chip and infrastructure plays. The implied multiple on disclosed run-rate ARR is the key data point to track when terms leak.",
+            "headline": "Microsoft-OpenAI partnership amendment opens multi-cloud distribution for OpenAI",
+            "summary": "Confirmed terms loosen exclusivity: Microsoft remains OpenAI's primary cloud provider with new products shipping first on Azure unless Microsoft opts out, but OpenAI can now serve all its products across any cloud (AWS, Google Cloud, Oracle). Revenue share payments are capped going forward but continue through 2030 regardless of progress to AGI. Microsoft retains IP licenses through 2032, and the joint AGI clause is simplified so Microsoft is no longer required to determine its response if OpenAI declares AGI.",
+            "angle": "Removes the largest single overhang on OpenAI's path to an IPO and opens OpenAI distribution to enterprise customers locked into AWS and Google Cloud. Marginal negative for Microsoft Azure share-of-AI-workloads but positive for AWS Bedrock and Google Cloud's TPU strategy. The relationship has shifted from exclusive to preferred.",
             "sources": [
               {
-                "title": "StartupHub.ai",
-                "url": "https://www.startuphub.ai/ai-news/startup-news/2026/anthropic-eyes-900b-valuation-in-massive-funding-talks"
+                "title": "Microsoft blog",
+                "url": "https://blogs.microsoft.com/blog/2026/04/27/the-next-phase-of-the-microsoft-openai-partnership/"
+              },
+              {
+                "title": "CNBC",
+                "url": "https://www.cnbc.com/2026/04/27/openai-microsoft-partnership-revenue-cap.html"
               }
             ]
           },
           {
             "headline": "EU reaches AI Act Omnibus agreement, softens timing",
-            "summary": "Council and Parliament agreed on May 7 to simplify the AI Act, postponing national regulatory sandboxes to August 2027 and centralizing enforcement of certain systems in the AI Office. Transparency obligations for AI-generated content remain on track for December 2, 2026 with a shortened 3-month grace period. SME privileges extended to small mid-caps.",
+            "summary": "Council and Parliament agreed on May 7 to simplify the AI Act, postponing national regulatory sandboxes to August 2027 and centralizing enforcement of certain systems in the AI Office. Transparency obligations for AI-generated content remain on track for December 2, 2026, with a shortened 3-month grace period. SME privileges extended to small mid-caps.",
             "angle": "Marginal positive for European enterprise AI adoption velocity in 2026 and 2027. Reduces a key overhang on European AI software adopters and supports continued capex commitments through year-end.",
             "sources": [
               {
@@ -931,15 +939,30 @@ const briefings = [
                 "url": "https://www.techpolicy.press/what-the-eu-ai-omnibus-deal-changes-for-the-ai-act-and-what-lies-ahead/"
               }
             ]
+          },
+          {
+            "headline": "Hyperscaler 2026 capex tracking $660B to $725B, with 75% earmarked for AI",
+            "summary": "Amazon at $200B, Alphabet at $175 to $185B, Meta at $115 to $135B, Microsoft above $120B, and Oracle at $50B. Combined that's roughly $450B in AI-specific infrastructure spending alone. Goldman Sachs flags $1.5T in cumulative hyperscaler debt issuance over the coming years to finance the build.",
+            "angle": "Capex strength is the dominant macro signal for the next 12 months on power, cooling, networking, optical interconnect, and structured-debt supply. The Nvidia Q1 print on May 20 will mark whether the cycle still has the implied operating leverage in it. Pair with Cisco's $9B AI order guide raise as confirmation that the demand side remains intact.",
+            "sources": [
+              {
+                "title": "Goldman Sachs",
+                "url": "https://www.goldmansachs.com/insights/articles/why-ai-companies-may-invest-more-than-500-billion-in-2026"
+              },
+              {
+                "title": "Futurum Group",
+                "url": "https://futurumgroup.com/insights/ai-capex-2026-the-690b-infrastructure-sprint/"
+              }
+            ]
           }
         ]
       }
     ],
     "takeaways": [
-      "Cisco's $9B AI order guide raise (from $5B) is the single cleanest signal of the week, directly contradicting the hyperscaler capex peak narrative and supporting continued strength in networking and switching comps (Arista, Marvell, Broadcom) through fiscal 2027. Pair with Cerebras pricing above range as confirmation that the AI capital cycle still has runway.",
-      "Frontier labs are converging on enterprise distribution before going public. Anthropic's $1.5B Blackstone-H&F-Goldman JV and OpenAI's Deployment Co. plus Tomoro acquisition signal that the implementation-services category is now a contested rollup target. Standalone AI services firms (especially with vertical depth in finance, healthcare, legal) are plausible acquisition targets through 2026 at premium multiples.",
-      "Sierra at $15B+ on roughly $150M ARR (~100x multiple) crystallizes the private-public valuation gap in AI software. Either private rounds compress next quarter or public AI software re-rates upward. The Sierra renewal cohort over the next two quarters is the practical read for anyone marking books on AI growth comps.",
-      "The Anthropic finance-agents launch (May 5) is the first direct equity-market-priced threat to legacy financial-data aggregators. FactSet down ~8% intraday on the news. For Georgia Capital's exposures and any positions in S&P Global, Moody's, MSCI, FactSet, watch for revenue mix disclosure in the next earnings cycle as a signal on whether the aggregators retain pricing power.",
+      "The cleanest single signal this week is Cisco's $9B AI order guide raise (from $5B), which directly contradicts the hyperscaler capex peak narrative and supports continued strength in networking and switching comps (Arista, Marvell, Broadcom) through fiscal 2027. Pair with Cerebras pricing above range as confirmation that the AI capital cycle still has runway. Nvidia's May 20 print is the next confirmation point.",
+      "Frontier labs are converging on enterprise distribution before going public. Anthropic's $1.5B Blackstone-H&F-Goldman JV and OpenAI's Deployment Co. plus Tomoro acquisition both signal that the implementation-services category is now a contested rollup target. For PE and corp dev teams, standalone AI services firms with vertical depth in finance, healthcare, and legal are plausible acquisition targets through 2026 at premium multiples.",
+      "Sierra at $15B+ post-money on roughly $150M ARR (~100x multiple) crystallizes the private-public valuation gap in AI software. Either private rounds compress next quarter or public AI software re-rates upward. The Sierra renewal cohort over the next two quarters is the practical read for anyone marking books on AI growth comps.",
+      "The Anthropic finance-agents launch (May 5) plus the Dreaming agent feature (May 6) jointly raise the threat level to legacy financial-data aggregators. FactSet was down roughly 8% intraday on the agents news. For Georgia Capital's exposures and any positions in S&P Global, Moody's, MSCI, FactSet, watch for revenue mix disclosure in the next earnings cycle as a signal on whether the aggregators retain pricing power. The Harvey 6x throughput claim is the data point to validate in customer references.",
       "Chinese open-weights (DeepSeek V4, GLM-5.1, MiniMax M2.7, Kimi K2.6) at sub-1% of Western frontier pricing make model superiority a short-duration moat. For any AI software thesis, weight distribution, proprietary data, and workflow integration over claimed model capability. Names exposed only to model-quality differentiation are the most at-risk on the next pricing cycle."
     ]
   },
