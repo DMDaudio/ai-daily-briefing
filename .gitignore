@@ -11,5 +11,14 @@
 # Node, in case you add tooling later
 node_modules/
 
-# Keep briefings.json tracked; ignore any local-only copies
+# Scheduled task private files (keep local, not on the public site)
+SKILL.md
+ai-briefing-*.md
+ai-briefing-artifact.html
+HANDOFF.md
+SKILL-update-instructions.md
+.claude/
+.briefing-temp.json
+
+# Local-only data files
 briefings.local.json
