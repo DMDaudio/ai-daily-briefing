@@ -693,6 +693,239 @@ body {
 // Each daily run prepends a new entry to this array. Newest first.
 const briefings = [
   {
+    "date": "2026-05-15",
+    "display_date": "May 15, 2026",
+    "prepared_for": "Luka Agulashvili, Georgia Capital",
+    "item_count": 14,
+    "sections": [
+      {
+        "title": "Models and Capabilities",
+        "items": [
+          {
+            "headline": "SAP-Anthropic deepen partnership, embedding Claude as default reasoning layer across SAP's portfolio",
+            "summary": "At Sapphire 2026 in Orlando this week, SAP and Anthropic announced an expanded collaboration that puts Claude in as the primary reasoning and agentic capability across SAP's AI-enhanced solution set in finance, HR, procurement, and supply chain. The deal sits alongside SAP's broader unveiling of its Autonomous Enterprise strategy, with plans to deploy more than 50 domain-specific Joule Assistants orchestrating over 200 specialist agents.",
+            "angle": "The world's largest ERP vendor standardizing on Claude is the single biggest enterprise-distribution win for Anthropic since the Microsoft 365 integration in May. Watch for FY27 Anthropic revenue color on its next funding round and any commentary from SAP on the ARR uplift it expects from the Autonomous Suite.",
+            "sources": [
+              {
+                "title": "SAP newsroom",
+                "url": "https://news.sap.com/2026/05/sap-sapphire-sap-unveils-autonomous-enterprise/"
+              },
+              {
+                "title": "SAP keynote recap",
+                "url": "https://news.sap.com/2026/05/sap-sapphire-keynote-business-ai-platform-power-autonomous-enterprise/"
+              }
+            ]
+          },
+          {
+            "headline": "Mistral Medium 3.5 ships as a 128B open-weights model with Le Chat Work mode",
+            "summary": "Released early May, the dense 128B model scores 77.6% on SWE-Bench Verified, ships with a 256K context window, and runs on as few as four GPUs at $1.50 in / $7.50 out per million tokens. Le Chat's new Work mode supports parallel multi-step agentic execution across email, calendar, documents, Jira, and Slack, with all tool calls visible and explicit approval required before sensitive actions. The model is open weights under a modified MIT license on Hugging Face.",
+            "angle": "A Europe-domiciled, open-weights frontier model with full Work-mode agent UX is the most plausible sovereign-AI option for EU enterprise. Useful as a hedge in any thesis assuming Western frontier capability stays exclusively US-domiciled.",
+            "sources": [
+              {
+                "title": "Mistral news",
+                "url": "https://mistral.ai/news/vibe-remote-agents-mistral-medium-3-5"
+              },
+              {
+                "title": "InfoQ writeup",
+                "url": "https://www.infoq.com/news/2026/05/mistral-agents-lechat/"
+              }
+            ]
+          },
+          {
+            "headline": "Google I/O on May 19 sets up the next Gemini step, with on-device agent push",
+            "summary": "The keynote opens Tuesday at 10am PT. Consensus expectation is a major Gemini bump (whether labeled 4.0 or an interim version), expanded multimodal capability, and explicit naming of the Android-side agent (reportedly Remy). Pairs with last week's Android Show I/O Edition announcement that Gemini Intelligence will roll out across Samsung Galaxy and Pixel this summer.",
+            "angle": "This is the single biggest event-driven setup of the week. Alphabet has lagged the AI re-rating most of 2025 and 2026, and the buy-side is positioned for incremental disappointment. Any concrete monetization framework for Gemini reads as positive. Watch advertising-comp setups (Trade Desk, AppLovin) for spillover.",
+            "sources": [
+              {
+                "title": "Google blog",
+                "url": "https://blog.google/innovation-and-ai/technology/developers-tools/io-2026-save-the-date/"
+              },
+              {
+                "title": "TradingKey preview",
+                "url": "https://www.tradingkey.com/analysis/stocks/us-stocks/261894049-google-io-2026-alphabe-gemini-tradingkey"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Tools and Platforms",
+        "items": [
+          {
+            "headline": "Broadridge puts agentic AI into production across $15T of daily post-trade activity",
+            "summary": "Broadridge announced on May 11 that its agentic AI capabilities, which autonomously analyze, prioritize, and resolve operational exceptions, are now live in production across capital markets and wealth management workflows. New clients can target up to 30% Day-1 operational cost reduction via either full managed services or a standalone deployment of the agentic platform. The system has been shaped by deployments inside Broadridge's BPO across more than 40 clients since 2024, processing millions of operational transactions monthly.",
+            "angle": "Broadridge sits closer to the actual back-office plumbing than any AI lab, which means the 30% cost-take claim is more credible than headline numbers from pure-play AI vendors. Pair with the Anthropic finance-agents launch earlier this month as a coordinated push against legacy operations vendors (SS&C, FIS, Fiserv).",
+            "sources": [
+              {
+                "title": "Broadridge press release",
+                "url": "https://www.broadridge.com/press-release/2026/broadridge-deploys-agentic-ai"
+              },
+              {
+                "title": "Yahoo Finance",
+                "url": "https://finance.yahoo.com/news/broadridge-deploys-agentic-ai-across-152733036.html"
+              }
+            ]
+          },
+          {
+            "headline": "PwC and Anthropic expand alliance to deploy Claude across consulting engagements",
+            "summary": "Announced May 14, the expanded partnership puts Claude into PwC's enterprise rollouts spanning operations, modernization, cybersecurity, and finance. PwC will use Claude to build technology, execute deals, and reinvent enterprise functions for clients. This sits in parallel with OpenAI's own PwC partnership announced earlier this month for forecasting, procurement, treasury, and finance operations.",
+            "angle": "Confirms that Big Four consulting is now actively splitting AI workloads across the frontier labs rather than picking one, which compresses the implementation-services rollup story slightly. For PE corp-dev teams, this raises the bar for what a standalone AI services firm needs to show to justify a strategic premium.",
+            "sources": [
+              {
+                "title": "PwC press release",
+                "url": "https://www.pwc.com/us/en/about-us/newsroom/press-releases/anthropic-pwc-expand-alliance-agentic-enterprise.html"
+              }
+            ]
+          },
+          {
+            "headline": "Joule Studio adds n8n-embedded multi-agent orchestration to SAP's stack",
+            "summary": "Released alongside the Sapphire keynote, Joule Studio gives SAP customers a full life-cycle agent-build environment with pro-code support for LangChain, Pydantic AI, and LlamaIndex, plus an embedded n8n environment for visual multi-agent orchestration. Free design-time access including AI-assisted dev capabilities runs through end of 2026 under fair-use limits.",
+            "angle": "SAP standardizing on n8n's orchestration layer is the strongest validation of the $5.2B private valuation. Read-through positive for Workato, Tray.io, and Zapier as comparable orchestration platforms.",
+            "sources": [
+              {
+                "title": "SAP newsroom on Joule Studio",
+                "url": "https://news.sap.com/2026/05/new-joule-studio-enterprise-scale-agentic-development/"
+              }
+            ]
+          },
+          {
+            "headline": "Microsoft Agent 365 hits general availability with cross-cloud registry",
+            "summary": "Microsoft Agent 365 went GA for commercial customers on May 1, with subsequent updates through mid-May rolling out cross-cloud registry sync to AWS Bedrock and Google Cloud connections, local agent discovery and management via Microsoft Defender and Intune, and Windows 365 for Agents in US public preview. Agent 365 is positioned as the observability and governance control plane for AI agents across Microsoft and partner ecosystems.",
+            "angle": "Microsoft's defensive counter to ServiceNow's Build Agent positioning and Anthropic's outcomes/orchestration push. Microsoft is betting that whoever owns agent governance owns the enterprise AI budget. For Microsoft holders, Agent 365 is the right answer to where margin recovery comes from as Azure pricing pressure builds.",
+            "sources": [
+              {
+                "title": "Microsoft security blog",
+                "url": "https://www.microsoft.com/en-us/security/blog/2026/05/01/microsoft-agent-365-now-generally-available-expands-capabilities-and-integrations/"
+              },
+              {
+                "title": "Futurum analysis",
+                "url": "https://futurumgroup.com/insights/microsoft-agent-365-turns-shadow-ai-into-a-governed-asset-class/"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Workflows and Agents",
+        "items": [
+          {
+            "headline": "Mistral's Vibe ships remote agents for async cloud coding",
+            "summary": "Released alongside Medium 3.5, Vibe's remote agents let developers spin up cloud-hosted coding sessions that run continuously, with work resumed across sessions and a 77.6% SWE-Bench Verified score on the underlying model. Beats Devstral 2 and Qwen3.5 397B A17B at a fraction of the operational cost.",
+            "angle": "The async-cloud-coding format Claude Code and Codex have been pushing is now table-stakes across labs. Mistral being competitive on this axis matters for any thesis that assumes European customers will use a US-frontier-only stack.",
+            "sources": [
+              {
+                "title": "MarkTechPost",
+                "url": "https://www.marktechpost.com/2026/05/02/mistral-ai-launches-remote-agents-in-vibe-and-mistral-medium-3-5-with-77-6-swe-bench-verified-score/"
+              }
+            ]
+          },
+          {
+            "headline": "ServiceNow and Accenture launch forward-deployed engineering program for agentic AI",
+            "summary": "Announced May 6, the joint program targets enterprises trying to take agentic AI from pilot to production at scale, with access to 300-plus pre-built AI agent skills and agentic workflows on the ServiceNow AI Platform. Pairs with the cross-platform expansion of ServiceNow's Build Agent into Cursor, Windsurf, Claude Code, and GitHub Copilot.",
+            "angle": "Forward-deployed engineering is now the dominant go-to-market for serious agent deployments and the labs cannot do this alone. ServiceNow plus Accenture is the most credible scaled implementation channel for enterprise agents, which means standalone AI implementation firms have to differentiate harder on vertical depth.",
+            "sources": [
+              {
+                "title": "Accenture newsroom",
+                "url": "https://newsroom.accenture.com/news/2026/servicenow-and-accenture-launch-forward-deployed-engineering-program-to-scale-agentic-ai-across-the-enterprise"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Industry, Funding, and Policy",
+        "items": [
+          {
+            "headline": "Cerebras debuts up 68% on Nasdaq, closing at $95B market cap",
+            "summary": "The AI chipmaker priced at $185 above its $150 to $160 range on May 13, then opened at $350 on May 14, closing the first day up 68% at $311.07. Total raised: $5.55B. Revenue jumped 76% to $510M last year with $88M of net income. Customers include OpenAI, Amazon, and Meta. This is the biggest pure-play AI IPO in Wall Street history and the largest US tech debut since Uber in 2019.",
+            "angle": "Prices the AI-chip alternative-to-Nvidia thesis at a sticky $95B and re-opens the IPO window for the larger names behind it. Constructive setup for SpaceX, OpenAI, Anthropic, Databricks IPO chatter into H2 2026. Late-stage AI marks should firm noticeably in the next 30 days. Cerebras aftermarket trading over the next two weeks is the cleanest sentiment proxy heading into Nvidia's May 20 print.",
+            "sources": [
+              {
+                "title": "CNBC",
+                "url": "https://www.cnbc.com/2026/05/14/cerebras-cbrs-stock-trade-nasdaq-ipo.html"
+              },
+              {
+                "title": "Bloomberg",
+                "url": "https://www.bloomberg.com/news/articles/2026-05-14/cerebras-shares-indicated-to-surge-89-after-year-s-top-ipo"
+              },
+              {
+                "title": "Fortune",
+                "url": "https://fortune.com/2026/05/14/cerebras-one-of-the-biggest-ipos-of-the-year/"
+              }
+            ]
+          },
+          {
+            "headline": "Anthropic and Gates Foundation announce $200M partnership for global health, education, and economic mobility",
+            "summary": "The four-year commitment covers $200M in grant funding, Claude usage credits, and technical support. Specific areas include health-ministry decision support, workforce deployment and supply-chain tools, outbreak detection, AI-powered diagnosis and treatment support for frontline workers, K-12 tutoring, literacy and numeracy apps for sub-Saharan Africa and India, and agriculture-specific Claude improvements for smallholder farmers. Initial disease focus: polio, HPV, and eclampsia/preeclampsia.",
+            "angle": "Incremental brand and distribution win for Anthropic in global-development and emerging-market verticals where commercial AI penetration is low. Read-through positive for any AI-for-good positioning in B-corp and ESG-tilted mandates. The practical question is which capabilities trickle into commercial Claude products from these projects.",
+            "sources": [
+              {
+                "title": "Anthropic news",
+                "url": "https://www.anthropic.com/news/gates-foundation-partnership"
+              },
+              {
+                "title": "Gates Foundation press release",
+                "url": "https://www.gatesfoundation.org/ideas/media-center/press-releases/2026/05/ai-anthropic-partnership"
+              }
+            ]
+          },
+          {
+            "headline": "Isomorphic Labs closes $2.1B Series B, bringing total capital to $2.6B",
+            "summary": "The Google DeepMind drug-discovery spinout closed the round on May 13, led by Thrive Capital with participation from Alphabet, GV, MGX, Temasek, CapitalG, and the UK Sovereign AI Fund. Funds go to scaling the IsoDDE AI drug-design engine and advancing the pipeline toward clinic. The company has existing strategic partnerships with Novartis, Lilly, and Johnson & Johnson.",
+            "angle": "One of the largest private rounds for AI drug discovery ever and validates that AI-first biotech is now a venture asset class on its own. Read-through for Recursion, Schrodinger, Insilico Medicine, BenevolentAI, and Absci. The UK Sovereign AI Fund showing up at this size signals sovereign-wealth AI deployment is moving from infrastructure-only to applied verticals.",
+            "sources": [
+              {
+                "title": "Isomorphic Labs",
+                "url": "https://www.isomorphiclabs.com/articles/isomorphic-labs-announces-series-b-investment-round"
+              },
+              {
+                "title": "PR Newswire",
+                "url": "https://www.prnewswire.com/news-releases/isomorphic-labs-secures-2-1-billion-funding-to-scale-its-ai-drug-design-engine-302769674.html"
+              }
+            ]
+          },
+          {
+            "headline": "Hyperscaler custom-silicon deal wave continues with Marvell-Google MPU talks",
+            "summary": "Google is in active talks with Marvell Technology to co-develop two additional custom AI chips, a Memory Processing Unit and an inference-optimized TPU, alongside its existing Broadcom TPU program extended through 2031. Meta and Broadcom extended their MTIA partnership through 2029, with Meta committing more than $2B annually in design fees and one full gigawatt of deployed custom silicon. Broadcom holds roughly 70% of the custom AI accelerator market today; Counterpoint sees that at 60% by 2027 with Marvell at 25%. Custom ASIC sales projected to grow 45% in 2026 to $118B by 2033.",
+            "angle": "Hyperscaler custom-silicon spend is now multi-year contractually committed, which compresses the long-tail bear case on Nvidia gross-margin pressure. For Broadcom, the Google extension through 2031 is the cleanest visibility-of-revenue story in semis. For Marvell, confirmed inference-TPU talks re-rate the multiple.",
+            "sources": [
+              {
+                "title": "TNW on Marvell-Google",
+                "url": "https://thenextweb.com/news/google-marvell-ai-chips-inference-tpu-broadcom"
+              },
+              {
+                "title": "Meta-Broadcom",
+                "url": "https://about.fb.com/news/2026/04/meta-partners-with-broadcom-to-co-develop-custom-ai-silicon/"
+              }
+            ]
+          },
+          {
+            "headline": "Nvidia FY27 Q1 print on May 20 will set the tone for AI capex psychology",
+            "summary": "Nvidia guided revenue of $78B plus or minus 2% for Q1 FY27 vs. consensus of $72.8B (7.1% above consensus). Combined hyperscaler capex tracking $660B to $725B for calendar 2026 with roughly 75% going to AI infrastructure. Goldman's baseline model implies $765B in annual AI capex in 2026 growing to $1.6T by 2031.",
+            "angle": "Pair the Cisco $9B AI order guide raise and the Cerebras IPO blowout with Wednesday's Nvidia print as the decisive three-data-point check on the AI-capex peak narrative. If Nvidia prints above the guide and DC growth holds 75%-plus YoY, the bear case on hyperscaler over-build gets pushed out at least another two quarters.",
+            "sources": [
+              {
+                "title": "Goldman tracking trillions",
+                "url": "https://www.goldmansachs.com/insights/articles/tracking-trillions-the-assumptions-shaping-scale-of-the-ai-build-out"
+              },
+              {
+                "title": "Motley Fool May 20 preview",
+                "url": "https://www.fool.com/investing/2026/05/05/prediction-nvidia-stock-going-to-soar-after-may-20/"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "takeaways": [
+      "Cerebras closing at $95B on a 68% pop reopens the AI IPO window in size for the first time since 2024 and pulls forward the calendar for SpaceX, OpenAI, Anthropic, and Databricks. For any LP marking late-stage AI positions through Q2, this is the cleanest comp event in 18 months and should support upward revisions on private secondary marks over the next 30 days. The Nvidia print on May 20 is the next confirmation point on the cycle.",
+      "SAP standardizing on Claude across its Autonomous Enterprise stack is a deeper distribution win for Anthropic than any single hyperscaler deal. Pair with the parallel PwC alliance and the Gates Foundation framework, and the operating leverage for Anthropic into a 2026/2027 IPO scenario looks materially better than three months ago. Useful as a check on multi-frontier-lab theses in any AI services or aggregator name.",
+      "Broadridge putting agentic AI into production at $15T of daily activity with a 30% Day-1 cost claim is the most credible enterprise-grade productivity number out this month. Worth tracking customer references in next-quarter earnings calls at SS&C, FIS, Fiserv, and DTCC to see whether legacy back-office vendors hold pricing. For Georgia Capital exposures with back-office processing dependencies, this is the data point to bring to next IC.",
+      "Hyperscaler custom-silicon spend is now contractually committed multi-year, with Broadcom-Google through 2031 and Meta-Broadcom through 2029. This compresses the Nvidia gross-margin bear case but does not eliminate it. Both Broadcom and Marvell look constructively positioned into the back half of 2026, with Marvell's Google MPU and inference-TPU talks as the cleanest catalyst.",
+      "The Isomorphic Labs $2.1B round at the same time as the Anthropic-Gates deal signals that the second wave of AI value is moving from horizontal infrastructure into applied vertical use cases. For PE deal sourcing through the back half of 2026, vertical AI in drug discovery, healthcare, agriculture, and financial services back-office is the highest-conviction category. Standalone horizontal AI services firms without vertical depth will see their strategic acquisition premiums compress as the frontier labs and Big Four consolidate the implementation layer."
+    ]
+  },
+  {
     "date": "2026-05-14",
     "display_date": "May 14, 2026",
     "prepared_for": "Luka Agulashvili",
