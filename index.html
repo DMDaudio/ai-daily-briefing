@@ -1,8 +1,8 @@
 <!DOCTYPE html><!-- last-push-test: 2026-05-14T13:02:42Z --><script type="application/json" id="cowork-artifact-meta">
 {
-  "name": "Ai Daily Briefing",
-  "schemaVersion": 1,
-  "description": "Live AI Daily Briefing for Luka, Georgia Capital. Renders the most recent briefing (currently May 14, 2026) with sections for Models, Tools, Workflows, Industry/Funding/Policy, and Investment Takeaways. Designed to be updated in-place by the daily scheduled task."
+ "name": "Ai Daily Briefing",
+ "schemaVersion": 1,
+ "description": "Live AI Daily Briefing for Luka. Renders the most recent briefing with sections for Models, Tools, Workflows, Industry/Funding/Policy, and Investment Takeaways. Designed to be updated in-place by the daily scheduled task."
 }
 </script>
 <html lang="en">
@@ -12,679 +12,679 @@
 <title>AI Daily Briefing</title>
 <style>
 :root {
-  color-scheme: light;
-  --ink: #1a1612;
-  --ink-soft: #2c2722;
-  --muted: #6b6660;
-  --muted-2: #918a80;
-  --paper: #fdfaf3;
-  --paper-2: #f5efe2;
-  --paper-3: #ebe3d0;
-  --line: #e6dec9;
-  --line-soft: #f0e9d8;
-  --accent: #a87521;
-  --accent-strong: #8a5d18;
-  --accent-soft: #f5e9cf;
-  --spotlight-bg: #1a1612;
-  --spotlight-ink: #f5efe2;
-  --spotlight-muted: #b8b0a0;
-  --serif: "Iowan Old Style", "Charter", "Georgia", "Times New Roman", serif;
-  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", system-ui, sans-serif;
+ color-scheme: light;
+ --ink: #1a1612;
+ --ink-soft: #2c2722;
+ --muted: #6b6660;
+ --muted-2: #918a80;
+ --paper: #fdfaf3;
+ --paper-2: #f5efe2;
+ --paper-3: #ebe3d0;
+ --line: #e6dec9;
+ --line-soft: #f0e9d8;
+ --accent: #a87521;
+ --accent-strong: #8a5d18;
+ --accent-soft: #f5e9cf;
+ --spotlight-bg: #1a1612;
+ --spotlight-ink: #f5efe2;
+ --spotlight-muted: #b8b0a0;
+ --serif: "Iowan Old Style", "Charter", "Georgia", "Times New Roman", serif;
+ --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", system-ui, sans-serif;
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 body {
-  background: var(--paper);
-  color: var(--ink);
-  font-family: var(--sans);
-  font-size: 15px;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+ background: var(--paper);
+ color: var(--ink);
+ font-family: var(--sans);
+ font-size: 15px;
+ line-height: 1.6;
+ -webkit-font-smoothing: antialiased;
+ -moz-osx-font-smoothing: grayscale;
 }
 
 /* ============================================================
-   LAYOUT
-   ============================================================ */
+ LAYOUT
+ ============================================================ */
 .layout {
-  display: grid;
-  grid-template-columns: 240px 1fr;
-  min-height: 100vh;
-  max-width: 1180px;
-  margin: 0 auto;
+ display: grid;
+ grid-template-columns: 240px 1fr;
+ min-height: 100vh;
+ max-width: 1180px;
+ margin: 0 auto;
 }
 .sidebar {
-  position: sticky;
-  top: 0;
-  align-self: start;
-  height: 100vh;
-  padding: 28px 22px 28px 32px;
-  border-right: 1px solid var(--line);
-  background: var(--paper);
-  overflow-y: auto;
+ position: sticky;
+ top: 0;
+ align-self: start;
+ height: 100vh;
+ padding: 28px 22px 28px 32px;
+ border-right: 1px solid var(--line);
+ background: var(--paper);
+ overflow-y: auto;
 }
 .main {
-  padding: 40px 56px 80px;
-  min-width: 0;
+ padding: 40px 56px 80px;
+ min-width: 0;
 }
 @media (max-width: 820px) {
-  .layout { grid-template-columns: 1fr; }
-  .sidebar {
-    position: static;
-    height: auto;
-    border-right: none;
-    border-bottom: 1px solid var(--line);
-    padding: 18px 20px 12px;
-  }
-  .main { padding: 22px 20px 56px; }
-  .masthead {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    padding-bottom: 14px;
-    margin-bottom: 14px;
-  }
-  .masthead-eyebrow { margin-bottom: 4px; }
-  .masthead-title { font-size: 20px; line-height: 1; }
-  .masthead-title br { display: none; }
-  .masthead-sub { display: none; }
-  .archive-label {
-    flex-shrink: 0;
-    margin-bottom: 0;
-    align-self: center;
-  }
-  .archive-section {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
+ .layout { grid-template-columns: 1fr; }
+ .sidebar {
+ position: static;
+ height: auto;
+ border-right: none;
+ border-bottom: 1px solid var(--line);
+ padding: 18px 20px 12px;
+ }
+ .main { padding: 22px 20px 56px; }
+ .masthead {
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ gap: 16px;
+ padding-bottom: 14px;
+ margin-bottom: 14px;
+ }
+ .masthead-eyebrow { margin-bottom: 4px; }
+ .masthead-title { font-size: 20px; line-height: 1; }
+ .masthead-title br { display: none; }
+ .masthead-sub { display: none; }
+ .archive-label {
+ flex-shrink: 0;
+ margin-bottom: 0;
+ align-self: center;
+ }
+ .archive-section {
+ display: flex;
+ align-items: center;
+ gap: 14px;
+ }
 }
 
 /* ============================================================
-   MASTHEAD
-   ============================================================ */
+ MASTHEAD
+ ============================================================ */
 .masthead {
-  margin-bottom: 28px;
-  padding-bottom: 22px;
-  border-bottom: 1px solid var(--line);
+ margin-bottom: 28px;
+ padding-bottom: 22px;
+ border-bottom: 1px solid var(--line);
 }
 .masthead-eyebrow {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 2.2px;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 8px;
+ font-size: 10px;
+ font-weight: 700;
+ letter-spacing: 2.2px;
+ text-transform: uppercase;
+ color: var(--accent);
+ margin-bottom: 8px;
 }
 .masthead-title {
-  font-family: var(--serif);
-  font-size: 30px;
-  line-height: 1.02;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-  color: var(--ink);
+ font-family: var(--serif);
+ font-size: 30px;
+ line-height: 1.02;
+ font-weight: 700;
+ letter-spacing: -0.5px;
+ color: var(--ink);
 }
 .masthead-sub {
-  font-size: 11px;
-  color: var(--muted);
-  margin-top: 10px;
-  letter-spacing: 0.3px;
+ font-size: 11px;
+ color: var(--muted);
+ margin-top: 10px;
+ letter-spacing: 0.3px;
 }
 
 /* ============================================================
-   ARCHIVE LIST
-   ============================================================ */
+ ARCHIVE LIST
+ ============================================================ */
 .archive-label {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 2.2px;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 14px;
+ font-size: 10px;
+ font-weight: 700;
+ letter-spacing: 2.2px;
+ text-transform: uppercase;
+ color: var(--muted);
+ margin-bottom: 14px;
 }
 .archive-list {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+ display: flex;
+ flex-direction: column;
+ gap: 2px;
 }
 .chip {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 9px 12px 9px 16px;
-  background: transparent;
-  border: none;
-  border-left: 2px solid transparent;
-  cursor: pointer;
-  color: var(--ink-soft);
-  font-family: var(--sans);
-  font-size: 13.5px;
-  text-align: left;
-  transition: all 0.15s ease;
-  border-radius: 0 4px 4px 0;
+ display: flex;
+ align-items: baseline;
+ justify-content: space-between;
+ gap: 8px;
+ padding: 9px 12px 9px 16px;
+ background: transparent;
+ border: none;
+ border-left: 2px solid transparent;
+ cursor: pointer;
+ color: var(--ink-soft);
+ font-family: var(--sans);
+ font-size: 13.5px;
+ text-align: left;
+ transition: all 0.15s ease;
+ border-radius: 0 4px 4px 0;
 }
 .chip:hover {
-  background: var(--paper-2);
-  color: var(--ink);
+ background: var(--paper-2);
+ color: var(--ink);
 }
 .chip.active {
-  background: var(--paper-2);
-  border-left-color: var(--accent);
-  color: var(--ink);
-  font-weight: 600;
+ background: var(--paper-2);
+ border-left-color: var(--accent);
+ color: var(--ink);
+ font-weight: 600;
 }
 .chip-date { font-variant-numeric: tabular-nums; }
 .chip-tag {
-  font-size: 9px;
-  letter-spacing: 1.4px;
-  text-transform: uppercase;
-  color: var(--accent);
-  font-weight: 700;
+ font-size: 9px;
+ letter-spacing: 1.4px;
+ text-transform: uppercase;
+ color: var(--accent);
+ font-weight: 700;
 }
 .chip.active .chip-tag { color: var(--accent-strong); }
 @media (max-width: 820px) {
-  .archive-list {
-    flex-direction: row;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    gap: 2px;
-    margin: 0 -20px;
-    padding: 0 20px 4px;
-  }
-  .archive-list::-webkit-scrollbar { display: none; }
-  .chip {
-    flex-shrink: 0;
-    border-left: none;
-    border-bottom: 2px solid transparent;
-    border-radius: 0;
-    padding: 8px 12px;
-    min-height: 40px;
-    background: transparent;
-    gap: 6px;
-  }
-  .chip:hover { background: transparent; }
-  .chip.active {
-    border-left: none;
-    border-bottom-color: var(--accent);
-    background: transparent;
-  }
+ .archive-list {
+ flex-direction: row;
+ flex-wrap: nowrap;
+ overflow-x: auto;
+ -webkit-overflow-scrolling: touch;
+ scrollbar-width: none;
+ gap: 2px;
+ margin: 0 -20px;
+ padding: 0 20px 4px;
+ }
+ .archive-list::-webkit-scrollbar { display: none; }
+ .chip {
+ flex-shrink: 0;
+ border-left: none;
+ border-bottom: 2px solid transparent;
+ border-radius: 0;
+ padding: 8px 12px;
+ min-height: 40px;
+ background: transparent;
+ gap: 6px;
+ }
+ .chip:hover { background: transparent; }
+ .chip.active {
+ border-left: none;
+ border-bottom-color: var(--accent);
+ background: transparent;
+ }
 }
 
 /* ============================================================
-   ISSUE HEADER
-   ============================================================ */
+ ISSUE HEADER
+ ============================================================ */
 .issue-header {
-  margin-bottom: 36px;
-  padding-bottom: 24px;
-  border-bottom: 2px solid var(--ink);
+ margin-bottom: 36px;
+ padding-bottom: 24px;
+ border-bottom: 2px solid var(--ink);
 }
 .issue-eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 11px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 14px;
+ display: flex;
+ align-items: center;
+ gap: 12px;
+ font-size: 11px;
+ letter-spacing: 1.5px;
+ text-transform: uppercase;
+ color: var(--muted);
+ margin-bottom: 14px;
 }
 .badge {
-  display: inline-block;
-  background: var(--accent);
-  color: #fff;
-  padding: 3px 9px;
-  border-radius: 2px;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
+ display: inline-block;
+ background: var(--accent);
+ color: #fff;
+ padding: 3px 9px;
+ border-radius: 2px;
+ font-size: 10px;
+ font-weight: 700;
+ letter-spacing: 1.2px;
+ text-transform: uppercase;
 }
 .badge.archive { background: var(--muted-2); }
 .dot {
-  display: inline-block;
-  width: 3px;
-  height: 3px;
-  background: var(--muted-2);
-  border-radius: 50%;
-  vertical-align: middle;
+ display: inline-block;
+ width: 3px;
+ height: 3px;
+ background: var(--muted-2);
+ border-radius: 50%;
+ vertical-align: middle;
 }
 .issue-title {
-  font-family: var(--serif);
-  font-size: 38px;
-  line-height: 1.1;
-  letter-spacing: -0.8px;
-  font-weight: 700;
-  color: var(--ink);
-  margin: 0;
+ font-family: var(--serif);
+ font-size: 38px;
+ line-height: 1.1;
+ letter-spacing: -0.8px;
+ font-weight: 700;
+ color: var(--ink);
+ margin: 0;
 }
 .issue-sub {
-  margin-top: 12px;
-  color: var(--muted);
-  font-size: 13.5px;
-  font-style: italic;
+ margin-top: 12px;
+ color: var(--muted);
+ font-size: 13.5px;
+ font-style: italic;
 }
 
 /* ============================================================
-   TABLE OF CONTENTS
-   ============================================================ */
+ TABLE OF CONTENTS
+ ============================================================ */
 .toc {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0;
-  margin-bottom: 44px;
-  padding: 0;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
+ display: flex;
+ flex-wrap: wrap;
+ gap: 0;
+ margin-bottom: 44px;
+ padding: 0;
+ border-top: 1px solid var(--line);
+ border-bottom: 1px solid var(--line);
 }
 .toc-link {
-  flex: 1 1 auto;
-  min-width: 140px;
-  padding: 12px 14px;
-  font-size: 11.5px;
-  letter-spacing: 0.6px;
-  color: var(--muted);
-  text-decoration: none;
-  border-right: 1px solid var(--line);
-  transition: all 0.15s ease;
-  position: relative;
+ flex: 1 1 auto;
+ min-width: 140px;
+ padding: 12px 14px;
+ font-size: 11.5px;
+ letter-spacing: 0.6px;
+ color: var(--muted);
+ text-decoration: none;
+ border-right: 1px solid var(--line);
+ transition: all 0.15s ease;
+ position: relative;
 }
 .toc-link:last-child { border-right: none; }
 .toc-link:hover {
-  background: var(--paper-2);
-  color: var(--ink);
+ background: var(--paper-2);
+ color: var(--ink);
 }
 .toc-num {
-  display: block;
-  font-family: var(--serif);
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--accent);
-  letter-spacing: 1px;
-  margin-bottom: 2px;
+ display: block;
+ font-family: var(--serif);
+ font-size: 11px;
+ font-weight: 700;
+ color: var(--accent);
+ letter-spacing: 1px;
+ margin-bottom: 2px;
 }
 .toc-text { color: inherit; font-weight: 500; }
 
 /* ============================================================
-   SECTIONS
-   ============================================================ */
+ SECTIONS
+ ============================================================ */
 .section {
-  margin-bottom: 48px;
-  scroll-margin-top: 20px;
+ margin-bottom: 48px;
+ scroll-margin-top: 20px;
 }
 .section-head {
-  display: flex;
-  align-items: baseline;
-  gap: 14px;
-  margin-bottom: 22px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid var(--line);
+ display: flex;
+ align-items: baseline;
+ gap: 14px;
+ margin-bottom: 22px;
+ padding-bottom: 14px;
+ border-bottom: 1px solid var(--line);
 }
 .section-num {
-  font-family: var(--serif);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  color: var(--accent);
+ font-family: var(--serif);
+ font-size: 11px;
+ font-weight: 700;
+ letter-spacing: 1.5px;
+ color: var(--accent);
 }
 .section-title {
-  font-family: var(--serif);
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: -0.3px;
-  color: var(--ink);
-  margin: 0;
-  flex: 1;
-  min-width: 0;
+ font-family: var(--serif);
+ font-size: 22px;
+ font-weight: 700;
+ letter-spacing: -0.3px;
+ color: var(--ink);
+ margin: 0;
+ flex: 1;
+ min-width: 0;
 }
 .section-count {
-  font-family: var(--sans);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  color: var(--muted);
+ font-family: var(--sans);
+ font-size: 11px;
+ font-weight: 500;
+ letter-spacing: 1.2px;
+ text-transform: uppercase;
+ color: var(--muted);
 }
 
 /* ============================================================
-   ITEMS
-   ============================================================ */
+ ITEMS
+ ============================================================ */
 .item {
-  margin-bottom: 30px;
-  padding-bottom: 28px;
-  border-bottom: 1px solid var(--line-soft);
+ margin-bottom: 30px;
+ padding-bottom: 28px;
+ border-bottom: 1px solid var(--line-soft);
 }
 .item:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
-  padding-bottom: 0;
+ border-bottom: none;
+ margin-bottom: 0;
+ padding-bottom: 0;
 }
 .item-headline {
-  font-family: var(--serif);
-  font-size: 18px;
-  line-height: 1.25;
-  font-weight: 700;
-  letter-spacing: -0.2px;
-  color: var(--ink);
-  margin-bottom: 10px;
+ font-family: var(--serif);
+ font-size: 18px;
+ line-height: 1.25;
+ font-weight: 700;
+ letter-spacing: -0.2px;
+ color: var(--ink);
+ margin-bottom: 10px;
 }
 .item-summary {
-  color: var(--ink-soft);
-  font-size: 15px;
-  line-height: 1.65;
-  margin-bottom: 14px;
+ color: var(--ink-soft);
+ font-size: 15px;
+ line-height: 1.65;
+ margin-bottom: 14px;
 }
 .angle {
-  background: var(--paper-2);
-  border-left: 3px solid var(--accent);
-  padding: 12px 16px;
-  font-size: 13.5px;
-  line-height: 1.55;
-  color: var(--ink-soft);
-  border-radius: 0 3px 3px 0;
+ background: var(--paper-2);
+ border-left: 3px solid var(--accent);
+ padding: 12px 16px;
+ font-size: 13.5px;
+ line-height: 1.55;
+ color: var(--ink-soft);
+ border-radius: 0 3px 3px 0;
 }
 .angle-label {
-  display: block;
-  font-size: 9.5px;
-  font-weight: 700;
-  letter-spacing: 1.8px;
-  text-transform: uppercase;
-  color: var(--accent-strong);
-  margin-bottom: 4px;
+ display: block;
+ font-size: 9.5px;
+ font-weight: 700;
+ letter-spacing: 1.8px;
+ text-transform: uppercase;
+ color: var(--accent-strong);
+ margin-bottom: 4px;
 }
 .sources {
-  margin-top: 14px;
-  font-size: 11px;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-  color: var(--muted);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-  align-items: center;
+ margin-top: 14px;
+ font-size: 11px;
+ letter-spacing: 0.8px;
+ text-transform: uppercase;
+ color: var(--muted);
+ display: flex;
+ flex-wrap: wrap;
+ gap: 14px;
+ align-items: center;
 }
 .sources-label {
-  font-weight: 700;
-  letter-spacing: 1.6px;
-  color: var(--muted-2);
+ font-weight: 700;
+ letter-spacing: 1.6px;
+ color: var(--muted-2);
 }
 .sources a {
-  color: var(--ink);
-  text-decoration: none;
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 1px;
-  transition: all 0.15s ease;
+ color: var(--ink);
+ text-decoration: none;
+ border-bottom: 1px solid var(--line);
+ padding-bottom: 1px;
+ transition: all 0.15s ease;
 }
 .sources a:hover {
-  color: var(--accent);
-  border-bottom-color: var(--accent);
+ color: var(--accent);
+ border-bottom-color: var(--accent);
 }
 
 /* ============================================================
-   INDUSTRY SPOTLIGHT
-   ============================================================ */
+ INDUSTRY SPOTLIGHT
+ ============================================================ */
 .spotlight-wrap {
-  margin: 56px -24px 56px;
-  padding: 44px 56px 48px;
-  background: var(--spotlight-bg);
-  color: var(--spotlight-ink);
-  border-radius: 6px;
-  position: relative;
-  scroll-margin-top: 20px;
+ margin: 56px -24px 56px;
+ padding: 44px 56px 48px;
+ background: var(--spotlight-bg);
+ color: var(--spotlight-ink);
+ border-radius: 6px;
+ position: relative;
+ scroll-margin-top: 20px;
 }
 @media (max-width: 820px) {
-  .spotlight-wrap {
-    margin: 36px -20px 36px;
-    padding: 28px 24px 32px;
-    border-radius: 0;
-  }
-  .spotlight-industry { font-size: 28px; }
-  .spotlight-body { font-size: 15px; line-height: 1.65; }
-  .spotlight-body p:first-of-type::first-letter { font-size: 42px; }
+ .spotlight-wrap {
+ margin: 36px -20px 36px;
+ padding: 28px 24px 32px;
+ border-radius: 0;
+ }
+ .spotlight-industry { font-size: 28px; }
+ .spotlight-body { font-size: 15px; line-height: 1.65; }
+ .spotlight-body p:first-of-type::first-letter { font-size: 42px; }
 }
 .spotlight-eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 11px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--accent-soft);
-  font-weight: 700;
-  margin-bottom: 14px;
+ display: flex;
+ align-items: center;
+ gap: 10px;
+ font-size: 11px;
+ letter-spacing: 2px;
+ text-transform: uppercase;
+ color: var(--accent-soft);
+ font-weight: 700;
+ margin-bottom: 14px;
 }
 .spotlight-eyebrow::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: rgba(245, 233, 207, 0.2);
+ content: "";
+ flex: 1;
+ height: 1px;
+ background: rgba(245, 233, 207, 0.2);
 }
 .spotlight-industry {
-  font-family: var(--serif);
-  font-size: 36px;
-  line-height: 1.1;
-  font-weight: 700;
-  letter-spacing: -0.6px;
-  color: var(--paper);
-  margin: 0 0 10px;
+ font-family: var(--serif);
+ font-size: 36px;
+ line-height: 1.1;
+ font-weight: 700;
+ letter-spacing: -0.6px;
+ color: var(--paper);
+ margin: 0 0 10px;
 }
 .spotlight-meta {
-  font-size: 12px;
-  letter-spacing: 0.4px;
-  color: var(--spotlight-muted);
-  font-style: italic;
-  margin-bottom: 28px;
+ font-size: 12px;
+ letter-spacing: 0.4px;
+ color: var(--spotlight-muted);
+ font-style: italic;
+ margin-bottom: 28px;
 }
 .spotlight-body {
-  font-family: var(--serif);
-  font-size: 16px;
-  line-height: 1.7;
-  color: var(--spotlight-ink);
-  max-width: 640px;
+ font-family: var(--serif);
+ font-size: 16px;
+ line-height: 1.7;
+ color: var(--spotlight-ink);
+ max-width: 640px;
 }
 .spotlight-body p { margin: 0 0 16px; }
 .spotlight-body p:last-child { margin-bottom: 0; }
 .spotlight-body p:first-of-type::first-letter {
-  font-family: var(--serif);
-  font-size: 52px;
-  line-height: 0.9;
-  float: left;
-  padding: 4px 10px 0 0;
-  color: var(--accent-soft);
-  font-weight: 700;
+ font-family: var(--serif);
+ font-size: 52px;
+ line-height: 0.9;
+ float: left;
+ padding: 4px 10px 0 0;
+ color: var(--accent-soft);
+ font-weight: 700;
 }
 
 /* ============================================================
-   TAKEAWAYS
-   ============================================================ */
+ TAKEAWAYS
+ ============================================================ */
 .takeaways-wrap { margin-top: 56px; scroll-margin-top: 20px; }
 .takeaway {
-  display: flex;
-  gap: 18px;
-  padding: 18px 0;
-  border-bottom: 1px solid var(--line-soft);
+ display: flex;
+ gap: 18px;
+ padding: 18px 0;
+ border-bottom: 1px solid var(--line-soft);
 }
 .takeaway:last-child { border-bottom: none; }
 .takeaway-num {
-  flex-shrink: 0;
-  font-family: var(--serif);
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--accent);
-  line-height: 1;
-  width: 40px;
-  letter-spacing: -1px;
+ flex-shrink: 0;
+ font-family: var(--serif);
+ font-size: 28px;
+ font-weight: 700;
+ color: var(--accent);
+ line-height: 1;
+ width: 40px;
+ letter-spacing: -1px;
 }
 .takeaway-text {
-  font-size: 14.5px;
-  line-height: 1.65;
-  color: var(--ink-soft);
+ font-size: 14.5px;
+ line-height: 1.65;
+ color: var(--ink-soft);
 }
 
 /* ============================================================
-   FOOTER
-   ============================================================ */
+ FOOTER
+ ============================================================ */
 .footer {
-  margin-top: 64px;
-  padding-top: 22px;
-  border-top: 1px solid var(--line);
-  color: var(--muted-2);
-  font-size: 11.5px;
-  letter-spacing: 0.3px;
-  font-style: italic;
+ margin-top: 64px;
+ padding-top: 22px;
+ border-top: 1px solid var(--line);
+ color: var(--muted-2);
+ font-size: 11.5px;
+ letter-spacing: 0.3px;
+ font-style: italic;
 }
 
 /* ============================================================
-   EMPTY STATE
-   ============================================================ */
+ EMPTY STATE
+ ============================================================ */
 .empty {
-  text-align: center;
-  padding: 80px 20px;
-  color: var(--muted);
+ text-align: center;
+ padding: 80px 20px;
+ color: var(--muted);
 }
 
 /* ============================================================
-   TOC (mobile)
-   ============================================================ */
+ TOC (mobile)
+ ============================================================ */
 @media (max-width: 820px) {
-  .toc {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    margin: 0 -20px 28px;
-    padding: 0 20px;
-    border-left: none;
-    border-right: none;
-  }
-  .toc::-webkit-scrollbar { display: none; }
-  .toc-link {
-    flex: 0 0 auto;
-    min-width: 0;
-    padding: 12px 14px 12px 0;
-    margin-right: 14px;
-    border-right: none;
-    border-bottom: 2px solid transparent;
-  }
-  .toc-link:last-child { margin-right: 20px; }
-  .toc-link:hover { background: transparent; border-bottom-color: var(--accent-soft); }
-  .toc-num { font-size: 10px; margin-bottom: 1px; }
+ .toc {
+ flex-wrap: nowrap;
+ overflow-x: auto;
+ -webkit-overflow-scrolling: touch;
+ scrollbar-width: none;
+ margin: 0 -20px 28px;
+ padding: 0 20px;
+ border-left: none;
+ border-right: none;
+ }
+ .toc::-webkit-scrollbar { display: none; }
+ .toc-link {
+ flex: 0 0 auto;
+ min-width: 0;
+ padding: 12px 14px 12px 0;
+ margin-right: 14px;
+ border-right: none;
+ border-bottom: 2px solid transparent;
+ }
+ .toc-link:last-child { margin-right: 20px; }
+ .toc-link:hover { background: transparent; border-bottom-color: var(--accent-soft); }
+ .toc-num { font-size: 10px; margin-bottom: 1px; }
 }
 
 /* ============================================================
-   SECTION + ITEM (mobile)
-   ============================================================ */
+ SECTION + ITEM (mobile)
+ ============================================================ */
 @media (max-width: 820px) {
-  .issue-header {
-    margin-bottom: 24px;
-    padding-bottom: 18px;
-  }
-  .issue-eyebrow {
-    flex-wrap: wrap;
-    gap: 8px 10px;
-    margin-bottom: 12px;
-    font-size: 10.5px;
-  }
-  .issue-title { font-size: 26px; letter-spacing: -0.4px; }
-  .issue-sub { font-size: 13px; }
-  .section { margin-bottom: 36px; }
-  .section-head {
-    gap: 10px;
-    padding-bottom: 10px;
-    margin-bottom: 18px;
-  }
-  .section-num { font-size: 10.5px; }
-  .section-title { font-size: 19px; letter-spacing: -0.2px; }
-  .section-count { font-size: 10px; }
-  .item { padding-bottom: 22px; margin-bottom: 22px; }
-  .item-headline { font-size: 16.5px; line-height: 1.3; }
-  .item-summary { font-size: 14.5px; line-height: 1.6; }
-  .angle { font-size: 13px; padding: 11px 14px; }
-  .sources { gap: 10px 14px; font-size: 10.5px; }
-  .takeaway { padding: 14px 0; gap: 14px; }
-  .takeaway-num { font-size: 24px; width: 32px; }
-  .takeaway-text { font-size: 13.5px; line-height: 1.6; }
+ .issue-header {
+ margin-bottom: 24px;
+ padding-bottom: 18px;
+ }
+ .issue-eyebrow {
+ flex-wrap: wrap;
+ gap: 8px 10px;
+ margin-bottom: 12px;
+ font-size: 10.5px;
+ }
+ .issue-title { font-size: 26px; letter-spacing: -0.4px; }
+ .issue-sub { font-size: 13px; }
+ .section { margin-bottom: 36px; }
+ .section-head {
+ gap: 10px;
+ padding-bottom: 10px;
+ margin-bottom: 18px;
+ }
+ .section-num { font-size: 10.5px; }
+ .section-title { font-size: 19px; letter-spacing: -0.2px; }
+ .section-count { font-size: 10px; }
+ .item { padding-bottom: 22px; margin-bottom: 22px; }
+ .item-headline { font-size: 16.5px; line-height: 1.3; }
+ .item-summary { font-size: 14.5px; line-height: 1.6; }
+ .angle { font-size: 13px; padding: 11px 14px; }
+ .sources { gap: 10px 14px; font-size: 10.5px; }
+ .takeaway { padding: 14px 0; gap: 14px; }
+ .takeaway-num { font-size: 24px; width: 32px; }
+ .takeaway-text { font-size: 13.5px; line-height: 1.6; }
 }
 
 /* ============================================================
-   PHONE
-   ============================================================ */
+ PHONE
+ ============================================================ */
 @media (max-width: 480px) {
-  body { font-size: 14.5px; }
-  .sidebar { padding: 14px 16px 8px; }
-  .main { padding: 18px 16px 48px; }
-  .archive-list { margin: 0 -16px; padding: 0 16px 4px; }
-  .masthead-title { font-size: 18px; }
-  .masthead-eyebrow { font-size: 9.5px; letter-spacing: 2px; }
-  .issue-header { margin-bottom: 22px; padding-bottom: 16px; }
-  .issue-eyebrow .dot { display: none; }
-  .issue-title { font-size: 23px; }
-  .issue-sub { font-size: 12.5px; }
-  .toc { margin: 0 -16px 24px; padding: 0 16px; }
-  .toc-link { padding: 10px 12px 10px 0; margin-right: 12px; }
-  .section { margin-bottom: 32px; }
-  .section-head { flex-wrap: wrap; }
-  .section-count { flex-basis: 100%; order: 3; }
-  .section-title { font-size: 18px; }
-  .item-headline { font-size: 15.5px; }
-  .item-summary { font-size: 14px; }
-  .angle { font-size: 12.5px; padding: 10px 12px; }
-  .angle-label { font-size: 9px; margin-bottom: 3px; }
-  .sources { flex-direction: column; align-items: flex-start; gap: 6px; }
-  .spotlight-wrap {
-    margin: 28px -16px 28px;
-    padding: 22px 18px 26px;
-  }
-  .spotlight-industry { font-size: 24px; }
-  .spotlight-meta { margin-bottom: 20px; font-size: 11.5px; }
-  .spotlight-body { font-size: 14.5px; }
-  .spotlight-body p:first-of-type::first-letter {
-    font-size: 36px;
-    padding: 2px 8px 0 0;
-  }
-  .takeaway { padding: 12px 0; gap: 12px; }
-  .takeaway-num { font-size: 22px; width: 28px; }
-  .takeaway-text { font-size: 13.5px; }
-  .footer { margin-top: 44px; font-size: 10.5px; }
+ body { font-size: 14.5px; }
+ .sidebar { padding: 14px 16px 8px; }
+ .main { padding: 18px 16px 48px; }
+ .archive-list { margin: 0 -16px; padding: 0 16px 4px; }
+ .masthead-title { font-size: 18px; }
+ .masthead-eyebrow { font-size: 9.5px; letter-spacing: 2px; }
+ .issue-header { margin-bottom: 22px; padding-bottom: 16px; }
+ .issue-eyebrow .dot { display: none; }
+ .issue-title { font-size: 23px; }
+ .issue-sub { font-size: 12.5px; }
+ .toc { margin: 0 -16px 24px; padding: 0 16px; }
+ .toc-link { padding: 10px 12px 10px 0; margin-right: 12px; }
+ .section { margin-bottom: 32px; }
+ .section-head { flex-wrap: wrap; }
+ .section-count { flex-basis: 100%; order: 3; }
+ .section-title { font-size: 18px; }
+ .item-headline { font-size: 15.5px; }
+ .item-summary { font-size: 14px; }
+ .angle { font-size: 12.5px; padding: 10px 12px; }
+ .angle-label { font-size: 9px; margin-bottom: 3px; }
+ .sources { flex-direction: column; align-items: flex-start; gap: 6px; }
+ .spotlight-wrap {
+ margin: 28px -16px 28px;
+ padding: 22px 18px 26px;
+ }
+ .spotlight-industry { font-size: 24px; }
+ .spotlight-meta { margin-bottom: 20px; font-size: 11.5px; }
+ .spotlight-body { font-size: 14.5px; }
+ .spotlight-body p:first-of-type::first-letter {
+ font-size: 36px;
+ padding: 2px 8px 0 0;
+ }
+ .takeaway { padding: 12px 0; gap: 12px; }
+ .takeaway-num { font-size: 22px; width: 28px; }
+ .takeaway-text { font-size: 13.5px; }
+ .footer { margin-top: 44px; font-size: 10.5px; }
 }
 </style>
 </head>
 <body>
 <div class="layout">
 
-  <aside class="sidebar">
-    <div class="masthead">
-      <div class="masthead-eyebrow">Daily</div>
-      <div class="masthead-title">AI<br>Briefing</div>
-      <div class="masthead-sub">Curated weekdays, 12:00 Tbilisi</div>
-    </div>
-    <div class="archive-section">
-      <div class="archive-label">Archive</div>
-      <div id="chips" class="archive-list"></div>
-    </div>
-  </aside>
+ <aside class="sidebar">
+ <div class="masthead">
+ <div class="masthead-eyebrow">Daily</div>
+ <div class="masthead-title">AI<br>Briefing</div>
+ <div class="masthead-sub">Curated weekdays, 12:00 Tbilisi</div>
+ </div>
+ <div class="archive-section">
+ <div class="archive-label">Archive</div>
+ <div id="chips" class="archive-list"></div>
+ </div>
+ </aside>
 
-  <main class="main">
-    <header class="issue-header">
-      <div class="issue-eyebrow">
-        <span class="badge" id="badge">Latest</span>
-        <span id="meta-text">Loading...</span>
-      </div>
-      <h1 class="issue-title" id="issue-title">AI Daily Briefing</h1>
-      <div class="issue-sub" id="issue-sub"></div>
-    </header>
+ <main class="main">
+ <header class="issue-header">
+ <div class="issue-eyebrow">
+ <span class="badge" id="badge">Latest</span>
+ <span id="meta-text">Loading...</span>
+ </div>
+ <h1 class="issue-title" id="issue-title">AI Daily Briefing</h1>
+ <div class="issue-sub" id="issue-sub"></div>
+ </header>
 
-    <nav id="toc" class="toc"></nav>
+ <nav id="toc" class="toc"></nav>
 
-    <div id="briefing"></div>
+ <div id="briefing"></div>
 
-    <footer class="footer">
-      AI Daily Briefing, prepared for Luka. Curated by an automated research agent each weekday at noon Tbilisi time. Use the archive on the left to revisit prior issues.
-    </footer>
-  </main>
+ <footer class="footer">
+ AI Daily Briefing, prepared for Luka. Curated by an automated research agent each weekday at noon Tbilisi time. Use the archive on the left to revisit prior issues.
+ </footer>
+ </main>
 
 </div>
 
@@ -693,18 +693,419 @@ body {
 // Each daily run prepends a new entry to this array. Newest first.
 const briefings = [
   {
-    "date": "2026-05-15",
-    "display_date": "May 15, 2026",
-    "prepared_for": "Luka Agulashvili, Georgia Capital",
-    "item_count": 15,
+    "date": "2026-05-16",
+    "display_date": "May 16, 2026",
+    "prepared_for": "Luka Agulashvili",
+    "item_count": 13,
+    "catalysts": [
+      {
+        "date": "Mon May 18",
+        "event": "Anthropic Code with Claude developer conference livestream",
+        "watch": "Opus 4.7 enterprise deployment metrics, agentic SDK pricing, any tease of a Mythos timeline",
+        "action": "Incremental Anthropic IPO valuation read, secondary marks on private AI books"
+      },
+      {
+        "date": "Tue May 19, 10am PT",
+        "event": "Google I/O keynote (Mountain View)",
+        "watch": "Gemini 3.1 Ultra context push toward 2M to 4M tokens, Project Astra GA, Veo 4",
+        "action": "GOOGL cleanest event-driven long into the print; AppLovin and Trade Desk spillover if Google leans into AI-native ad surfaces"
+      },
+      {
+        "date": "Wed May 20, 4pm ET",
+        "event": "Nvidia FY27 Q1 earnings",
+        "watch": "Consensus $78.76B revenue, $1.74 EPS, DC growth ~77% YoY; Blackwell ramp, gross margin, FY27 capex guide",
+        "action": "Above-guide plus 75%+ DC supports CRDO/AVGO/MRVL/ANET; below guide triggers AI-infrastructure rotation"
+      },
+      {
+        "date": "Wed May 20-21",
+        "event": "Google I/O Day 2 developer keynote",
+        "watch": "Workspace AI monetization framework, Android XR developer kit, Aluminum OS roadmap",
+        "action": "Workday and Salesforce read-through if Google opens workspace to third-party agents"
+      },
+      {
+        "date": "Thu May 21",
+        "event": "EU AI Omnibus procedural follow-up in Brussels",
+        "watch": "Final transparency timeline (Dec 2, 2026 currently), high-risk system rules for embedded products",
+        "action": "Compliance scoping for any portfolio company shipping AI features into the EU"
+      }
+    ],
     "sections": [
       {
         "title": "Models and Capabilities",
         "items": [
           {
-            "headline": "SAP-Anthropic deepen partnership, embedding Claude as default reasoning layer across SAP's portfolio",
-            "summary": "At Sapphire 2026 in Orlando this week, SAP and Anthropic announced an expanded collaboration that puts Claude in as the primary reasoning and agentic capability across SAP's AI-enhanced solution set in finance, HR, procurement, and supply chain. The deal sits alongside SAP's broader unveiling of its Autonomous Enterprise strategy, with plans to deploy more than 50 domain-specific Joule Assistants orchestrating over 200 specialist agents.",
-            "angle": "The world's largest ERP vendor standardizing on Claude is the single biggest enterprise-distribution win for Anthropic since the Microsoft 365 integration in May. Watch for FY27 Anthropic revenue color on its next funding round and any commentary from SAP on the ARR uplift it expects from the Autonomous Suite.",
+            "headline": "Anthropic ships Opus 4.7 across all major clouds at flat pricing; raises bar on OpenAI's delayed Mythos",
+            "summary": "Claude Opus 4.7 is now generally available on Anthropic's API, Amazon Bedrock, Vertex AI, and Microsoft Foundry, with input/output token pricing held at $5/$25 per million versus Opus 4.6. The model adds self-correction during planning and is positioned as Anthropic's frontier offering against the still-restricted OpenAI Mythos model. Distribution breadth across all four major clouds removes the lock-in story for enterprise buyers and supports Anthropic's revenue run-rate trajectory into its rumored $900B round.",
+            "angle": "Watch any enterprise wins lifted from OpenAI specifically into Q3, plus pricing concessions if Mythos broadens beyond limited preview.",
+            "sources": [
+              {
+                "title": "Anthropic news",
+                "url": "https://www.anthropic.com/news/claude-opus-4-7"
+              },
+              {
+                "title": "LLM Stats roundup",
+                "url": "https://llm-stats.com/llm-updates"
+              }
+            ]
+          },
+          {
+            "headline": "OpenAI grants EU access to GPT-5.5-Cyber while Anthropic withholds Mythos; bifurcated regulator access becomes a real selection vector",
+            "summary": "OpenAI is rolling out GPT-5.5-Cyber to vetted EU cybersecurity teams under a limited-preview model-test agreement, matching the pre-launch government testing US-side Microsoft, Google, and xAI agreed to in early May. Anthropic has so far declined to give the EU similar early access to Mythos, citing safety-evaluation scope. For European public-sector and defense pipelines (Thales, Leonardo, BAE, sovereign cloud players), this hands OpenAI a temporary distribution edge in EU national-security workloads.",
+            "angle": "Watch any EU member-state procurement announcement that names a frontier vendor over the next 4 weeks.",
+            "sources": [
+              {
+                "title": "CNBC on the OpenAI-EU deal",
+                "url": "https://www.cnbc.com/2026/05/11/openai-eu-cyber-model-anthropic-mythos-gpt.html"
+              },
+              {
+                "title": "CNN on pre-launch testing",
+                "url": "https://www.cnn.com/2026/05/05/tech/microsoft-google-xai-government-test-ai-models"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Tools and Platforms",
+        "items": [
+          {
+            "headline": "Notion turns its workspace into an agent control plane; meaningful overhang for standalone agent SaaS pricing",
+            "summary": "On May 13 Notion launched its Developer Platform with three components: Workers (a hosted runtime for custom agent code, free through August 11), a CLI for programmatic workflow deployment, and out-of-box integrations for Claude, Codex, and Decagon agents. Notion customers have already built over 1 million custom agents since the February launch, the largest deployed enterprise-agent footprint outside the hyperscalers and ServiceNow. This compresses the value of standalone agent-builder SaaS for sub-enterprise workloads and reinforces the case that the workspace UI, not the model, owns the agent stack.",
+            "angle": "Watch pricing reaction from Decagon and Adept-class names, plus any consumption-pricing announcement from Notion in Q3.",
+            "sources": [
+              {
+                "title": "TechCrunch",
+                "url": "https://techcrunch.com/2026/05/13/notion-just-turned-its-workspace-into-a-hub-for-ai-agents/"
+              },
+              {
+                "title": "Notion release notes",
+                "url": "https://www.notion.com/releases/2026-05-13"
+              }
+            ]
+          },
+          {
+            "headline": "ServiceNow Action Fabric introduces consumption billing for third-party agents; defends NOW's per-user revenue multiple",
+            "summary": "ServiceNow is putting any external AI agent that wants access to data and workflows inside its platform through a mandatory intermediary layer called Action Fabric, billed per operation rather than per user. This is the cleanest answer yet to the 'agents eat seats' bear case on enterprise SaaS multiples, since NOW now captures incremental consumption every time a customer routes more work through agents. Pair this with the parallel ServiceNow-Accenture forward-deployed engineering program and ServiceNow-NVIDIA OpenShell agent governance partnership.",
+            "angle": "Watch NOW Q3 KPI disclosure on agent operation volumes and revenue per agent operation.",
+            "sources": [
+              {
+                "title": "ServiceNow newsroom",
+                "url": "https://newsroom.servicenow.com/press-releases/details/2026/ServiceNow-extends-agentic-AI-governance-from-desktops-to-data-centers-with-NVIDIA/default.aspx"
+              },
+              {
+                "title": "Fortune coverage",
+                "url": "https://fortune.com/2026/05/05/servicenow-knowledge-2026-autonomous-workforce-microsoft-nvidia-ai-announcements/"
+              }
+            ]
+          },
+          {
+            "headline": "Xactly Fleet of Agents lands as the first vertical attack on revenue-ops SaaS; reads negatively for Anaplan and SAP SuccessFactors comp modules",
+            "summary": "At Upside 2026 on May 14, Xactly launched a Fleet of pre-built AI agents (builder, workflow, optimization) and Intelligence Studio, plumbed into its Intelligent Revenue Platform. The product targets quota planning, comp calculation, and territory management, all functions historically owned by Anaplan (within Thoma Bravo's hold), Varicent, and SAP SuccessFactors comp. For the larger HCM and FP&A stack, Xactly is the first incumbent with a credible agent-native revenue-ops product.",
+            "angle": "Watch any RFP-loss tape from Anaplan or SuccessFactors comp in Q3 and Q4, plus reseller-channel commentary on price compression for legacy SPM.",
+            "sources": [
+              {
+                "title": "Enterprise Times",
+                "url": "https://www.enterprisetimes.co.uk/2026/05/14/upside-2026-sees-xactly-launch-a-fleet-of-ai-agents/"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Workflows and Agents",
+        "items": [
+          {
+            "headline": "Coding-agent shake-out hits pricing and packaging; Cursor near $2B ARR, Devin slashes 96%, Copilot moves to AI Credits June 1",
+            "summary": "The four-horse coding-agent race has consolidated. Cursor is approaching $2B ARR (from $500M in 2025), Cognition's Devin dropped from $500/month flat to $20 core plus $2.25 per agent compute unit, and GitHub Copilot transitions to consumption-based AI Credits on June 1. Claude Code is the breakout terminal agent on quality benchmarks. The pricing repacking signals two things: developer-tools spend is now uncapped consumption, not per-seat, and the leaders are giving up subscription gross margins to defend share.",
+            "angle": "This hurts the gross-margin profile of every public dev-tools name (TEAM, GTLB, MDB) that hasn't repackaged. Watch GitHub disclosures at Microsoft FY26 Q4, plus Cursor secondary marks on Forge.",
+            "sources": [
+              {
+                "title": "Toolradar comparison",
+                "url": "https://toolradar.com/blog/best-ai-tools-for-coding-2026"
+              },
+              {
+                "title": "Codegen ranking",
+                "url": "https://codegen.com/blog/best-ai-coding-agents/"
+              }
+            ]
+          },
+          {
+            "headline": "Broadridge agentic deployment crosses 30% Day-1 cost saves at scale; pressure on SS&C, FIS, Fiserv, DTCC pricing in next-quarter prints",
+            "summary": "The May 13 Broadridge agentic-AI announcement remains the cleanest enterprise-grade productivity number out this month: agentic capabilities in production for post-trade and client-services automation, with a 30% Day-1 cost-reduction claim against $15T of daily activity. Pair with the ServiceNow-NVIDIA agent governance push and the Notion 1M custom-agent footprint, and the back-office SaaS bear case (margin compression, customer concessions, contract repricing) has more data points behind it than three months ago.",
+            "angle": "Watch SS&C, FIS, Fiserv, DTCC Q2 calls for customer-reference erosion, plus any retention-rate slippage at the major core-banking vendors.",
+            "sources": [
+              {
+                "title": "VentureBeat on enterprise agent platforms",
+                "url": "https://venturebeat.com/technology/nvidia-launches-enterprise-ai-agent-platform-with-adobe-salesforce-sap-among"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Industry, Funding, and Policy",
+        "items": [
+          {
+            "headline": "Cerebras pops 68% in Nasdaq debut to $95B market cap; reopens the AI IPO window for SpaceX, OpenAI, Anthropic, Databricks",
+            "summary": "Cerebras (CBRS) priced 30M shares at $185, closed day-one at $331, raised $5.55B, the largest tech IPO since Uber. Wafer-scale architecture and an existing $20B OpenAI cloud commitment through 2028 gave the book enough visible revenue to support the valuation. The day-one mark is the cleanest comp event in 18 months for any late-stage AI position carried at year-end, and the rumored Anthropic $900B and OpenAI $852B rounds now have a public liquidity event behind them. The day-two trade went the other way (stock fell after the debut), so the upcycle is volatile, but the gate is open.",
+            "angle": "Watch Anthropic round close timing (rumored within two weeks per TechCrunch), then SpaceX and Databricks calendar disclosures into Q3.",
+            "sources": [
+              {
+                "title": "CNBC on the 68% pop",
+                "url": "https://www.cnbc.com/2026/05/14/cerebras-cbrs-stock-trade-nasdaq-ipo.html"
+              },
+              {
+                "title": "CNBC day-two reset",
+                "url": "https://www.cnbc.com/2026/05/15/cerebras-stock-ipo-debut-ai.html"
+              },
+              {
+                "title": "Anthropic $900B round",
+                "url": "https://techcrunch.com/2026/04/30/anthropic-potential-900b-valuation-round-could-happen-within-two-weeks/"
+              }
+            ]
+          },
+          {
+            "headline": "Anthropic at $30B revenue run-rate and reportedly $900B+ on the round; private mark-up event for every late-stage AI book",
+            "summary": "Dario Amodei disclosed 80x annualized revenue growth in Q1, putting Anthropic at a $30B run-rate (some sources cite $44B by mid-May on enterprise contract velocity). The pending round at $900B-plus would put Anthropic ahead of OpenAI's $852B March mark for the first time. Pair with the SAP standardization on Claude, the PwC alliance, and the Gates Foundation framework, and the IPO scenario for October 2026 is materially more credible than it was three months ago.",
+            "angle": "Watch round close and any new strategic LP into the round (sovereign wealth, hyperscaler, or pension).",
+            "sources": [
+              {
+                "title": "VentureBeat on $30B run-rate",
+                "url": "https://venturebeat.com/technology/anthropic-says-it-hit-a-30-billion-revenue-run-rate-after-crazy-80x-growth"
+              },
+              {
+                "title": "TechCrunch on $900B round",
+                "url": "https://techcrunch.com/2026/04/30/anthropic-potential-900b-valuation-round-could-happen-within-two-weeks/"
+              }
+            ]
+          },
+          {
+            "headline": "GridCARE closes $64M Series A for AI data-center grid interconnection; supports Eaton, Quanta, GE Vernova power-equipment thesis",
+            "summary": "GridCARE raised an oversubscribed $64M Series A on May 15 to accelerate grid-side interconnection for AI infrastructure, at a step-up valuation from its last round less than a year ago. The fundraise is a small private datapoint but it puts a sharper marker on the structural bottleneck story: hyperscaler capex hits $725B in 2026 (Big Tech combined, +77% YoY), and the grid is the binding constraint, not silicon. For public-equity expression, the power-infrastructure trade (ETN, PWR, GEV, VRT) has another month of supply-side validation.",
+            "angle": "Watch ERCOT and PJM interconnection-queue updates plus any utility long-duration contract disclosure tied to a named hyperscaler.",
+            "sources": [
+              {
+                "title": "HPCwire on GridCARE",
+                "url": "https://www.hpcwire.com/off-the-wire/gridcare-raises-64m-series-a-to-accelerate-power-delivery-for-ai-infrastructure/"
+              },
+              {
+                "title": "Statista on $725B capex",
+                "url": "https://www.statista.com/chart/35046/capital-expenditure-of-meta-alphabet-amazon-and-microsoft/"
+              }
+            ]
+          },
+          {
+            "headline": "EU AI Omnibus political deal trims transparency grace period to 3 months; compliance scoping needs to move now",
+            "summary": "EU legislators agreed on the AI Omnibus at 4:30am on May 7. The provisional deal pulls the transparency-solution deadline forward to December 2, 2026 (from a 6-month grace period to 3 months), extends the high-risk embedded-product transition to August 2, 2028, and pushes regulatory sandbox setup out to August 2, 2027. US Commerce Secretary Lutnick is separately pushing the EU to roll back tech regulation in exchange for a steel and aluminum deal, but the EU has rejected that linkage.",
+            "angle": "For any portfolio company shipping AI features into the EU, the December date is the binding short-term constraint. Watch enforcement signals out of national DPAs in Q3.",
+            "sources": [
+              {
+                "title": "Consilium press release",
+                "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/05/07/artificial-intelligence-council-and-parliament-agree-to-simplify-and-streamline-rules/"
+              },
+              {
+                "title": "Euronews",
+                "url": "https://www.euronews.com/next/2026/05/07/eu-reaches-tentative-deal-to-simplify-ai-rules"
+              }
+            ]
+          },
+          {
+            "headline": "FTC Microsoft-OpenAI probe escalates with new civil investigative demands; meaningful regulatory tail risk on MSFT multiple",
+            "summary": "The FTC's broad Microsoft antitrust investigation has intensified under FTC Chair Andrew Ferguson, with civil investigative demands now issued to six-plus Microsoft cloud competitors. The agency is examining whether Microsoft's licensing restrictions and product bundling illegally monopolize enterprise computing, plus whether the Microsoft-OpenAI partnership was structured to avoid merger review. DOJ is separately handling the Nvidia track. This is a slow-moving overhang on MSFT but it caps the cleanest reasoning-cycle multiple expansion case.",
+            "angle": "Watch any Q3 disclosures on settlement frameworks, plus the parallel EU and UK probes.",
+            "sources": [
+              {
+                "title": "Computerworld",
+                "url": "https://www.computerworld.com/article/3844990/microsoft-faces-ftc-antitrust-probe-over-ai-and-licensing-practices.html"
+              },
+              {
+                "title": "Winbuzzer on cloud probe",
+                "url": "https://winbuzzer.com/2026/02/14/ftc-escalates-microsoft-probe-grills-rivals-cloud-monopoly-xcxwbn/"
+              }
+            ]
+          },
+          {
+            "headline": "Berkshire, Chubb, Travelers win 80% of AI exclusion approvals; creates a $4.7B specialty AI insurance market for new entrants",
+            "summary": "State regulators have approved over 80% of carrier requests from Berkshire, Chubb, and Travelers to exclude AI-related damages from general liability policies. The exclusions force AI liability onto a specialty market, which The Information sizes at roughly $4.7B in premium opportunity for new entrants. The clean PE angle is on the specialty MGAs and reinsurers underwriting AI liability (Munich Re, Swiss Re, Beazley, Hiscox, plus a fresh crop of AI-native MGAs that should hit Series A and B in the back half of 2026). The clean public-equity short angle is on undifferentiated mid-market commercial-lines insurers who lose competitive premium without offering AI coverage.",
+            "angle": "Watch NAIC's AI Systems Evaluation Tool nationwide rollout by November 2026.",
+            "sources": [
+              {
+                "title": "Insurance Intel on exclusion wave",
+                "url": "https://insuranceintel.substack.com/p/the-ai-exclusion-wave-and-the-47"
+              },
+              {
+                "title": "The Information",
+                "url": "https://www.theinformation.com/articles/berkshire-hathaway-chubb-win-approval-drop-ai-insurance-coverage"
+              }
+            ]
+          },
+          {
+            "headline": "Lemonade Q1 +71% revenue on AI productivity; $1M in-force premium per employee now matches Progressive, Allstate, Travelers",
+            "summary": "Lemonade's Q1 2026 print: revenue $258M (+71%), in-force premium $1.33B (+32%), adjusted EBITDA loss $17M (narrowed 64%), net loss $36M (down 43%). The AI productivity story is now the cleanest in P&C: $1M in-force premium per employee, matching Progressive, Allstate, GEICO, and Travelers despite a 6% headcount cut. For long-Lemonade, the path-to-EBITDA-positive Q4 2026 is plausible. For the incumbent shorts (or pairs), the productivity convergence reframes the bear case: if AI flips P&C from a labor-intensive distribution business to a software-margin one, the multiple-defense argument for ALL, TRV, and PGR weakens.",
+            "angle": "Watch Root Q2 print (autoreceivers were $387M GWP last year), plus any commercial-lines AI productivity disclosures at TRV in mid-July.",
+            "sources": [
+              {
+                "title": "BeInsure on Q1 print",
+                "url": "https://beinsure.com/news/insurtech-lemonade-revenue-jumps-71-as-ai-drives-growth/"
+              },
+              {
+                "title": "Insurance Journal",
+                "url": "https://www.insurancejournal.com/news/national/2026/04/29/867724.htm"
+              }
+            ]
+          },
+          {
+            "headline": "Hyperscaler 2026 capex consensus runs to $725B (+77% YoY); the constructive read into NVDA print remains intact",
+            "summary": "Alphabet $180-190B, Amazon ~$200B, Meta $125-145B, Microsoft fiscal-Q3 $30.88B (+84% YoY) translating to roughly $150B-plus calendar year, all post-Q1 prints. The combined spend supports AVGO and MRVL on custom-silicon backlog (Broadcom-Google through 2031, Meta-Broadcom through 2029), CRDO on optical interconnect, ANET on switching, and VRT on power and cooling. The bear case (AI revenue does not scale into the spend) needs a soft NVDA print on May 20 to gain traction. With NVDA consensus at $78.76B and Blackwell ramp visible, the asymmetry into the print is still long the supply chain.",
+            "angle": "Watch hyperscaler 2027 capex commentary on NVDA's call, plus any deferred-revenue or RPO commentary at MSFT and GOOGL ahead of August.",
+            "sources": [
+              {
+                "title": "Tom's Hardware on $725B",
+                "url": "https://www.tomshardware.com/tech-industry/big-tech/big-techs-ai-spending-plans-reach-725-billion"
+              },
+              {
+                "title": "Yahoo Finance on $700B",
+                "url": "https://finance.yahoo.com/sectors/technology/articles/hyperscalers-hit-700-billion-2026-111243744.html"
+              },
+              {
+                "title": "Nvidia FY27 Q1 preview",
+                "url": "https://www.indexbox.io/blog/nvidia-fiscal-q1-2026-results-preview-revenue-guidance-and-competition-analysis/"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "ai_in_practice": [
+      {
+        "sector": "Software engineering",
+        "writeup": "GitHub Copilot's June 1 transition to consumption-based AI Credits, paired with Cursor at ~$2B ARR and Devin's price cut to $20 plus $2.25 per agent compute unit, marks the end of flat-rate dev-tools subscriptions for AI-heavy workflows. Claude Code remains the breakout terminal agent for senior-engineer workloads. For a deal-team analyst, the practical implication is that any portfolio company's dev-tools line item should now be modeled as consumption with usage caps, not seat-based.",
+        "try_this": "Drop your current dev-tools spend rows from the last four quarters into Claude, ask for a forward forecast assuming the seat-based portion converts to consumption at observed unit economics, then ask for the three biggest unit-cost lever points.",
+        "sources": [
+          {
+            "title": "Toolradar comparison",
+            "url": "https://toolradar.com/blog/best-ai-tools-for-coding-2026"
+          }
+        ]
+      },
+      {
+        "sector": "Marketing and advertising",
+        "writeup": "Adobe Firefly 3 and Canva Magic Studio are now the default in-app generative tools for SMB and mid-market marketing teams, with Higgsfield Supercomputer handling multi-model orchestration across Claude Opus 4.7, GPT-5.5 Pro, Gemini 3.1 Pro, Kling 3.0, and Seedance for video. The structural shift is that creative briefs now route to whichever model wins per task, not to a single vendor.",
+        "try_this": "Hand Claude a one-line campaign brief plus your brand guidelines and ask for a five-asset concept (headline, body copy, layout direction, video shot list, channel-mix recommendation). Use it as the brief for a generative tool or your agency.",
+        "sources": []
+      },
+      {
+        "sector": "Manufacturing and industrials",
+        "writeup": "Siemens Industrial Copilot, Rockwell FactoryTalk Hub, and the Nvidia-Foxconn industrial-AI partnership are now in pilot at named OEM customers for predictive maintenance, line-balancing, and quality inspection. The hyperscaler-grade compute is finally cheap enough for on-prem deployment in production cells, and the labor angle (skilled maintenance technicians, quality engineers) is the first headcount line to flex.",
+        "try_this": "Paste a maintenance log file (CSV of last 90 days of work orders) and ask for the top three failure modes by downtime cost, plus a predictive flag for the next two weeks based on visible trend patterns.",
+        "sources": []
+      },
+      {
+        "sector": "Real estate",
+        "writeup": "CoStar, Zillow, and Compass are deploying AI for listing-copy generation, comp-analysis automation, and inbound-lead triage at the brokerage level. JLL and CBRE have AI-assisted lease abstraction and valuation models in production for institutional clients. For real-estate-focused PE, the underwriting analyst function is the first to flex: a 60% time compression on initial diligence is plausible by Q4 2026.",
+        "try_this": "Drop a multi-property rent roll plus the last twelve months of operating statements into Claude and ask for an NOI bridge, vacancy trend, and the top three rent-increase opportunities with comparable market evidence.",
+        "sources": []
+      },
+      {
+        "sector": "Accounting and audit",
+        "writeup": "PwC's Anthropic alliance, Deloitte's Llama-and-Claude hybrid agent layer, and KPMG Clara are now in pilot at audit clients for journal-entry testing, control-walkthrough automation, and SOX evidence sampling. The Big Four ALM teams are quietly remodeling staff economics on the assumption that senior-associate ratios shift from one senior per three juniors to one per six over 24 months.",
+        "try_this": "Paste a 10-Q plus the prior-year equivalent and ask for a flux analysis on every line item over a 10% threshold, with management-discussion language changes flagged. Then ask for the three highest-risk areas to focus audit hours.",
+        "sources": []
+      },
+      {
+        "sector": "Consulting",
+        "writeup": "McKinsey QuantumBlack, BCG GammaX, and Bain Helix are all running AI-augmented engagement teams where a senior consultant plus an agent fleet replaces a three-to-five-person analyst pod. Reported chargeable-hours-per-engagement compression sits at 30-40% across discovery and synthesis phases. The implication for client-side strategy buyers: cheaper engagements, more frequent refresh cycles, and pressure on fixed-scope retainers.",
+        "try_this": "Drop a transcript of an internal strategy session plus the most recent board deck into Claude and ask for the three biggest unanswered strategic questions, each with a five-step diligence workplan and the public data sources that would close the gap.",
+        "sources": []
+      }
+    ],
+    "sector_spotlight": {
+      "sector": "Property and Casualty Insurance",
+      "snapshot": "The US P&C industry runs roughly $1.0 trillion in direct written premium with the top 10 carriers (Berkshire's GEICO, Progressive, State Farm, Allstate, Liberty Mutual, Travelers, Chubb, USAA, Farmers, Nationwide) controlling about 50% of personal lines and a slightly more fragmented commercial book where Chubb, Travelers, AIG, Zurich, and Hartford lead. The cost structure is loss-heavy (loss ratio typically 60-75%) with expense ratios running 25-30%, of which labor sits at roughly 8-12% of premium. Claims-handling and underwriting are the two largest controllable cost buckets. Insurtech challengers (Lemonade, Root, Hippo) remain small in absolute scale, with combined in-force premium under $3B against an industry pool 300 times that size, but they are the cleanest pure-play AI productivity case studies the industry has.",
+      "current_use_cases": "First, underwriting orchestration: Travelers processes over a million digital quotes annually on AI-augmented platforms and is producing new agent-distribution quarterly records on the back of expanded underwriting capacity. Chubb's CEO Evan Greenberg has publicly committed to automating 85% of underwriting and claims functions, with small commercial (historically unprofitable to underwrite manually) the first beneficiary. Second, claims automation: image recognition and NLP triage now handle first-notice-of-loss and damage assessment, particularly post-CAT events where AI tools cut response time from days to minutes. Lemonade has run AI-first claims since inception and now reports $1M of in-force premium per employee, matching Progressive, Allstate, GEICO, and Travelers despite a 6% headcount reduction. Third, dynamic risk pricing: climate-risk, cyber, and usage-based motor are the three lines where continuously-learning underwriting models are now standard at the leading carriers. Fourth, AI exclusion underwriting (the inverse case): Berkshire, Chubb, and Travelers have won state approval to exclude AI liability from general-liability policies and are forcing a separate specialty market into existence, sized at roughly $4.7B of premium opportunity.",
+      "outlook_24mo": "On headcount, the productivity convergence between Lemonade and Progressive at $1M premium per employee is the proof point: AI does not eliminate the underwriter or claims adjuster role but it does compress span-of-control by 50-100%. Translation: 15-25% headcount reduction over two budget cycles at incumbent carriers, concentrated in claims-handling, underwriting assistance, and contact-center functions. Total industry employment of roughly 2.9 million in the US could see 200,000 to 400,000 net role reductions by mid-2028, partially offset by hiring in actuarial-AI, data-science, and AI-governance functions. On efficiency, expense ratio compression of 200-400 basis points is the credible base case for AI-leading carriers (Chubb, Travelers, Progressive) versus laggards. On winners and losers, incumbents with proprietary loss data and distribution scale (Progressive on personal auto, Travelers on commercial lines, Chubb on high-net-worth and specialty) defend pricing and gain share. Mid-market regional carriers without the data scale to train competitive models or the capital to license third-party tools are at structural risk and become PE roll-up targets. Capex implications: the industry reallocates roughly $8B to $15B per year from physical claims-center infrastructure into AI tooling, data licensing, and reinsurance for AI-driven concentration risk.",
+      "investment_implications": "First, the cleanest public-equity long is Progressive (PGR) on auto, where the data advantage compounds and the AI productivity flow-through hits the combined ratio first. PGR currently trades at roughly 22-24x forward earnings versus a personal-lines historical median around 17-19x, so the valuation is not undemanding but the structural moat justifies the premium. Second, Travelers (TRV) and Chubb (CB) on commercial lines for the AI-underwriting and AI-exclusion specialty premium thesis. CB at roughly 13-14x forward earnings with the highest-velocity AI deployment is the cleanest value-and-growth pair. Third, the short or pair candidate is the undifferentiated mid-market commercial-lines book: Hartford (HIG), CNA Financial (CNA), or W.R. Berkley (WRB) all trade at modest premiums to book with limited AI productivity disclosure. Fourth, the PE thesis: AI-native MGAs underwriting cyber, climate, and AI-liability lines are the next round of Series B and C deals. Look at At-Bay, Coalition, Cowbell Cyber, plus emerging AI-liability MGAs that should hit the fundraising tape in the back half of 2026. Fifth, the public-insurtech long: Lemonade (LMND) at roughly $30 to $35 per share on a path-to-EBITDA-positive Q4 2026 has consensus running too cautious if the $1M premium-per-employee productivity holds. Watch the Q2 print in August.",
+      "bear_case": "The thesis breaks if AI-driven underwriting fails to translate into actual loss-ratio improvements at scale, which would suggest insurers are pricing existing risk faster but not better. Early signals from cyber and climate lines (where AI underwriting is most aggressive) are mixed and the loss-development tail will not be fully visible until 2027-2028. Second concern: NAIC's AI Systems Evaluation Tool rolls out nationwide by November 2026 and requires disclosure of data inputs, which could slow deployment timelines at the most aggressive AI carriers. Third: state-level rate filings get political if AI-driven price segmentation produces visible disparate-impact patterns by zip code or demographic, which could trigger rate-cap legislation in CA, NY, and IL. Fourth: incumbents with strong distribution and pricing power may simply absorb the productivity gains without competitive share loss, which would compress the bull case for Lemonade and the AI-native MGAs. Fifth: a hard catastrophe year (major hurricane plus wildfire) absorbs AI productivity gains into loss costs and reframes the cost-saves story.",
+      "sources": [
+        {
+          "title": "Carrier Management on trusted data",
+          "url": "https://www.carriermanagement.com/features/2025/12/05/282059.htm"
+        },
+        {
+          "title": "Digital Insurance on P&C AI",
+          "url": "https://www.dig-in.com/opinion/where-ai-is-transforming-p-c-insurance"
+        },
+        {
+          "title": "Insurance Intel on AI exclusion wave",
+          "url": "https://insuranceintel.substack.com/p/the-ai-exclusion-wave-and-the-47"
+        },
+        {
+          "title": "BeInsure on Lemonade Q1",
+          "url": "https://beinsure.com/news/insurtech-lemonade-revenue-jumps-71-as-ai-drives-growth/"
+        },
+        {
+          "title": "BCG on AI-first P&C insurer",
+          "url": "https://www.bcg.com/publications/2026/the-ai-first-property-and-casualty-insurer"
+        },
+        {
+          "title": "FactSet on AI in insurance",
+          "url": "https://insight.factset.com/artificial-intelligence-has-evolved-from-pilot-projects-to-differentiators-among-insurance-firms"
+        }
+      ]
+    },
+    "takeaways": [
+      "Cerebras at $95B on a 68% IPO pop reopens the AI IPO window for the first time since 2024 and gives every late-stage AI book a fresh comp. For any LP marking secondary AI positions through Q2, this is the cleanest single-day datapoint in 18 months. Anthropic's rumored $900B round inside the next two weeks is the next confirmation point, with the Nvidia print on May 20 the most-watched fundamentals checkpoint.",
+      "The P&C insurance sector is bifurcating: incumbents are excluding AI liability from policies and forcing a $4.7B specialty market into existence while AI productivity at Lemonade closes the operating-efficiency gap to Progressive and Travelers. PE deal sourcing on AI-native MGAs in cyber, climate, and AI-liability lines is the highest-conviction insurance-vertical category for the back half of 2026.",
+      "Hyperscaler 2026 capex consensus at $725B (+77% YoY) is now contractually committed multi-year via Broadcom-Google through 2031 and Meta-Broadcom through 2029. Pair with the GridCARE round and the power-equipment trade (ETN, PWR, GEV, VRT) has another month of supply-side validation. The bear case needs a soft Nvidia print on May 20 to gain traction.",
+      "ServiceNow's Action Fabric consumption layer is the clearest defense yet against the 'agents eat seats' bear case on enterprise SaaS. Pair with Notion's developer-platform launch and the Xactly Fleet of Agents announcement, and the agent-pricing model is converging on consumption faster than the seat-based incumbents (Anaplan, SuccessFactors comp, Workday HCM modules) can reprice their books.",
+      "EU AI Omnibus pulled the transparency-solution deadline forward to December 2, 2026 and the FTC Microsoft-OpenAI probe escalated with new civil investigative demands. Both events extend the regulatory-overhang theme into Q3 and constrain the multiple-expansion case on MSFT and GOOGL specifically, while creating a deployment-timeline lever for European sovereign-AI plays like Mistral and Cohere."
+    ]
+  },
+  {
+    "date": "2026-05-15",
+    "display_date": "May 15, 2026",
+    "prepared_for": "Luka Agulashvili",
+    "item_count": 14,
+    "catalysts": [
+      {
+        "date": "Mon May 18",
+        "event": "DeepSeek follow-on tech disclosure expected",
+        "watch": "V4 Pro pricing change or new model tier",
+        "action": "Read-through to open-weights short-thesis names"
+      },
+      {
+        "date": "Tue May 19, 10am PT",
+        "event": "Google I/O keynote",
+        "watch": "Gemini version bump, Android-side agent naming, monetization framework",
+        "action": "GOOGL cleanest event-driven long into the print; TTD/APP spillover if Google leans into AI-native ad surfaces"
+      },
+      {
+        "date": "Wed May 20, 4pm ET",
+        "event": "Nvidia FY27 Q1 earnings",
+        "watch": "Print vs $78B guide; DC YoY growth holding 75%+",
+        "action": "Above-guide plus 75%+ DC supports CRDO/AVGO/MRVL/ANET; at-or-below triggers AI-infrastructure rotation"
+      },
+      {
+        "date": "Thu May 21",
+        "event": "CBRS post-IPO Day 6",
+        "watch": "Aftermarket behavior",
+        "action": "Cleanest sentiment proxy on IPO window for SpaceX/OpenAI/Anthropic/Databricks"
+      },
+      {
+        "date": "Fri May 22",
+        "event": "TSMC weekly capex plus China export-control review",
+        "watch": "Whether Nvidia H200 deliveries to Alibaba and Tencent clear",
+        "action": "Direction read for semi-cycle continuation into H2"
+      }
+    ],
+    "sections": [
+      {
+        "title": "Models and Capabilities",
+        "items": [
+          {
+            "headline": "SAP standardizes on Claude across its Autonomous Enterprise stack, deepest Anthropic distribution win since the M365 deal",
+            "summary": "At Sapphire 2026 in Orlando, SAP confirmed Claude as the primary reasoning and agentic capability across finance, HR, procurement, and supply chain, with 50-plus domain-specific Joule Assistants orchestrating over 200 specialist agents. The world's largest ERP vendor running on Claude is a stronger commercial anchor than any single hyperscaler distribution deal.",
+            "angle": "Read-through positive for Anthropic's next funding round mark. The next IPO chatter should price meaningfully higher than the current $950B mark. Watch SAP commentary on ARR uplift from the Autonomous Suite at the next quarter print.",
             "sources": [
               {
                 "title": "SAP newsroom",
@@ -717,9 +1118,9 @@ const briefings = [
             ]
           },
           {
-            "headline": "Mistral Medium 3.5 ships as a 128B open-weights model with Le Chat Work mode",
-            "summary": "Released early May, the dense 128B model scores 77.6% on SWE-Bench Verified, ships with a 256K context window, and runs on as few as four GPUs at $1.50 in / $7.50 out per million tokens. Le Chat's new Work mode supports parallel multi-step agentic execution across email, calendar, documents, Jira, and Slack, with all tool calls visible and explicit approval required before sensitive actions. The model is open weights under a modified MIT license on Hugging Face.",
-            "angle": "A Europe-domiciled, open-weights frontier model with full Work-mode agent UX is the most plausible sovereign-AI option for EU enterprise. Useful as a hedge in any thesis assuming Western frontier capability stays exclusively US-domiciled.",
+            "headline": "Mistral Medium 3.5 lands as the credible EU sovereign-AI hedge, removes the 'US frontier only' assumption from European software theses",
+            "summary": "The 128B dense open-weights model scores 77.6% on SWE-Bench Verified, 256K context window, runs on four GPUs at $1.50 in / $7.50 out per million tokens. Le Chat Work mode handles parallel multi-step agent execution with explicit approval gates on sensitive actions.",
+            "angle": "Useful as a hedge in any thesis assuming Western frontier capability stays exclusively US-domiciled. Watch Le Chat Pro and Vibe adoption signals from EU regulated industries through Q3, the cleanest read on whether EU customers actually buy sovereign-AI when given the option.",
             "sources": [
               {
                 "title": "Mistral news",
@@ -732,9 +1133,9 @@ const briefings = [
             ]
           },
           {
-            "headline": "Google I/O on May 19 sets up the next Gemini step, with on-device agent push",
-            "summary": "The keynote opens Tuesday at 10am PT. Consensus expectation is a major Gemini bump (whether labeled 4.0 or an interim version), expanded multimodal capability, and explicit naming of the Android-side agent (reportedly Remy). Pairs with last week's Android Show I/O Edition announcement that Gemini Intelligence will roll out across Samsung Galaxy and Pixel this summer.",
-            "angle": "This is the single biggest event-driven setup of the week. Alphabet has lagged the AI re-rating most of 2025 and 2026, and the buy-side is positioned for incremental disappointment. Any concrete monetization framework for Gemini reads as positive. Watch advertising-comp setups (Trade Desk, AppLovin) for spillover.",
+            "headline": "Google I/O Tuesday is the biggest event-driven long-setup in mega-cap tech this quarter; buy-side is underweight and positioned for disappointment",
+            "summary": "Consensus expects a Gemini bump (4.0 or interim), expanded multimodal capability, and explicit naming of the Android-side agent. Pairs with the Gemini Intelligence rollout to Samsung Galaxy and Pixel this summer.",
+            "angle": "GOOGL has lagged the AI re-rating for 18 months and the bar going in is low. Any concrete consumer or enterprise monetization framework reads positive. Watch TTD and APP for spillover if Google leans into AI-native ad surfaces.",
             "sources": [
               {
                 "title": "Google blog",
@@ -752,9 +1153,9 @@ const briefings = [
         "title": "Tools and Platforms",
         "items": [
           {
-            "headline": "Broadridge puts agentic AI into production across $15T of daily post-trade activity",
-            "summary": "Broadridge announced on May 11 that its agentic AI capabilities, which autonomously analyze, prioritize, and resolve operational exceptions, are now live in production across capital markets and wealth management workflows. New clients can target up to 30% Day-1 operational cost reduction via either full managed services or a standalone deployment of the agentic platform. The system has been shaped by deployments inside Broadridge's BPO across more than 40 clients since 2024, processing millions of operational transactions monthly.",
-            "angle": "Broadridge sits closer to the actual back-office plumbing than any AI lab, which means the 30% cost-take claim is more credible than headline numbers from pure-play AI vendors. Pair with the Anthropic finance-agents launch earlier this month as a coordinated push against legacy operations vendors (SS&C, FIS, Fiserv).",
+            "headline": "Broadridge agentic AI goes live across $15T daily post-trade volume; 30% Day-1 cost claim is the credible threat to SS&C/FIS/Fiserv",
+            "summary": "Announced May 11: the platform autonomously analyzes, prioritizes, and resolves operational exceptions across capital markets and wealth-management workflows. Shaped by deployments inside Broadridge's BPO across 40-plus clients since 2024, processing millions of transactions monthly.",
+            "angle": "SSNC, FIS, and FI are credible 12-month underweight candidates if Broadridge wins net-new logos at this pace. Watch the next two quarters of new-client wins at Broadridge and any pricing concession commentary at the incumbents.",
             "sources": [
               {
                 "title": "Broadridge press release",
@@ -767,9 +1168,9 @@ const briefings = [
             ]
           },
           {
-            "headline": "PwC and Anthropic expand alliance to deploy Claude across consulting engagements",
-            "summary": "Announced May 14, the expanded partnership puts Claude into PwC's enterprise rollouts spanning operations, modernization, cybersecurity, and finance. PwC will use Claude to build technology, execute deals, and reinvent enterprise functions for clients. This sits in parallel with OpenAI's own PwC partnership announced earlier this month for forecasting, procurement, treasury, and finance operations.",
-            "angle": "Confirms that Big Four consulting is now actively splitting AI workloads across the frontier labs rather than picking one, which compresses the implementation-services rollup story slightly. For PE corp-dev teams, this raises the bar for what a standalone AI services firm needs to show to justify a strategic premium.",
+            "headline": "PwC-Anthropic expansion confirms Big Four splits AI workloads across labs; compresses the standalone AI-services rollup premium",
+            "summary": "May 14 expansion puts Claude into PwC's enterprise operations, modernization, cybersecurity, and finance engagements. Sits in parallel with OpenAI's PwC partnership announced earlier this month.",
+            "angle": "For PE corp dev, the bar for what a standalone AI services firm needs to show to justify a strategic premium just went up. Names like Tomoro (now part of OpenAI Deployment Co.) and any remaining independent AI services firms get less competitive M&A tension.",
             "sources": [
               {
                 "title": "PwC press release",
@@ -778,9 +1179,9 @@ const briefings = [
             ]
           },
           {
-            "headline": "Joule Studio adds n8n-embedded multi-agent orchestration to SAP's stack",
-            "summary": "Released alongside the Sapphire keynote, Joule Studio gives SAP customers a full life-cycle agent-build environment with pro-code support for LangChain, Pydantic AI, and LlamaIndex, plus an embedded n8n environment for visual multi-agent orchestration. Free design-time access including AI-assisted dev capabilities runs through end of 2026 under fair-use limits.",
-            "angle": "SAP standardizing on n8n's orchestration layer is the strongest validation of the $5.2B private valuation. Read-through positive for Workato, Tray.io, and Zapier as comparable orchestration platforms.",
+            "headline": "SAP embeds n8n into Joule Studio, validates the $5.2B n8n private mark and puts orchestration platforms back in play",
+            "summary": "Joule Studio gives SAP customers pro-code support for LangChain, Pydantic AI, LlamaIndex, plus visual multi-agent orchestration via embedded n8n.",
+            "angle": "Positive read-through to Workato, Tray.io, Zapier, and any private orchestration name raising in the next 6 months. The strategic signal is that legacy ERP is paying outside vendors for the orchestration layer rather than building it. For PE deal sourcing, mid-market workflow-automation comps should re-rate upward.",
             "sources": [
               {
                 "title": "SAP newsroom on Joule Studio",
@@ -789,9 +1190,9 @@ const briefings = [
             ]
           },
           {
-            "headline": "Microsoft Agent 365 hits general availability with cross-cloud registry",
-            "summary": "Microsoft Agent 365 went GA for commercial customers on May 1, with subsequent updates through mid-May rolling out cross-cloud registry sync to AWS Bedrock and Google Cloud connections, local agent discovery and management via Microsoft Defender and Intune, and Windows 365 for Agents in US public preview. Agent 365 is positioned as the observability and governance control plane for AI agents across Microsoft and partner ecosystems.",
-            "angle": "Microsoft's defensive counter to ServiceNow's Build Agent positioning and Anthropic's outcomes/orchestration push. Microsoft is betting that whoever owns agent governance owns the enterprise AI budget. For Microsoft holders, Agent 365 is the right answer to where margin recovery comes from as Azure pricing pressure builds.",
+            "headline": "Microsoft Agent 365 GA makes agent governance the center of the MSFT margin story; positions against ServiceNow Build Agent and Anthropic outcomes",
+            "summary": "Went GA May 1 at $15 per user per month, with cross-cloud registry sync to AWS Bedrock and Google Cloud added through mid-May. Windows 365 for Agents in US public preview.",
+            "angle": "This is the right answer to where MSFT margin recovery comes from as Azure pricing pressure builds. For NOW holders, watch the head-to-head competitive dynamic at large-enterprise procurement cycles in H2.",
             "sources": [
               {
                 "title": "Microsoft security blog",
@@ -809,9 +1210,9 @@ const briefings = [
         "title": "Workflows and Agents",
         "items": [
           {
-            "headline": "Mistral's Vibe ships remote agents for async cloud coding",
-            "summary": "Released alongside Medium 3.5, Vibe's remote agents let developers spin up cloud-hosted coding sessions that run continuously, with work resumed across sessions and a 77.6% SWE-Bench Verified score on the underlying model. Beats Devstral 2 and Qwen3.5 397B A17B at a fraction of the operational cost.",
-            "angle": "The async-cloud-coding format Claude Code and Codex have been pushing is now table-stakes across labs. Mistral being competitive on this axis matters for any thesis that assumes European customers will use a US-frontier-only stack.",
+            "headline": "Mistral Vibe matches Claude Code and Codex on async cloud coding; breaks the 'US-frontier-only coding' thesis for EU regulated industries",
+            "summary": "Released alongside Medium 3.5 with cloud-hosted sessions that run continuously, work resumed across sessions, 77.6% SWE-Bench Verified. Beats Devstral 2 and Qwen3.5 397B A17B at a fraction of operational cost.",
+            "angle": "Any thesis that European customers will use a US-frontier-only stack needs revisiting. Watch Mistral Vibe enterprise adoption in regulated industries through Q3.",
             "sources": [
               {
                 "title": "MarkTechPost",
@@ -820,9 +1221,9 @@ const briefings = [
             ]
           },
           {
-            "headline": "ServiceNow and Accenture launch forward-deployed engineering program for agentic AI",
-            "summary": "Announced May 6, the joint program targets enterprises trying to take agentic AI from pilot to production at scale, with access to 300-plus pre-built AI agent skills and agentic workflows on the ServiceNow AI Platform. Pairs with the cross-platform expansion of ServiceNow's Build Agent into Cursor, Windsurf, Claude Code, and GitHub Copilot.",
-            "angle": "Forward-deployed engineering is now the dominant go-to-market for serious agent deployments and the labs cannot do this alone. ServiceNow plus Accenture is the most credible scaled implementation channel for enterprise agents, which means standalone AI implementation firms have to differentiate harder on vertical depth.",
+            "headline": "ServiceNow-Accenture forward-deployed engineering program raises the bar for standalone AI services firms; vertical depth is now the moat",
+            "summary": "Announced May 6, the program targets pilot-to-production scale with 300-plus pre-built agent skills on the ServiceNow AI Platform. Pairs with the cross-platform expansion of ServiceNow's Build Agent into Cursor, Windsurf, Claude Code, and GitHub Copilot.",
+            "angle": "For PE corp dev, valuations of horizontal AI services firms without vertical depth should compress. Vertical AI services in legal, healthcare, finance, and ops are the categories that still command premium multiples.",
             "sources": [
               {
                 "title": "Accenture newsroom",
@@ -831,9 +1232,9 @@ const briefings = [
             ]
           },
           {
-            "headline": "Higgsfield Supercomputer goes live as a multi-model marketing-agent stack",
-            "summary": "Higgsfield's Supercomputer cloud agent launched May 13, handling tasks like building a full week of Instagram ads with competitor analysis from a single prompt. The system routes across Claude Opus 4.7, GPT-5.5 Pro, Gemini 3.1 Pro, plus video generators Kling 3.0 and Seedance.",
-            "angle": "Model-router agent products are now a real category, with the value sitting in the orchestration and output rather than in any single frontier lab. Read-through positive for marketing-tech names that can rebuild as a multi-model agent surface; negative for single-model creative tools that cannot multi-source.",
+            "headline": "Higgsfield Supercomputer ships as multi-model agent stack; model-router products are now a real category",
+            "summary": "Launched May 13, handles tasks like building a full week of Instagram ads with competitor analysis from a single prompt. Routes across Claude Opus 4.7, GPT-5.5 Pro, Gemini 3.1 Pro, Kling 3.0, and Seedance.",
+            "angle": "Marketing-tech names that can rebuild as a multi-model agent surface (HubSpot, Salesforce Marketing Cloud, Sprinklr) get a tailwind. Single-model creative tools without a multi-source orchestration story get re-rated lower.",
             "sources": [
               {
                 "title": "TheAIMarketers recap",
@@ -847,9 +1248,9 @@ const briefings = [
         "title": "Industry, Funding, and Policy",
         "items": [
           {
-            "headline": "Cerebras debuts up 68% on Nasdaq, closing at $95B market cap",
-            "summary": "The AI chipmaker priced at $185 above its $150 to $160 range on May 13, then opened at $350 on May 14, closing the first day up 68% at $311.07. Total raised: $5.55B. Revenue jumped 76% to $510M last year with $88M of net income. Customers include OpenAI, Amazon, and Meta. This is the biggest pure-play AI IPO in Wall Street history and the largest US tech debut since Uber in 2019.",
-            "angle": "Prices the AI-chip alternative-to-Nvidia thesis at a sticky $95B and re-opens the IPO window for the larger names behind it. Constructive setup for SpaceX, OpenAI, Anthropic, Databricks IPO chatter into H2 2026. Late-stage AI marks should firm noticeably in the next 30 days. Cerebras aftermarket trading over the next two weeks is the cleanest sentiment proxy heading into Nvidia's May 20 print.",
+            "headline": "Cerebras (CBRS) prints +68% to $95B market cap on debut; reopens the AI IPO window, pulls forward SpaceX/OpenAI/Anthropic/Databricks calendars",
+            "summary": "Priced at $185 (above the $150 to $160 range) on May 13, opened $350 on May 14, closed first day at $311.07. $5.55B raised. Revenue +76% to $510M last year, $88M net income. Customers OpenAI, Amazon, Meta. Biggest pure-play AI IPO ever, largest US tech debut since Uber 2019.",
+            "angle": "For any LP marking late-stage AI positions through Q2, this is the cleanest comp event in 18 months. Private secondary marks should firm 30 days. CBRS aftermarket trading through end of next week is the cleanest sentiment proxy.",
             "sources": [
               {
                 "title": "CNBC",
@@ -866,24 +1267,9 @@ const briefings = [
             ]
           },
           {
-            "headline": "Anthropic and Gates Foundation announce $200M partnership for global health, education, and economic mobility",
-            "summary": "The four-year commitment covers $200M in grant funding, Claude usage credits, and technical support. Specific areas include health-ministry decision support, workforce deployment and supply-chain tools, outbreak detection, AI-powered diagnosis and treatment support for frontline workers, K-12 tutoring, literacy and numeracy apps for sub-Saharan Africa and India, and agriculture-specific Claude improvements for smallholder farmers. Initial disease focus: polio, HPV, and eclampsia/preeclampsia.",
-            "angle": "Incremental brand and distribution win for Anthropic in global-development and emerging-market verticals where commercial AI penetration is low. Read-through positive for any AI-for-good positioning in B-corp and ESG-tilted mandates. The practical question is which capabilities trickle into commercial Claude products from these projects.",
-            "sources": [
-              {
-                "title": "Anthropic news",
-                "url": "https://www.anthropic.com/news/gates-foundation-partnership"
-              },
-              {
-                "title": "Gates Foundation press release",
-                "url": "https://www.gatesfoundation.org/ideas/media-center/press-releases/2026/05/ai-anthropic-partnership"
-              }
-            ]
-          },
-          {
-            "headline": "Isomorphic Labs closes $2.1B Series B, bringing total capital to $2.6B",
-            "summary": "The Google DeepMind drug-discovery spinout closed the round on May 13, led by Thrive Capital with participation from Alphabet, GV, MGX, Temasek, CapitalG, and the UK Sovereign AI Fund. Funds go to scaling the IsoDDE AI drug-design engine and advancing the pipeline toward clinic. The company has existing strategic partnerships with Novartis, Lilly, and Johnson & Johnson.",
-            "angle": "One of the largest private rounds for AI drug discovery ever and validates that AI-first biotech is now a venture asset class on its own. Read-through for Recursion, Schrodinger, Insilico Medicine, BenevolentAI, and Absci. The UK Sovereign AI Fund showing up at this size signals sovereign-wealth AI deployment is moving from infrastructure-only to applied verticals.",
+            "headline": "Isomorphic Labs raises $2.1B at $2.6B total; prices AI-biotech as its own asset class, RXRX and SDGR re-rate likely",
+            "summary": "Closed May 13, led by Thrive Capital with Alphabet, GV, MGX, Temasek, CapitalG, and the UK Sovereign AI Fund. Funds scale the IsoDDE drug-design engine, advance pipeline toward clinic. Strategic partnerships with Novartis, Lilly, J&J already in place.",
+            "angle": "Cleanest public-equity expressions are RXRX (1.0-1.2x net cash, Bayer alliance economics essentially a free option) and SDGR (7-9x EV/sales, cleaner profitability path). CRO underweight candidates: CRL, IQV, ICLR, WuXi.",
             "sources": [
               {
                 "title": "Isomorphic Labs",
@@ -896,9 +1282,9 @@ const briefings = [
             ]
           },
           {
-            "headline": "Hyperscaler custom-silicon deal wave continues with Marvell-Google MPU talks",
-            "summary": "Google is in active talks with Marvell Technology to co-develop two additional custom AI chips, a Memory Processing Unit and an inference-optimized TPU, alongside its existing Broadcom TPU program extended through 2031. Meta and Broadcom extended their MTIA partnership through 2029, with Meta committing more than $2B annually in design fees and one full gigawatt of deployed custom silicon. Broadcom holds roughly 70% of the custom AI accelerator market today; Counterpoint sees that at 60% by 2027 with Marvell at 25%. Custom ASIC sales projected to grow 45% in 2026 to $118B by 2033.",
-            "angle": "Hyperscaler custom-silicon spend is now multi-year contractually committed, which compresses the long-tail bear case on Nvidia gross-margin pressure. For Broadcom, the Google extension through 2031 is the cleanest visibility-of-revenue story in semis. For Marvell, confirmed inference-TPU talks re-rate the multiple.",
+            "headline": "Marvell-Google MPU talks plus Meta-Broadcom MTIA extension lock in multi-year ASIC visibility; AVGO and MRVL set up well into H2",
+            "summary": "Google in active talks with Marvell for a Memory Processing Unit and inference-optimized TPU, alongside the existing Broadcom TPU program now extended through 2031. Meta-Broadcom MTIA extended through 2029 at $2B+ annual design fees and 1 GW deployed custom silicon. AVGO holds ~70% of custom AI accelerators today; Counterpoint sees 60% by 2027 with MRVL at 25%. Custom ASIC TAM grows 45% in 2026 to $118B by 2033.",
+            "angle": "AVGO is the cleanest revenue-visibility story in semis through 2031. MRVL inference-TPU confirmation is the cleanest re-rating catalyst. Bear case on NVDA gross-margin pressure compressed but not eliminated.",
             "sources": [
               {
                 "title": "TNW on Marvell-Google",
@@ -911,9 +1297,9 @@ const briefings = [
             ]
           },
           {
-            "headline": "Nvidia FY27 Q1 print on May 20 will set the tone for AI capex psychology",
-            "summary": "Nvidia guided revenue of $78B plus or minus 2% for Q1 FY27 vs. consensus of $72.8B (7.1% above consensus). Combined hyperscaler capex tracking $660B to $725B for calendar 2026 with roughly 75% going to AI infrastructure. Goldman's baseline model implies $765B in annual AI capex in 2026 growing to $1.6T by 2031.",
-            "angle": "Pair the Cisco $9B AI order guide raise and the Cerebras IPO blowout with Wednesday's Nvidia print as the decisive three-data-point check on the AI-capex peak narrative. If Nvidia prints above the guide and DC growth holds 75%-plus YoY, the bear case on hyperscaler over-build gets pushed out at least another two quarters.",
+            "headline": "NVDA May 20 print is the decisive AI-capex check; pair with the Cisco $9B guide raise and the Cerebras IPO blowout",
+            "summary": "Guided revenue $78B +/- 2% Q1 FY27 vs consensus $72.8B (7.1% above consensus). Combined hyperscaler capex tracking $660B-$725B for 2026 with ~75% to AI infrastructure. Goldman's baseline implies $765B annual AI capex in 2026 growing to $1.6T by 2031.",
+            "angle": "Print above the guide with DC growth holding 75%+ YoY pushes the AI-capex peak narrative out two quarters. Print at or below the guide with any DC deceleration triggers a rotation out of the AI-infrastructure trade.",
             "sources": [
               {
                 "title": "Goldman tracking trillions",
@@ -924,17 +1310,101 @@ const briefings = [
                 "url": "https://www.fool.com/investing/2026/05/05/prediction-nvidia-stock-going-to-soar-after-may-20/"
               }
             ]
+          },
+          {
+            "headline": "Anthropic-Gates Foundation $200M pulls Claude into global health and education; positive ESG read, watch which capabilities trickle into commercial Claude",
+            "summary": "Four-year, $200M in grant funding plus Claude credits and technical support. Covers health-ministry decision support, outbreak detection, AI-powered diagnosis support for frontline workers, K-12 tutoring, agriculture for smallholder farmers. Disease focus polio, HPV, eclampsia.",
+            "angle": "Marginal positive for ESG-tilted AI mandates. Practical question is which capabilities (clinical decision support, agricultural advisory, low-bandwidth deployment) trickle back to commercial Claude products through 2026 and 2027.",
+            "sources": [
+              {
+                "title": "Anthropic news",
+                "url": "https://www.anthropic.com/news/gates-foundation-partnership"
+              },
+              {
+                "title": "Gates Foundation press release",
+                "url": "https://www.gatesfoundation.org/ideas/media-center/press-releases/2026/05/ai-anthropic-partnership"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "ai_in_practice": [
+      {
+        "sector": "Finance and capital markets",
+        "writeup": "Broadridge agentic AI is live in production across capital-markets and wealth-management exception handling at named clients (announced May 11), promising 30% Day-1 cost reduction. Anthropic's finance-agents suite (pitch decks, statement review, KYC, compliance escalation) plus Microsoft 365 integration is the parallel push at the buy-side and sell-side. Aiera and Daloopa are now standard plugins for transcript and KPI extraction.",
+        "try_this": "Drop a target's last 10-Q plus the equivalent prior-year filing into Claude and ask for revenue and EBITDA by segment, year-over-year change, and any guidance language changes. Then ask for an IC one-pager from that output. 15 minutes end to end.",
+        "sources": [
+          {
+            "title": "Broadridge press release",
+            "url": "https://www.broadridge.com/press-release/2026/broadridge-deploys-agentic-ai"
+          }
+        ]
+      },
+      {
+        "sector": "Private equity",
+        "writeup": "Sierra at $15B post-money and Rogo as the PE-workflow agent category are the two reference designs for full-stack deal-team automation: inbound triage, CIM read, market map, founder outreach drafting. Anthropic's Blackstone-H&F-Goldman JV plus OpenAI's Deployment Co. and Tomoro acquisition mean the labs themselves now sell into PE ops.",
+        "try_this": "Paste a CIM PDF into Claude and ask for a market map of the top 15 comparable companies (public and private) with revenue, growth, last round, and key strategic differentiators. Then ask for a list of expert calls to set up.",
+        "sources": [
+          {
+            "title": "Sierra round (TechCrunch)",
+            "url": "https://techcrunch.com/2026/05/04/sierra-raises-950m-as-the-race-to-own-enterprise-ai-gets-serious/"
+          }
+        ]
+      },
+      {
+        "sector": "Design and creative",
+        "writeup": "Higgsfield Supercomputer (launched May 13) routes across Claude Opus 4.7, GPT-5.5 Pro, Gemini 3.1 Pro, plus Kling 3.0 and Seedance for video, all from a single prompt. The interesting capability is multi-model orchestration: you ask for a campaign and the system figures out which model writes copy, which generates video, which builds the ad set. Adobe Firefly 3 and Canva Magic Studio are doing the same internally for in-app workflows.",
+        "try_this": "Hand Claude your brand guidelines and a one-line brief. Ask for a 5-asset campaign concept with copy, layout direction, and a shot list for video. Use the output as the brief for your design team or a generative tool.",
+        "sources": [
+          {
+            "title": "TheAIMarketers recap",
+            "url": "https://www.theaimarketers.ai/news051426/"
+          }
+        ]
+      },
+      {
+        "sector": "Music and audio",
+        "writeup": "Suno v5 and Udio v2 now handle full-track generation with consistent vocal-clone integration; ElevenLabs voice cloning hits production quality for podcast and audiobook narration at a fraction of studio cost. The visible commercial wave is in audiobooks (Spotify, Audible licensing AI-narrated catalogs), advertising jingles, and content-creator background music. Music-rights holders are negotiating training-data licensing in parallel.",
+        "try_this": "Ask Claude to draft a track brief (mood, tempo, genre, lyric direction) and then hand it to Suno or Udio. Faster than blank-page prompting and produces more usable results.",
+        "sources": []
+      },
+      {
+        "sector": "Retail and e-commerce",
+        "writeup": "Amazon Alexa for Shopping (launched May 13) replaces Rufus and integrates the Alexa+ assistant across mobile, desktop, and Echo Show for product discovery and purchase. Shopify Magic and Klaviyo's AI marketing tools handle product descriptions, email campaigns, and segmentation at SMB scale. The structural shift is agentic checkout: agents that can complete a purchase end-to-end with stored payment and shipping info, which compresses Google's intermediary role between consumer and merchant.",
+        "try_this": "Paste your last quarter of customer service tickets or product reviews into Claude and ask for a sentiment trend by SKU plus the top three product complaints with suggested fixes.",
+        "sources": []
+      },
+      {
+        "sector": "Healthcare and pharma",
+        "writeup": "Isomorphic Labs IsoDDE engine ($2.1B Series B this week) is now running on Lilly's protein-design programs, with Anthropic's clinical-decision-support efforts under the Gates framework spinning out commercial Claude features through 2026. Insilico's Rentosertib is the first fully AI-designed drug to publish positive Phase IIa data, and Schrodinger-Takeda's zasocitinib has positive Phase III psoriasis data.",
+        "try_this": "Drop a clinical trial protocol into Claude and ask for a structured summary of endpoints, inclusion criteria, statistical assumptions, and the three most likely failure modes. Faster than reading the 80-page PDF cold.",
+        "sources": [
+          {
+            "title": "Isomorphic Labs",
+            "url": "https://www.isomorphiclabs.com/articles/isomorphic-labs-announces-series-b-investment-round"
+          }
+        ]
+      },
+      {
+        "sector": "Legal services",
+        "writeup": "Harvey is now in production at major firms including Latham, A&O, Allen Overy Shearman, and PwC Legal with the dreaming feature delivering 6x throughput in internal testing. Practical use cases are M&A document review, regulatory filing drafting, due-diligence first-pass review, and contract redlining. Downstream pressure on associate billable hours is now real, with firms re-pricing fixed-fee work.",
+        "try_this": "Paste a contract or NDA into Claude and ask for the top 10 redlines you'd push back on as buyer, with the rationale and a suggested alternative wording for each. 30 minutes of associate work compressed to 5.",
+        "sources": [
+          {
+            "title": "Anthropic dreaming research",
+            "url": "https://www.anthropic.com/research/long-running-Claude"
           }
         ]
       }
     ],
     "sector_spotlight": {
       "sector": "Pharma R&D and AI Drug Discovery",
-      "snapshot": "Today's spotlight rotates onto pharma R&D, where the Isomorphic Labs $2.1B Series B closing this week makes AI drug discovery the single most consequential vertical-AI subsector to track over the next 24 months. The global pharma industry runs roughly $1.6 trillion in annual revenue with R&D spend at $260 billion to $280 billion, which is the relevant cost pool AI is targeting. The top of the pipeline is concentrated: J&J, Pfizer, Roche, Novartis, Merck, Lilly, AstraZeneca, GSK, and Sanofi together control more than half of global new-molecular-entity output. The AI-native challenger set is small but well-capitalized: Isomorphic Labs (Alphabet-backed, $2.6B total raised), Recursion Pharmaceuticals (public, RXRX, $1.3B market cap as of mid-May), Schrodinger (public, SDGR, roughly $2.0B market cap), Insilico Medicine (private), Exscientia (now part of Recursion), BenevolentAI (LSE-listed, micro-cap), and Absci (public, ABSI). Roughly 35% to 45% of total R&D spend goes to early-discovery and pre-clinical work, which is where AI compresses cycle time most directly. Headcount inside large-pharma medicinal-chemistry, computational-biology, and HTS-screening groups is the labor pool at risk of net redesign rather than headcount add.",
-      "current_use_cases": "AI-designed molecules are progressing through clinic at a pace nobody projected three years ago. Insilico's INS018_055 (Rentosertib) just published positive Phase IIa results in Nature Medicine and is heading into pivotal trials, the first fully AI-designed compound to reach this stage. The Schrodinger-Takeda zasocitinib program is delivering positive Phase III psoriasis data on a second AI-discovered compound. Bayer's $1.5B Recursion alliance and Novo Nordisk's $2.76B partnership with Valo Health are running across hit-to-lead and lead-optimization workflows. More than 173 AI-discovered drug programs are now in clinical development globally, with 15 to 20 entering large-scale trials in 2026. Target identification and ADMET screening cycles inside large pharma have compressed from 18 months to roughly 6 months for AI-augmented programs. Foundation-model providers are now embedded in pharma R&D directly: Lilly is running on Isomorphic's IsoDDE engine for protein-design work, Anthropic's clinical-decision-support and outbreak-detection efforts under the Gates Foundation framework will spill back to commercial Claude products through 2026 and 2027. OpenAI's GPT-Rosalind disclosure last month pulled the CRO sector lower as buy-side analysts re-modeled the share of preclinical work AI shifts from outsourced to in-house.",
-      "outlook_24mo": "The 24-month outlook through mid-2028 is mixed. On headcount, AI augments rather than displaces wet-lab scientists in the immediate term, but discovery-chemistry and computational-biology headcount at the top 20 pharma companies likely flattens or declines 5% to 10% as the next budget cycle reflects efficiency gains. Medicinal chemistry contractor spend at CROs is the cleanest at-risk line: a 15% to 25% reduction in early-stage CRO spend across the top 10 pharma R&D budgets is plausible by 2028, which reads directly to Charles River (CRL), IQVIA (IQV), ICON (ICLR), and WuXi AppTec. On efficiency, the credible base-case is 30% to 40% reduction in time-to-IND and 20% to 30% reduction in cost-per-IND for AI-augmented programs by 2028, translating to roughly 200 to 400 basis points of pharma R&D-productivity expansion once the lagged effect of approvals comes through. Winners are integrated platform AI biotechs that own both target identification and clinical development (Isomorphic, Recursion-Exscientia, Insilico) and incumbent pharma that locks in proprietary data partnerships early (Lilly, Novartis, Roche). Losers are CROs that fail to verticalize into AI-augmented services and traditional medchem outsourcing shops. Capex implications: pharma reallocates roughly $15B to $25B globally per year from physical R&D infrastructure (HTS labs, compound libraries) into AI compute, data licensing, and AI-talent comp by 2028.",
-      "investment_implications": "First, the cleanest public-equity expression is the AI-native biotech bucket: RXRX and SDGR are the two listed pure-plays, both trading at low book-value multiples but with deep partnership pipelines that are not yet in consensus revenue. RXRX trades at roughly 1.0x to 1.2x net-cash, which makes the Bayer-Recursion alliance economics essentially a free option. SDGR at 7x to 9x EV/sales has the cleaner profitability path. Second, the CRO short-side: CRL, IQV, ICLR, and WuXi are credible 12 to 24 month underweight candidates if early-stage AI displacement materializes at the pace Bayer-Recursion suggests. Watch the early-stage services line in CRO Q3 and Q4 prints. Third, the diversified large-pharma long-side: Lilly (LLY), Novartis (NVS), and Roche have the strongest AI-partnership footprints and best lifecycle defense via biologics depth. Multiples are not screaming cheap, but the AI-augmented R&D ROIC story is materially underappreciated. Fourth, for PE: Isomorphic at $2.6B raised but no public valuation marker is the obvious secondary target; Insilico's late-stage round and Absci's public price create credible reference points. Sovereign-wealth participation in the Isomorphic Series B (UK Sovereign AI Fund, MGX) tells you the comparable LP/co-invest opportunity set is real for 2026 and 2027 capital deployment.",
-      "bear_case": "The thesis breaks if AI-discovered molecules fail systematically in later-stage trials at a meaningfully higher rate than traditionally-discovered drugs, which would suggest AI is optimizing for in silico endpoints rather than clinical outcomes. The current sample (Rentosertib Phase IIa, zasocitinib Phase III) is too small to refute this directly. Second concern: regulatory friction at FDA on AI-derived submissions could compress NPV models. CDER has been receptive so far but a single high-profile failure changes the political tone fast. Third: if hyperscaler-backed labs (Alphabet, Microsoft) absorb the AI-biotech leadership through M&A, the publicly-listed AI-native names lose their best independent strategic options and become commodity providers. Fourth: pharma R&D budgets are sticky and slow to flex; the 200 to 400 basis points of productivity may take longer to show in reported margins than the bull case implies, which means the equity re-rating compresses into a tighter window than is currently priced.",
+      "snapshot": "Today's spotlight rotates onto pharma R&D, where the Isomorphic Labs $2.1B Series B closing this week makes AI drug discovery the single most consequential vertical-AI subsector to track over the next 24 months. The global pharma industry runs roughly $1.6 trillion in annual revenue with R&D spend at $260 billion to $280 billion. The top of the pipeline is concentrated: J&J, Pfizer, Roche, Novartis, Merck, Lilly, AstraZeneca, GSK, and Sanofi together control more than half of global new-molecular-entity output. The AI-native challenger set is small but well-capitalized: Isomorphic Labs (Alphabet-backed, $2.6B total raised), Recursion Pharmaceuticals (public, RXRX, $1.3B market cap as of mid-May), Schrodinger (public, SDGR, roughly $2.0B market cap), Insilico Medicine (private), Exscientia (now part of Recursion), BenevolentAI (LSE-listed, micro-cap), and Absci (public, ABSI). Roughly 35% to 45% of total R&D spend goes to early-discovery and pre-clinical work, which is where AI compresses cycle time most directly.",
+      "current_use_cases": "AI-designed molecules are progressing through clinic at a pace nobody projected three years ago. Insilico's INS018_055 (Rentosertib) just published positive Phase IIa results in Nature Medicine and is heading into pivotal trials, the first fully AI-designed compound to reach this stage. The Schrodinger-Takeda zasocitinib program is delivering positive Phase III psoriasis data on a second AI-discovered compound. Bayer's $1.5B Recursion alliance and Novo Nordisk's $2.76B partnership with Valo Health are running across hit-to-lead and lead-optimization workflows. More than 173 AI-discovered drug programs are now in clinical development globally, with 15 to 20 entering large-scale trials in 2026. Target identification and ADMET screening cycles inside large pharma have compressed from 18 months to roughly 6 months for AI-augmented programs.",
+      "outlook_24mo": "The 24-month outlook through mid-2028 is mixed. On headcount, AI augments rather than displaces wet-lab scientists in the immediate term, but discovery-chemistry and computational-biology headcount at the top 20 pharma companies likely flattens or declines 5% to 10% as the next budget cycle reflects efficiency gains. Medicinal chemistry contractor spend at CROs is the cleanest at-risk line: a 15% to 25% reduction in early-stage CRO spend across the top 10 pharma R&D budgets is plausible by 2028, which reads directly to Charles River (CRL), IQVIA (IQV), ICON (ICLR), and WuXi AppTec. On efficiency, the credible base-case is 30% to 40% reduction in time-to-IND and 20% to 30% reduction in cost-per-IND for AI-augmented programs by 2028, translating to roughly 200 to 400 basis points of pharma R&D-productivity expansion once the lagged effect of approvals comes through. Capex implications: pharma reallocates roughly $15B to $25B globally per year from physical R&D infrastructure into AI compute, data licensing, and AI-talent comp by 2028.",
+      "investment_implications": "First, the cleanest public-equity expression is the AI-native biotech bucket: RXRX and SDGR are the two listed pure-plays, both trading at low book-value multiples but with deep partnership pipelines that are not yet in consensus revenue. RXRX trades at roughly 1.0x to 1.2x net-cash, which makes the Bayer-Recursion alliance economics essentially a free option. SDGR at 7x to 9x EV/sales has the cleaner profitability path. Second, the CRO short-side: CRL, IQV, ICLR, and WuXi are credible 12 to 24 month underweight candidates if early-stage AI displacement materializes at the pace Bayer-Recursion suggests. Third, the diversified large-pharma long-side: Lilly (LLY), Novartis (NVS), and Roche have the strongest AI-partnership footprints and best lifecycle defense via biologics depth. Fourth, for PE: Isomorphic at $2.6B raised but no public valuation marker is the obvious secondary target.",
+      "bear_case": "The thesis breaks if AI-discovered molecules fail systematically in later-stage trials at a meaningfully higher rate than traditionally-discovered drugs, which would suggest AI is optimizing for in silico endpoints rather than clinical outcomes. The current sample is too small to refute this directly. Second concern: regulatory friction at FDA on AI-derived submissions could compress NPV models. Third: if hyperscaler-backed labs (Alphabet, Microsoft) absorb the AI-biotech leadership through M&A, the publicly-listed AI-native names lose their best independent strategic options. Fourth: pharma R&D budgets are sticky and slow to flex; the 200 to 400 basis points of productivity may take longer to show in reported margins than the bull case implies.",
       "sources": [
         {
           "title": "Isomorphic Labs Series B",
@@ -949,25 +1419,17 @@ const briefings = [
           "url": "https://www.drugtargetreview.com/article/192962/ai-in-drug-discovery-predictions-for-2026/"
         },
         {
-          "title": "DrugPatentWatch ML in drug discovery",
-          "url": "https://www.drugpatentwatch.com/blog/the-application-of-machine-learning-in-drug-discovery-revolutionizing-pharmaceutical-research/"
-        },
-        {
           "title": "Anthropic-Gates Foundation",
           "url": "https://www.anthropic.com/news/gates-foundation-partnership"
-        },
-        {
-          "title": "TradingKey GPT-Rosalind CRO impact",
-          "url": "https://www.tradingkey.com/analysis/stocks/us-stocks/261793997-openai-gpt-rosalind-cro-tradingkey"
         }
       ]
     },
     "takeaways": [
       "Cerebras closing at $95B on a 68% pop reopens the AI IPO window in size for the first time since 2024 and pulls forward the calendar for SpaceX, OpenAI, Anthropic, and Databricks. For any LP marking late-stage AI positions through Q2, this is the cleanest comp event in 18 months and should support upward revisions on private secondary marks over the next 30 days. The Nvidia print on May 20 is the next confirmation point on the cycle.",
-      "SAP standardizing on Claude across its Autonomous Enterprise stack is a deeper distribution win for Anthropic than any single hyperscaler deal. Pair with the parallel PwC alliance and the Gates Foundation framework, and the operating leverage for Anthropic into a 2026/2027 IPO scenario looks materially better than three months ago. Useful as a check on multi-frontier-lab theses in any AI services or aggregator name.",
-      "Broadridge putting agentic AI into production at $15T of daily activity with a 30% Day-1 cost claim is the most credible enterprise-grade productivity number out this month. Worth tracking customer references in next-quarter earnings calls at SS&C, FIS, Fiserv, and DTCC to see whether legacy back-office vendors hold pricing. For Georgia Capital exposures with back-office processing dependencies, this is the data point to bring to next IC.",
-      "Hyperscaler custom-silicon spend is now contractually committed multi-year, with Broadcom-Google through 2031 and Meta-Broadcom through 2029. This compresses the Nvidia gross-margin bear case but does not eliminate it. Both Broadcom and Marvell look constructively positioned into the back half of 2026, with Marvell's Google MPU and inference-TPU talks as the cleanest catalyst.",
-      "The Isomorphic Labs $2.1B round at the same time as the Anthropic-Gates deal signals that the second wave of AI value is moving from horizontal infrastructure into applied vertical use cases. For PE deal sourcing through the back half of 2026, vertical AI in drug discovery, healthcare, agriculture, and financial services back-office is the highest-conviction category. Standalone horizontal AI services firms without vertical depth will see their strategic acquisition premiums compress as the frontier labs and Big Four consolidate the implementation layer."
+      "SAP standardizing on Claude across its Autonomous Enterprise stack is a deeper distribution win for Anthropic than any single hyperscaler deal. Pair with the parallel PwC alliance and the Gates Foundation framework, and the operating leverage for Anthropic into a 2026/2027 IPO scenario looks materially better than three months ago.",
+      "Broadridge putting agentic AI into production at $15T of daily activity with a 30% Day-1 cost claim is the most credible enterprise-grade productivity number out this month. Worth tracking customer references in next-quarter earnings calls at SS&C, FIS, Fiserv, and DTCC to see whether legacy back-office vendors hold pricing.",
+      "Hyperscaler custom-silicon spend is now contractually committed multi-year, with Broadcom-Google through 2031 and Meta-Broadcom through 2029. This compresses the Nvidia gross-margin bear case but does not eliminate it. Both Broadcom and Marvell look constructively positioned into the back half of 2026.",
+      "The Isomorphic Labs $2.1B round at the same time as the Anthropic-Gates deal signals that the second wave of AI value is moving from horizontal infrastructure into applied vertical use cases. For PE deal sourcing through the back half of 2026, vertical AI in drug discovery, healthcare, agriculture, and financial services back-office is the highest-conviction category."
     ]
   },
   {
@@ -1240,7 +1702,7 @@ const briefings = [
       "The cleanest single signal this week is Cisco's $9B AI order guide raise (from $5B), which directly contradicts the hyperscaler capex peak narrative and supports continued strength in networking and switching comps (Arista, Marvell, Broadcom) through fiscal 2027. Pair with Cerebras pricing above range as confirmation that the AI capital cycle still has runway. Nvidia's May 20 print is the next confirmation point.",
       "Frontier labs are converging on enterprise distribution before going public. Anthropic's $1.5B Blackstone-H&F-Goldman JV and OpenAI's Deployment Co. plus Tomoro acquisition both signal that the implementation-services category is now a contested rollup target. For PE and corp dev teams, standalone AI services firms with vertical depth in finance, healthcare, and legal are plausible acquisition targets through 2026 at premium multiples.",
       "Sierra at $15B+ post-money on roughly $150M ARR (~100x multiple) crystallizes the private-public valuation gap in AI software. Either private rounds compress next quarter or public AI software re-rates upward. The Sierra renewal cohort over the next two quarters is the practical read for anyone marking books on AI growth comps.",
-      "The Anthropic finance-agents launch (May 5) plus the Dreaming agent feature (May 6) jointly raise the threat level to legacy financial-data aggregators. FactSet was down roughly 8% intraday on the agents news. For Georgia Capital's exposures and any positions in S&P Global, Moody's, MSCI, FactSet, watch for revenue mix disclosure in the next earnings cycle as a signal on whether the aggregators retain pricing power. The Harvey 6x throughput claim is the data point to validate in customer references.",
+      "The Anthropic finance-agents launch (May 5) plus the Dreaming agent feature (May 6) jointly raise the threat level to legacy financial-data aggregators. FactSet was down roughly 8% intraday on the agents news. For any exposures and positions in S&P Global, Moody's, MSCI, FactSet, watch for revenue mix disclosure in the next earnings cycle as a signal on whether the aggregators retain pricing power. The Harvey 6x throughput claim is the data point to validate in customer references.",
       "Chinese open-weights (DeepSeek V4, GLM-5.1, MiniMax M2.7, Kimi K2.6) at sub-1% of Western frontier pricing make model superiority a short-duration moat. For any AI software thesis, weight distribution, proprietary data, and workflow integration over claimed model capability. Names exposed only to model-quality differentiation are the most at-risk on the next pricing cycle."
     ]
   },
@@ -2889,172 +3351,172 @@ const briefings = [
 let activeIndex = 0;
 
 function escape(s) {
-  if (s === null || s === undefined) return '';
-  return String(s).replace(/[<>&"']/g, function(c) {
-    return { '<':'&lt;', '>':'&gt;', '&':'&amp;', '"':'&quot;', "'":'&#39;' }[c];
-  });
+ if (s === null || s === undefined) return '';
+ return String(s).replace(/[<>&"']/g, function(c) {
+ return { '<':'&lt;', '>':'&gt;', '&':'&amp;', '"':'&quot;', "'":'&#39;' }[c];
+ });
 }
 
 function pad2(n) { return n < 10 ? '0' + n : '' + n; }
 
 function formatChipDate(b) {
-  if (b.display_date) {
-    return b.display_date.replace(/, \d{4}$/, '');
-  }
-  return b.date;
+ if (b.display_date) {
+ return b.display_date.replace(/, \d{4}$/, '');
+ }
+ return b.date;
 }
 
 function slugify(s) {
-  return String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+ return String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
 
 function renderChips() {
-  const html = briefings.map(function(b, i) {
-    const isLatest = i === 0;
-    const isActive = i === activeIndex;
-    return '<button class="chip' + (isActive ? ' active' : '') + '" data-idx="' + i + '">' +
-      '<span class="chip-date">' + escape(formatChipDate(b)) + '</span>' +
-      (isLatest ? '<span class="chip-tag">Latest</span>' : '') +
-      '</button>';
-  }).join('');
-  const chips = document.getElementById('chips');
-  chips.innerHTML = html;
-  chips.querySelectorAll('.chip').forEach(function(el) {
-    el.addEventListener('click', function() {
-      activeIndex = parseInt(el.getAttribute('data-idx'), 10);
-      try { localStorage.setItem('briefing_active_date', briefings[activeIndex].date); } catch (e) {}
-      renderAll();
-    });
-  });
+ const html = briefings.map(function(b, i) {
+ const isLatest = i === 0;
+ const isActive = i === activeIndex;
+ return '<button class="chip' + (isActive ? ' active' : '') + '" data-idx="' + i + '">' +
+ '<span class="chip-date">' + escape(formatChipDate(b)) + '</span>' +
+ (isLatest ? '<span class="chip-tag">Latest</span>' : '') +
+ '</button>';
+ }).join('');
+ const chips = document.getElementById('chips');
+ chips.innerHTML = html;
+ chips.querySelectorAll('.chip').forEach(function(el) {
+ el.addEventListener('click', function() {
+ activeIndex = parseInt(el.getAttribute('data-idx'), 10);
+ try { localStorage.setItem('briefing_active_date', briefings[activeIndex].date); } catch (e) {}
+ renderAll();
+ });
+ });
 }
 
 function renderHeader() {
-  const b = briefings[activeIndex];
-  const badge = document.getElementById('badge');
-  badge.textContent = activeIndex === 0 ? 'Latest' : 'Archive';
-  badge.className = 'badge' + (activeIndex === 0 ? '' : ' archive');
-  document.getElementById('meta-text').innerHTML =
-    escape(b.display_date || b.date) + ' <span class="dot"></span> ' +
-    (b.item_count || countItems(b)) + ' items' +
-    (b.prepared_for ? ' <span class="dot"></span> Prepared for ' + escape(b.prepared_for) : '');
-  document.getElementById('issue-title').textContent =
-    (b.display_date || b.date) + ' Edition';
-  const totalSections = (b.sections || []).length + (b.spotlight ? 1 : 0) + (b.takeaways && b.takeaways.length ? 1 : 0);
-  document.getElementById('issue-sub').textContent =
-    totalSections + ' sections covering models, tools, agents, deal flow, and the day’s industry spotlight.';
+ const b = briefings[activeIndex];
+ const badge = document.getElementById('badge');
+ badge.textContent = activeIndex === 0 ? 'Latest' : 'Archive';
+ badge.className = 'badge' + (activeIndex === 0 ? '' : ' archive');
+ document.getElementById('meta-text').innerHTML =
+ escape(b.display_date || b.date) + ' <span class="dot"></span> ' +
+ (b.item_count || countItems(b)) + ' items' +
+ (b.prepared_for ? ' <span class="dot"></span> Prepared for ' + escape(b.prepared_for) : '');
+ document.getElementById('issue-title').textContent =
+ (b.display_date || b.date) + ' Edition';
+ const totalSections = (b.sections || []).length + (b.spotlight ? 1 : 0) + (b.takeaways && b.takeaways.length ? 1 : 0);
+ document.getElementById('issue-sub').textContent =
+ totalSections + ' sections covering models, tools, agents, deal flow, and the day’s industry spotlight.';
 }
 
 function countItems(b) {
-  return b.sections.reduce(function(n, s) { return n + s.items.length; }, 0);
+ return b.sections.reduce(function(n, s) { return n + s.items.length; }, 0);
 }
 
 function renderToc() {
-  const b = briefings[activeIndex];
-  const toc = document.getElementById('toc');
-  if (!b || !b.sections) { toc.innerHTML = ''; return; }
-  let parts = [];
-  b.sections.forEach(function(s, i) {
-    parts.push(
-      '<a class="toc-link" href="#sec-' + slugify(s.title) + '">' +
-      '<span class="toc-num">' + pad2(i + 1) + '</span>' +
-      '<span class="toc-text">' + escape(s.title) + '</span>' +
-      '</a>'
-    );
-  });
-  if (b.spotlight && b.spotlight.industry) {
-    parts.push(
-      '<a class="toc-link" href="#spotlight">' +
-      '<span class="toc-num">SP</span>' +
-      '<span class="toc-text">Spotlight · ' + escape(b.spotlight.industry) + '</span>' +
-      '</a>'
-    );
-  }
-  if (b.takeaways && b.takeaways.length) {
-    parts.push(
-      '<a class="toc-link" href="#takeaways">' +
-      '<span class="toc-num">TK</span>' +
-      '<span class="toc-text">Takeaways</span>' +
-      '</a>'
-    );
-  }
-  toc.innerHTML = parts.join('');
+ const b = briefings[activeIndex];
+ const toc = document.getElementById('toc');
+ if (!b || !b.sections) { toc.innerHTML = ''; return; }
+ let parts = [];
+ b.sections.forEach(function(s, i) {
+ parts.push(
+ '<a class="toc-link" href="#sec-' + slugify(s.title) + '">' +
+ '<span class="toc-num">' + pad2(i + 1) + '</span>' +
+ '<span class="toc-text">' + escape(s.title) + '</span>' +
+ '</a>'
+ );
+ });
+ if (b.spotlight && b.spotlight.industry) {
+ parts.push(
+ '<a class="toc-link" href="#spotlight">' +
+ '<span class="toc-num">SP</span>' +
+ '<span class="toc-text">Spotlight · ' + escape(b.spotlight.industry) + '</span>' +
+ '</a>'
+ );
+ }
+ if (b.takeaways && b.takeaways.length) {
+ parts.push(
+ '<a class="toc-link" href="#takeaways">' +
+ '<span class="toc-num">TK</span>' +
+ '<span class="toc-text">Takeaways</span>' +
+ '</a>'
+ );
+ }
+ toc.innerHTML = parts.join('');
 }
 
 function renderBriefing() {
-  const b = briefings[activeIndex];
-  if (!b) {
-    document.getElementById('briefing').innerHTML = '<div class="empty">No briefing selected.</div>';
-    return;
-  }
-  let html = '';
-  (b.sections || []).forEach(function(section, sIdx) {
-    html += '<section class="section" id="sec-' + slugify(section.title) + '">';
-    html += '<div class="section-head">';
-    html += '<div class="section-num">' + pad2(sIdx + 1) + '</div>';
-    html += '<h2 class="section-title">' + escape(section.title) + '</h2>';
-    html += '<div class="section-count">' + section.items.length + ' items</div>';
-    html += '</div>';
-    section.items.forEach(function(item) {
-      html += '<article class="item">';
-      html += '<h3 class="item-headline">' + escape(item.headline) + '</h3>';
-      html += '<div class="item-summary">' + escape(item.summary) + '</div>';
-      if (item.angle) {
-        html += '<div class="angle"><span class="angle-label">Investment angle</span>' + escape(item.angle) + '</div>';
-      }
-      if (item.sources && item.sources.length) {
-        html += '<div class="sources"><span class="sources-label">Sources</span>';
-        html += item.sources.map(function(s) {
-          return '<a href="' + escape(s.url) + '" target="_blank" rel="noopener">' + escape(s.title) + '</a>';
-        }).join('');
-        html += '</div>';
-      }
-      html += '</article>';
-    });
-    html += '</section>';
-  });
-  if (b.spotlight && b.spotlight.industry) {
-    html += '<section class="spotlight-wrap" id="spotlight">';
-    html += '<div class="spotlight-eyebrow">Industry Spotlight</div>';
-    html += '<h2 class="spotlight-industry">' + escape(b.spotlight.industry) + '</h2>';
-    html += '<div class="spotlight-meta">Rotating sector deep-read · ' + escape(b.display_date || b.date) + '</div>';
-    html += '<div class="spotlight-body">';
-    const paras = Array.isArray(b.spotlight.body) ? b.spotlight.body : [b.spotlight.body];
-    paras.forEach(function(p) { html += '<p>' + escape(p) + '</p>'; });
-    html += '</div></section>';
-  }
-  if (b.takeaways && b.takeaways.length) {
-    html += '<section class="takeaways-wrap" id="takeaways">';
-    html += '<div class="section-head">';
-    html += '<div class="section-num">' + pad2((b.sections || []).length + 1) + '</div>';
-    html += '<h2 class="section-title">Investment-Relevant Takeaways</h2>';
-    html += '<div class="section-count">' + b.takeaways.length + ' points</div>';
-    html += '</div>';
-    b.takeaways.forEach(function(t, i) {
-      html += '<div class="takeaway">';
-      html += '<div class="takeaway-num">' + pad2(i + 1) + '</div>';
-      html += '<div class="takeaway-text">' + escape(t) + '</div>';
-      html += '</div>';
-    });
-    html += '</section>';
-  }
-  document.getElementById('briefing').innerHTML = html;
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+ const b = briefings[activeIndex];
+ if (!b) {
+ document.getElementById('briefing').innerHTML = '<div class="empty">No briefing selected.</div>';
+ return;
+ }
+ let html = '';
+ (b.sections || []).forEach(function(section, sIdx) {
+ html += '<section class="section" id="sec-' + slugify(section.title) + '">';
+ html += '<div class="section-head">';
+ html += '<div class="section-num">' + pad2(sIdx + 1) + '</div>';
+ html += '<h2 class="section-title">' + escape(section.title) + '</h2>';
+ html += '<div class="section-count">' + section.items.length + ' items</div>';
+ html += '</div>';
+ section.items.forEach(function(item) {
+ html += '<article class="item">';
+ html += '<h3 class="item-headline">' + escape(item.headline) + '</h3>';
+ html += '<div class="item-summary">' + escape(item.summary) + '</div>';
+ if (item.angle) {
+ html += '<div class="angle"><span class="angle-label">Investment angle</span>' + escape(item.angle) + '</div>';
+ }
+ if (item.sources && item.sources.length) {
+ html += '<div class="sources"><span class="sources-label">Sources</span>';
+ html += item.sources.map(function(s) {
+ return '<a href="' + escape(s.url) + '" target="_blank" rel="noopener">' + escape(s.title) + '</a>';
+ }).join('');
+ html += '</div>';
+ }
+ html += '</article>';
+ });
+ html += '</section>';
+ });
+ if (b.spotlight && b.spotlight.industry) {
+ html += '<section class="spotlight-wrap" id="spotlight">';
+ html += '<div class="spotlight-eyebrow">Industry Spotlight</div>';
+ html += '<h2 class="spotlight-industry">' + escape(b.spotlight.industry) + '</h2>';
+ html += '<div class="spotlight-meta">Rotating sector deep-read · ' + escape(b.display_date || b.date) + '</div>';
+ html += '<div class="spotlight-body">';
+ const paras = Array.isArray(b.spotlight.body) ? b.spotlight.body : [b.spotlight.body];
+ paras.forEach(function(p) { html += '<p>' + escape(p) + '</p>'; });
+ html += '</div></section>';
+ }
+ if (b.takeaways && b.takeaways.length) {
+ html += '<section class="takeaways-wrap" id="takeaways">';
+ html += '<div class="section-head">';
+ html += '<div class="section-num">' + pad2((b.sections || []).length + 1) + '</div>';
+ html += '<h2 class="section-title">Investment-Relevant Takeaways</h2>';
+ html += '<div class="section-count">' + b.takeaways.length + ' points</div>';
+ html += '</div>';
+ b.takeaways.forEach(function(t, i) {
+ html += '<div class="takeaway">';
+ html += '<div class="takeaway-num">' + pad2(i + 1) + '</div>';
+ html += '<div class="takeaway-text">' + escape(t) + '</div>';
+ html += '</div>';
+ });
+ html += '</section>';
+ }
+ document.getElementById('briefing').innerHTML = html;
+ window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function renderAll() {
-  renderChips();
-  renderHeader();
-  renderToc();
-  renderBriefing();
+ renderChips();
+ renderHeader();
+ renderToc();
+ renderBriefing();
 }
 
 // Restore last viewed date on load (defaults to latest)
 try {
-  const saved = localStorage.getItem('briefing_active_date');
-  if (saved) {
-    const idx = briefings.findIndex(function(b) { return b.date === saved; });
-    if (idx >= 0) activeIndex = idx;
-  }
+ const saved = localStorage.getItem('briefing_active_date');
+ if (saved) {
+ const idx = briefings.findIndex(function(b) { return b.date === saved; });
+ if (idx >= 0) activeIndex = idx;
+ }
 } catch (e) {}
 
 renderAll();
@@ -3062,3 +3524,4 @@ renderAll();
 
 </body>
 </html>
+                                                                                         

@@ -13,10 +13,10 @@ index.html
 ├─ <style> ... full styles ...
 ├─ <body> masthead, archive sidebar, main content
 └─ <script>
-   // === BRIEFINGS_DATA_START ===
-   const briefings = [ ... ];   // newest first
-   // === BRIEFINGS_DATA_END ===
-   // renderer code
+ // === BRIEFINGS_DATA_START ===
+ const briefings = [ ... ]; // newest first
+ // === BRIEFINGS_DATA_END ===
+ // renderer code
 ```
 
 The daily task surgically replaces ONLY the array between the delimiters. Everything else (styles, layout, renderer) is preserved automatically.
@@ -27,11 +27,11 @@ The repo lives inside the scheduled task folder so there's a single source of tr
 
 ```
 C:\Files\VibeCoding\Scheduled tasks\AI briefing\
-├─ index.html              [tracked]  the public site
-├─ README.md               [tracked]  this file
-├─ .gitignore              [tracked]
-├─ SKILL.md                [ignored]  the scheduled task definition
-├─ ai-briefing-*.md        [ignored]  daily markdown briefings
+├─ index.html [tracked] the public site
+├─ README.md [tracked] this file
+├─ .gitignore [tracked]
+├─ SKILL.md [ignored] the scheduled task definition
+├─ ai-briefing-*.md [ignored] daily markdown briefings
 └─ ai-briefing-artifact.html [ignored] legacy artifact (no longer used)
 ```
 
